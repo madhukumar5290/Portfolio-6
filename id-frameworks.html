@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ID Cheat Sheet | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.tab-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;padding:.9rem 1.2rem;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.tab-btn:hover{color:var(--text)}.tab-btn.on{color:var(--gold);border-bottom-color:var(--gold)}
+.fw-panel{display:none;padding:3rem 0;animation:fwin .3s ease}.fw-panel.on{display:block}
+@keyframes fwin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fw-header{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:3rem;align-items:start}
+.fw-name{font-family:var(--serif);font-size:clamp(2.5rem,6vw,5rem);font-weight:400;color:var(--text);line-height:.95;margin-bottom:.5rem}
+.fw-name em{font-style:italic;color:var(--gold)}
+.fw-full{font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1.1rem}
+.fw-desc{font-family:var(--sans);font-size:.92rem;line-height:1.75;color:var(--text2)}
+.fw-meta-lbl{font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
+.fw-meta-val{font-family:var(--sans);font-size:.87rem;color:var(--text);line-height:1.5;margin-bottom:1rem}
+.phases{display:flex;flex-direction:column;gap:1px;background:var(--border);margin-bottom:2.5rem}
+.phase{background:var(--bg2);padding:1.5rem 2rem;display:grid;grid-template-columns:52px 1fr;gap:1.5rem;align-items:start;transition:background .2s}
+.phase:hover{background:var(--bg3)}
+.phase-num{font-family:var(--serif);font-size:2rem;font-weight:300;color:var(--gold);line-height:1}
+.phase-name{font-family:var(--sans);font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.phase-desc{font-family:var(--sans);font-size:.85rem;line-height:1.65;color:var(--text2)}
+.fw-when{background:var(--surface);border:1px solid var(--border);padding:1.5rem 2rem;margin-top:1.5rem}
+.fw-when h4{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:.85rem}
+.fw-when ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.fw-when li{font-family:var(--sans);font-size:.87rem;color:var(--text);display:flex;gap:.75rem;line-height:1.5}
+.fw-when li::before{content:'→';color:var(--gold);flex-shrink:0;font-family:var(--mono)}
+.compare-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:2rem}
+.cmp-card{background:var(--bg2);padding:1.5rem}
+.cmp-model{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.cmp-strength{font-family:var(--sans);font-size:.87rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.cmp-use{font-family:var(--sans);font-size:.82rem;color:var(--muted);line-height:1.5}
+@media(max-width:860px){.fw-header{grid-template-columns:1fr}.compare-grid{grid-template-columns:1fr 1fr}.phase{grid-template-columns:40px 1fr}}
+@media(max-width:500px){.compare-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html" class="active">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html" class="active">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="eyebrow reveal">ID Cheat Sheet</div>
+  <h1 class="display reveal d1">Every ID framework,<br><em>clearly explained.</em></h1>
+  <p style="font-family:var(--sans);font-size:1.05rem;color:var(--text2);max-width:580px;margin-top:.85rem;line-height:1.7" class="reveal d2">A practical reference for ID models I apply in real projects — explained as design decisions with when to use each and when not to. Now includes 10 frameworks.</p>
+</div>
+
+<section class="section">
+  <div class="tab-bar">
+    <button class="tab-btn on" data-tab="addie">ADDIE</button>
+    <button class="tab-btn" data-tab="bloom">Bloom's Taxonomy</button>
+    <button class="tab-btn" data-tab="sam">SAM</button>
+    <button class="tab-btn" data-tab="gagne">Gagné's 9 Events</button>
+    <button class="tab-btn" data-tab="merrill">Merrill's Principles</button>
+    <button class="tab-btn" data-tab="kirkpatrick">Kirkpatrick</button>
+    <button class="tab-btn" data-tab="action">Action Mapping</button>
+    <button class="tab-btn" data-tab="udl">UDL</button>
+    <button class="tab-btn" data-tab="4c">4C/ID Model</button>
+    <button class="tab-btn" data-tab="tpack">TPACK</button>
+    <button class="tab-btn" data-tab="compare">Quick Compare</button>
+  </div>
+
+  <!-- ADDIE -->
+  <div class="fw-panel on" id="tab-addie">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>ADDIE</em></div><div class="fw-full">Analysis · Design · Development · Implementation · Evaluation</div><p class="fw-desc">The industry-standard instructional design framework. A five-phase process providing structure without sacrificing flexibility. Best for projects with clear scope, defined SMEs, and stakeholders who need a documented process trail for compliance or audit.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Formal corporate eLearning, regulated industries, large-scale deployments with multiple stakeholders</div><div class="fw-meta-lbl">Avoid When</div><div class="fw-meta-val">Rapidly changing content, agile environments, stakeholders who can't specify requirements upfront</div><div class="fw-meta-lbl">Used In My Work</div><div class="fw-meta-val">Anti-Money Laundering, Code of Conduct, World Vision India</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">A</div><div><div class="phase-name">Analysis</div><div class="phase-desc">Identify the performance gap, audience characteristics, learning environment, existing knowledge, and constraints. The most important phase — most design failures start with skipping it.</div></div></div>
+      <div class="phase"><div class="phase-num">D</div><div><div class="phase-name">Design</div><div class="phase-desc">Define learning objectives using Bloom's verbs, assessment strategy, content sequence, and media approach. This phase produces the blueprint the development team builds from.</div></div></div>
+      <div class="phase"><div class="phase-num">D</div><div><div class="phase-name">Development</div><div class="phase-desc">Build the actual course — storyboards, interactions, media assets, SCORM packaging. Iterative SME review cycles happen here. Alpha → Beta → Gold master.</div></div></div>
+      <div class="phase"><div class="phase-num">I</div><div><div class="phase-name">Implementation</div><div class="phase-desc">Deploy to LMS, train facilitators if blended, communicate to learners. Chronically underplanned and over-relied upon when earlier phases were weak.</div></div></div>
+      <div class="phase"><div class="phase-num">E</div><div><div class="phase-name">Evaluation</div><div class="phase-desc">Measure against learning objectives. Did learners gain knowledge? Did behaviour change? Kirkpatrick's model is the companion framework — design evaluation from Level 4 backwards.</div></div></div>
+    </div>
+  </div>
+
+  <!-- BLOOM -->
+  <div class="fw-panel" id="tab-bloom">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>Bloom's</em></div><div class="fw-full">Bloom's Taxonomy · Revised Anderson & Krathwohl 2001</div><p class="fw-desc">The framework for writing learning objectives that actually mean something. Six cognitive levels from Remember to Create — each requiring fundamentally different instructional approaches and assessment methods. Used in every single course design decision I make.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Writing learning objectives, designing aligned assessments, setting cognitive demand levels</div><div class="fw-meta-lbl">Key Insight</div><div class="fw-meta-val">Most corporate training targets Level 1–2. Most job performance requires Level 3–4. This gap is where training fails.</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">1</div><div><div class="phase-name">Remember</div><div class="phase-desc">Recall facts. Verbs: define, list, recall, identify. Assessment: multiple choice, matching. Most compliance training stops here — necessary but rarely sufficient for performance change.</div></div></div>
+      <div class="phase"><div class="phase-num">2</div><div><div class="phase-name">Understand</div><div class="phase-desc">Explain ideas. Verbs: describe, explain, summarise. Assessment: short answer, concept mapping. The learner can explain it — but cannot yet use it reliably on the job.</div></div></div>
+      <div class="phase"><div class="phase-num">3</div><div><div class="phase-name">Apply</div><div class="phase-desc">Use information in new situations. Verbs: use, demonstrate, execute, solve. Assessment: scenarios, simulations. This is where learning becomes useful on the job.</div></div></div>
+      <div class="phase"><div class="phase-num">4</div><div><div class="phase-name">Analyse</div><div class="phase-desc">Break down and draw connections. Verbs: differentiate, organise, compare. Assessment: branching scenarios with multiple valid approaches, root cause analysis tasks.</div></div></div>
+      <div class="phase"><div class="phase-num">5</div><div><div class="phase-name">Evaluate</div><div class="phase-desc">Justify decisions. Verbs: judge, critique, defend, recommend. Assessment: structured reflection, recommendations with written rationale required.</div></div></div>
+      <div class="phase"><div class="phase-num">6</div><div><div class="phase-name">Create</div><div class="phase-desc">Produce original work. Verbs: design, construct, develop, formulate. Assessment: project work, portfolios, performance tasks. The highest cognitive demand — rarely targeted in typical eLearning.</div></div></div>
+    </div>
+  </div>
+
+  <!-- SAM -->
+  <div class="fw-panel" id="tab-sam">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>SAM</em></div><div class="fw-full">Successive Approximation Model · Michael Allen</div><p class="fw-desc">Michael Allen's agile alternative to ADDIE. Uses rapid prototyping and iterative design cycles instead of completing one phase before starting the next. The best model when timelines are tight or requirements evolve during development.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Agile environments, SMEs who give better feedback on prototypes than documents, fast-turnaround projects</div><div class="fw-meta-lbl">Key Advantage</div><div class="fw-meta-val">Failures happen in the prototype stage (cheap) not the finished published course (expensive).</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">1</div><div><div class="phase-name">Preparation</div><div class="phase-desc">Brief background research — just enough to prototype. Don't over-specify. The goal is a working prototype, not a 40-page design document.</div></div></div>
+      <div class="phase"><div class="phase-num">2</div><div><div class="phase-name">Iterative Design</div><div class="phase-desc">Rapid prototype → review → repeat. Stakeholders react to something tangible, not a document. This closes the feedback gap that plagues waterfall projects.</div></div></div>
+      <div class="phase"><div class="phase-num">3</div><div><div class="phase-name">Iterative Development</div><div class="phase-desc">Design, develop, and review in overlapping cycles. Alpha → Beta → Gold master. Each cycle produces a working, reviewable asset.</div></div></div>
+    </div>
+    <div class="fw-when"><h4>When I Use SAM</h4><ul><li>Client cannot articulate requirements until they see something</li><li>Content will change during development</li><li>Timeline doesn't allow sequential ADDIE phases</li><li>SMEs are reactive reviewers rather than proactive specifiers</li></ul></div>
+  </div>
+
+  <!-- GAGNE -->
+  <div class="fw-panel" id="tab-gagne">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>Gagné</em></div><div class="fw-full">Gagné's Nine Events of Instruction</div><p class="fw-desc">Robert Gagné's nine-step sequence based on cognitive processing theory. Each event maps to a specific internal learning condition. The most useful framework for structuring a single lesson — especially procedural or concept-based content.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Single-lesson structure, procedural training, ensuring no cognitive step in the learning process is skipped</div><div class="fw-meta-lbl">Key Insight</div><div class="fw-meta-val">The nine events are cognitive checkpoints — miss one and learners feel the gap even if they can't name it.</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">1</div><div><div class="phase-name">Gain Attention</div><div class="phase-desc">Hook the learner immediately with something that makes them need to know this. If you lose them here, the rest of the course is wasted.</div></div></div>
+      <div class="phase"><div class="phase-num">2</div><div><div class="phase-name">State the Objective</div><div class="phase-desc">Tell learners exactly what they'll be able to do. Clarity removes the extraneous cognitive load spent wondering "why am I doing this?"</div></div></div>
+      <div class="phase"><div class="phase-num">3</div><div><div class="phase-name">Stimulate Prior Learning</div><div class="phase-desc">Connect new content to what learners already know. New knowledge anchors more effectively when tied to existing schema.</div></div></div>
+      <div class="phase"><div class="phase-num">4</div><div><div class="phase-name">Present Content</div><div class="phase-desc">Deliver new knowledge — chunked, sequenced, and scaffolded to avoid cognitive overload. The most over-designed phase in most courses.</div></div></div>
+      <div class="phase"><div class="phase-num">5</div><div><div class="phase-name">Provide Guidance</div><div class="phase-desc">Worked examples, analogies, job aids. Show learners how to use the new knowledge before asking them to use it alone.</div></div></div>
+      <div class="phase"><div class="phase-num">6</div><div><div class="phase-name">Elicit Performance</div><div class="phase-desc">Practice. The learner applies the skill in a scenario, simulation, or exercise. No practice = no learning. This is not optional.</div></div></div>
+      <div class="phase"><div class="phase-num">7</div><div><div class="phase-name">Provide Feedback</div><div class="phase-desc">Immediate, specific, corrective feedback. Not "Incorrect, try again" — but why it's wrong and what to do differently. Feedback is instruction.</div></div></div>
+      <div class="phase"><div class="phase-num">8</div><div><div class="phase-name">Assess Performance</div><div class="phase-desc">A formal check: can the learner perform independently? Must match the objective — same cognitive level, same performance context.</div></div></div>
+      <div class="phase"><div class="phase-num">9</div><div><div class="phase-name">Enhance Retention</div><div class="phase-desc">Spaced practice, job aids, follow-up activities. Consistently the most skipped step — and consistently the reason training doesn't transfer.</div></div></div>
+    </div>
+  </div>
+
+  <!-- MERRILL -->
+  <div class="fw-panel" id="tab-merrill">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>Merrill</em></div><div class="fw-full">Merrill's First Principles of Instruction</div><p class="fw-desc">David Merrill's five principles derived from reviewing the best ID models across decades. The core insight: learning is promoted when instruction is centred on real-world problems, not isolated content coverage. Particularly effective with experienced learners who disengage from courses that re-teach what they know.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Complex skill development, experienced learners, performance-critical training, problem-solving courses</div><div class="fw-meta-lbl">Used In My Work</div><div class="fw-meta-val">Bees & Beehives, Solution Innovation Program, Body Organs, The Money Game</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">1</div><div><div class="phase-name">Problem-Centred</div><div class="phase-desc">Open with a real-world problem, not an overview slide. "Here is the problem you need to solve" creates cognitive need before supplying the tools to solve it.</div></div></div>
+      <div class="phase"><div class="phase-num">2</div><div><div class="phase-name">Activation</div><div class="phase-desc">Connect to relevant prior experience. Validate what learners already know before introducing new content — don't teach what they already know.</div></div></div>
+      <div class="phase"><div class="phase-num">3</div><div><div class="phase-name">Demonstration</div><div class="phase-desc">Show the skill being applied in context — not described abstractly. Worked examples are demonstrations. Telling is not demonstrating.</div></div></div>
+      <div class="phase"><div class="phase-num">4</div><div><div class="phase-name">Application</div><div class="phase-desc">Guided practice progressing to independent practice. Corrective, informative feedback is essential — not just correct/incorrect binary scoring.</div></div></div>
+      <div class="phase"><div class="phase-num">5</div><div><div class="phase-name">Integration</div><div class="phase-desc">Connect explicitly to their actual work context. Reflection, peer discussion, or on-the-job application consolidates and makes the learning permanent.</div></div></div>
+    </div>
+  </div>
+
+  <!-- KIRKPATRICK -->
+  <div class="fw-panel" id="tab-kirkpatrick">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>Kirk-<br>patrick</em></div><div class="fw-full">Kirkpatrick's Four Levels of Training Evaluation</div><p class="fw-desc">The most widely used evaluation framework in L&D. The critical design principle: design evaluation from Level 4 backwards, not measure from Level 1 forwards. Start with the business result, work backwards to what training must produce.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Demonstrating L&D value, measurement strategy design, ROI conversations with business stakeholders</div><div class="fw-meta-lbl">Key Insight</div><div class="fw-meta-val">Most organisations only measure Level 1. Level 3 and 4 are where real value and accountability live.</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">1</div><div><div class="phase-name">Reaction</div><div class="phase-desc">Did learners like it? Satisfaction surveys, smile sheets. Most measured, least useful predictor of performance change. Necessary but not sufficient.</div></div></div>
+      <div class="phase"><div class="phase-num">2</div><div><div class="phase-name">Learning</div><div class="phase-desc">Did learners gain knowledge or skill? Pre/post assessments, skills demonstrations. The level most course designers focus on.</div></div></div>
+      <div class="phase"><div class="phase-num">3</div><div><div class="phase-name">Behaviour</div><div class="phase-desc">Did learners apply new knowledge on the job? Manager observations, 360 feedback, performance monitoring. Rarely measured — the biggest gap in most L&D programmes.</div></div></div>
+      <div class="phase"><div class="phase-num">4</div><div><div class="phase-name">Results</div><div class="phase-desc">Did training produce the intended business outcome? Error reduction, sales increase, safety incidents. The conversation executives actually care about.</div></div></div>
+    </div>
+  </div>
+
+  <!-- ACTION MAPPING -->
+  <div class="fw-panel" id="tab-action">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>Action<br>Mapping</em></div><div class="fw-full">Cathy Moore's Action Mapping Methodology</div><p class="fw-desc">Starts by asking "what do people need to DO?" rather than "what do they need to KNOW?" Ruthlessly strips information-delivery in favour of practice activities. The best antidote to content-heavy, click-next eLearning. I hold Cathy Moore's official certification.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Any project where the client's instinct is to dump information into slides. All compliance training. Performance-gap projects.</div><div class="fw-meta-lbl">Personal Note</div><div class="fw-meta-val">First framework I reach for on every new project. Prevents building the wrong course entirely.</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">1</div><div><div class="phase-name">Identify the Business Goal</div><div class="phase-desc">Not "we need training on X" — but "we need to reduce violations by 30%." If there's no measurable business goal, there's no justified training project.</div></div></div>
+      <div class="phase"><div class="phase-num">2</div><div><div class="phase-name">Map the Actions</div><div class="phase-desc">What specific behaviours need to change on the job? Map what people need to DO differently — not what they need to know. This eliminates most content the client wanted.</div></div></div>
+      <div class="phase"><div class="phase-num">3</div><div><div class="phase-name">Design Practice Activities</div><div class="phase-desc">For each action, design a realistic practice scenario — not a knowledge check. Learners practise doing, not practise recalling.</div></div></div>
+      <div class="phase"><div class="phase-num">4</div><div><div class="phase-name">Minimum Necessary Information</div><div class="phase-desc">Add only information learners need to complete the practice activities. Typically eliminates 40–60% of the original content list. Everything else is noise.</div></div></div>
+    </div>
+  </div>
+
+  <!-- UDL -->
+  <div class="fw-panel" id="tab-udl">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>UDL</em></div><div class="fw-full">Universal Design for Learning · CAST Framework</div><p class="fw-desc">UDL is a proactive accessibility and inclusion framework based on neuroscience research. Rather than retrofitting accessibility onto finished courses, UDL builds flexible, barrier-free learning from the first design decision. It's how I approach every ADA/508-compliant project.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Any project requiring ADA/508 compliance, diverse learner populations, K12 and higher education, global deployment</div><div class="fw-meta-lbl">Key Principle</div><div class="fw-meta-val">Design for the edges and the middle takes care of itself. If it works for screen readers, it works for everyone.</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">I</div><div><div class="phase-name">Multiple Means of Representation</div><div class="phase-desc">Provide information in multiple formats — text, audio, visual, interactive. No single format works for all learners. Captions, transcripts, alt text, and visual alternatives are not add-ons — they are the design.</div></div></div>
+      <div class="phase"><div class="phase-num">II</div><div><div class="phase-name">Multiple Means of Action & Expression</div><div class="phase-desc">Give learners multiple ways to interact and demonstrate learning. Mouse-only interactions fail keyboard users. Single-mode assessments exclude alternative expression. Drag-and-drop must have keyboard alternatives.</div></div></div>
+      <div class="phase"><div class="phase-num">III</div><div><div class="phase-name">Multiple Means of Engagement</div><div class="phase-desc">Provide options for relevance, value, and autonomy. Self-directed pathways, choice in practice activities, and transparent learning goals increase learner investment across all ability levels.</div></div></div>
+    </div>
+    <div class="fw-when"><h4>UDL in Practice — What I Build</h4><ul><li>Tab order set explicitly for every interaction — not left to Storyline defaults</li><li>Colour combinations tested at 4.5:1 contrast minimum before any content is added</li><li>All informational images have descriptive alt text; decorative images use empty alt</li><li>All video content has captions; audio content has transcripts</li><li>Keyboard-operable alternatives for every drag-and-drop, click interaction</li><li>Focus indicators visible and logical throughout all course navigation</li></ul></div>
+  </div>
+
+  <!-- 4C/ID -->
+  <div class="fw-panel" id="tab-4c">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>4C/ID</em></div><div class="fw-full">Four-Component Instructional Design · Jeroen van Merriënboer</div><p class="fw-desc">Van Merriënboer's 4C/ID model is designed for teaching complex, real-world skills that cannot be broken into isolated sub-skills without losing meaning. It's the right framework when you're designing for holistic professional competency — not topic-by-topic content coverage. Widely used in medical education, technical training, and professional development.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Complex professional skills, medical and technical training, any learning goal requiring holistic competency rather than discrete knowledge units</div><div class="fw-meta-lbl">Key Difference</div><div class="fw-meta-val">Unlike ADDIE, 4C/ID refuses to decompose skills into isolated topics. The whole task is always present in the learning design.</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">1</div><div><div class="phase-name">Learning Tasks</div><div class="phase-desc">Authentic, whole-task practice situations that represent real-world complexity. Learners always work with the complete task — not isolated sub-components. Tasks are sequenced from simple to complex while maintaining authenticity throughout.</div></div></div>
+      <div class="phase"><div class="phase-num">2</div><div><div class="phase-name">Supportive Information</div><div class="phase-desc">Information that helps learners perform the non-routine, problem-solving aspects of the task — mental models, case studies, system overviews. Presented before tasks, not embedded within them.</div></div></div>
+      <div class="phase"><div class="phase-num">3</div><div><div class="phase-name">Procedural Information</div><div class="phase-desc">Just-in-time information for the routine, rule-based steps within a task — available exactly when needed during practice, then gradually faded as automaticity develops.</div></div></div>
+      <div class="phase"><div class="phase-num">4</div><div><div class="phase-name">Part-Task Practice</div><div class="phase-desc">Extensive repetitive practice for specific sub-skills that require high fluency — but only after the whole task has been encountered. Not isolated drilling before context.</div></div></div>
+    </div>
+  </div>
+
+  <!-- TPACK -->
+  <div class="fw-panel" id="tab-tpack">
+    <div class="fw-header">
+      <div><div class="fw-name"><em>TPACK</em></div><div class="fw-full">Technological Pedagogical Content Knowledge · Mishra & Koehler</div><p class="fw-desc">TPACK is the framework for understanding how technology, pedagogy, and subject matter knowledge interact in the design of effective learning. It's particularly valuable when deciding which technology to use and why — not just what's available, but what combination of tools, content, and teaching approach will produce the best learning outcome.</p></div>
+      <div><div class="fw-meta-lbl">Best For</div><div class="fw-meta-val">Technology selection decisions, evaluating authoring tool fit, justifying technology choices to stakeholders, eLearning strategy</div><div class="fw-meta-lbl">Key Insight</div><div class="fw-meta-val">Technology alone doesn't improve learning. Pedagogy alone doesn't scale. Content alone doesn't engage. The intersection of all three is where effective eLearning lives.</div></div>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-num">CK</div><div><div class="phase-name">Content Knowledge</div><div class="phase-desc">Deep understanding of the subject matter — the facts, concepts, processes, and frameworks that constitute the learning domain. Without this, no technology or pedagogy can compensate.</div></div></div>
+      <div class="phase"><div class="phase-num">PK</div><div><div class="phase-name">Pedagogical Knowledge</div><div class="phase-desc">Understanding of how learning happens — instructional strategies, cognitive load management, assessment design, feedback principles. The science of teaching regardless of technology.</div></div></div>
+      <div class="phase"><div class="phase-num">TK</div><div><div class="phase-name">Technological Knowledge</div><div class="phase-desc">Understanding of current technologies and their capabilities — authoring tools, LMS platforms, AR/VR systems, xAPI — and how they change and evolve over time.</div></div></div>
+      <div class="phase"><div class="phase-num">✦</div><div><div class="phase-name">TPACK — The Intersection</div><div class="phase-desc">The sweet spot where content knowledge, pedagogical knowledge, and technological knowledge overlap. This is where innovative, effective, and appropriate eLearning solutions live — and it's what separates a learning designer from a tool operator.</div></div></div>
+    </div>
+  </div>
+
+  <!-- COMPARE -->
+  <div class="fw-panel" id="tab-compare">
+    <h2 class="display" style="margin-bottom:.85rem">Which framework for <em>which job?</em></h2>
+    <p style="font-family:var(--sans);font-size:.9rem;color:var(--text2);margin-bottom:2.5rem;max-width:600px;line-height:1.65">Quick reference. These are not mutually exclusive — most real projects combine two or three frameworks at different levels of design.</p>
+    <div class="compare-grid">
+      <div class="cmp-card"><div class="cmp-model">ADDIE</div><div class="cmp-strength">Structured process</div><div class="cmp-use">Formal corporate training, regulated industries, defined scope, documentation required.</div></div>
+      <div class="cmp-card"><div class="cmp-model">SAM</div><div class="cmp-strength">Agile iteration</div><div class="cmp-use">Fast timelines, evolving requirements, SMEs who react better to prototypes.</div></div>
+      <div class="cmp-card"><div class="cmp-model">Bloom's Taxonomy</div><div class="cmp-strength">Objective writing</div><div class="cmp-use">Writing any learning objective, designing any assessment, aligning cognitive demand.</div></div>
+      <div class="cmp-card"><div class="cmp-model">Gagné's 9 Events</div><div class="cmp-strength">Lesson structure</div><div class="cmp-use">Structuring a single module, procedural training, ensuring no learning step is skipped.</div></div>
+      <div class="cmp-card"><div class="cmp-model">Merrill's Principles</div><div class="cmp-strength">Problem-centred</div><div class="cmp-use">Experienced learners, complex skills, performance-critical training where relevance must be immediate.</div></div>
+      <div class="cmp-card"><div class="cmp-model">Kirkpatrick</div><div class="cmp-strength">Evaluation strategy</div><div class="cmp-use">Measurement strategy, demonstrating ROI, business stakeholder conversations about L&D value.</div></div>
+      <div class="cmp-card"><div class="cmp-model">Action Mapping</div><div class="cmp-strength">Behaviour change</div><div class="cmp-use">Compliance training, any project where performance gap (not knowledge gap) is the real issue.</div></div>
+      <div class="cmp-card"><div class="cmp-model">UDL</div><div class="cmp-strength">Accessibility</div><div class="cmp-use">ADA/508 required, diverse learner populations, building reusable accessible templates.</div></div>
+      <div class="cmp-card"><div class="cmp-model">4C/ID</div><div class="cmp-strength">Complex competency</div><div class="cmp-use">Holistic professional skill development, medical/technical training, whole-task learning design.</div></div>
+      <div class="cmp-card"><div class="cmp-model">TPACK</div><div class="cmp-strength">Technology selection</div><div class="cmp-use">Deciding which technology to use and why, eLearning strategy, justifying tool choices.</div></div>
+    </div>
+    <div style="margin-top:2.5rem;display:flex;gap:.9rem;flex-wrap:wrap">
+      <a href="id-model-selector.html" class="btn btn-primary">Use the ID Model Selector Tool →</a>
+      <a href="work.html" class="btn btn-outline">See These Applied in Real Projects</a>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="eyebrow">See the frameworks applied</div>
+  <div class="cta-band-title">Want to see these models<br><em>working in real courses?</em></div>
+  <a href="work.html" class="btn-dark">See My Work →</a>
+  <a href="id-model-selector.html" class="btn-dark outline">ID Model Selector →</a>
+</div>
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer & eLearning Developer · 2024</div>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li>
+    <li><a href="work.html">Work</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+<script src="main.js"></script>
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.fw-panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
+  });
+});
+</script>
+</body>
+</html>

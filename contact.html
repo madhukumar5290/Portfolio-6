@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Let's Talk | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;padding:5rem var(--ph);align-items:start}
+.contact-info-section{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);padding-bottom:.5rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem;margin-top:2.5rem}
+.contact-info-section:first-child{margin-top:0}
+.contact-p{font-family:var(--sans);font-size:.9rem;line-height:1.75;color:var(--text2);margin-bottom:.85rem}
+.clinks{display:flex;flex-direction:column;gap:.6rem}
+.clink{display:flex;align-items:center;gap:.9rem;padding:.9rem 1.1rem;background:var(--surface);border:1px solid var(--border);text-decoration:none;transition:border-color .2s,background .2s}
+.clink:hover{border-color:var(--gold);background:var(--bg3)}
+.clink-icon{font-size:1rem;width:22px;text-align:center;flex-shrink:0}
+.clink-label{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.1rem}
+.clink-val{font-family:var(--sans);font-size:.85rem;color:var(--text)}
+.avail-box{background:rgba(47,204,161,.06);border:1px solid rgba(47,204,161,.2);border-left:3px solid var(--teal);padding:1.1rem 1.25rem;margin-top:1.5rem}
+.avail-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:.45rem;margin-bottom:.4rem}
+.avail-text{font-family:var(--sans);font-size:.85rem;color:var(--text2);line-height:1.55}
+.services-list{display:flex;flex-direction:column;gap:.45rem}
+.service-item{font-family:var(--sans);font-size:.88rem;color:var(--text);display:flex;align-items:flex-start;gap:.65rem;line-height:1.5}
+.service-item::before{content:'→';color:var(--gold);flex-shrink:0;font-family:var(--mono)}
+.form-wrap{background:var(--bg2);border:1px solid var(--border);padding:2.5rem}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr;padding:3rem var(--ph);gap:3rem}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="eyebrow reveal">Let's Talk</div>
+  <h1 class="display reveal d1">Got a project?<br><em>Let's build it.</em></h1>
+  <p style="font-family:var(--sans);font-size:1.05rem;color:var(--text2);max-width:560px;margin-top:.85rem;line-height:1.7" class="reveal d2">Whether it's a single course, a full curriculum, an LMS migration, or an accessibility audit — I'm open to hearing about it. I respond within 24 hours.</p>
+</div>
+
+<div class="contact-grid">
+  <div class="reveal">
+    <div class="contact-info-section">Get in Touch</div>
+    <p class="contact-p">The fastest way to reach me is email or WhatsApp. I'm based in India and work with clients and teams globally — timezone flexibility is not a problem.</p>
+    <div class="clinks">
+      <a href="mailto:madhukumar5290@gmail.com" class="clink"><span class="clink-icon">✉️</span><div><div class="clink-label">Email</div><div class="clink-val">madhukumar5290@gmail.com</div></div></a>
+      <a href="https://wa.me/918688228517" target="_blank" class="clink"><span class="clink-icon">💬</span><div><div class="clink-label">WhatsApp</div><div class="clink-val">+91 868 822 8517</div></div></a>
+      <a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank" class="clink"><span class="clink-icon">💼</span><div><div class="clink-label">LinkedIn</div><div class="clink-val">Madhu Kumar Sikilammetla</div></div></a>
+      <a href="https://join.skype.com/invite/azlPdkwXWSUL" target="_blank" class="clink"><span class="clink-icon">📹</span><div><div class="clink-label">Skype</div><div class="clink-val">Join via invite link</div></div></a>
+      <a href="https://drive.google.com/file/d/1wsBtUEBdSjdLwK7CxFID6ttaW6afTxf6/view" target="_blank" class="clink"><span class="clink-icon">📄</span><div><div class="clink-label">Resume / CV</div><div class="clink-val">Download PDF ↗</div></div></a>
+    </div>
+    <div class="avail-box">
+      <div class="avail-label"><span class="dot-avail"></span>Currently Available</div>
+      <div class="avail-text">Open to freelance projects, full-time roles, and contract engagements in Instructional Design, eLearning Development, and Learning Technology. Immediate start available.</div>
+    </div>
+    <div class="contact-info-section" style="margin-top:2rem">What I Can Help With</div>
+    <div class="services-list">
+      <div class="service-item">End-to-end eLearning course design and development</div>
+      <div class="service-item">ADA/508 accessibility audits and remediation</div>
+      <div class="service-item">Flash-to-HTML5 conversion projects</div>
+      <div class="service-item">Multi-language localisation (16–22 languages including Arabic RTL)</div>
+      <div class="service-item">LMS administration and SCORM/xAPI troubleshooting</div>
+      <div class="service-item">AR/VR learning experiences with ZapWorks</div>
+      <div class="service-item">Game-based and interactive learning design</div>
+      <div class="service-item">Custom JavaScript interactions in Storyline 360</div>
+    </div>
+  </div>
+
+  <div class="reveal d1">
+    <div class="form-wrap">
+      <div class="eyebrow" style="margin-bottom:1.5rem">Send a Message</div>
+      <div id="contact-form">
+        <div class="form-row" style="margin-bottom:1.5rem">
+          <div><label class="form-label">Your Name</label><input class="form-input" type="text" id="f-name" placeholder="Jane Smith"></div>
+          <div><label class="form-label">Your Email</label><input class="form-input" type="email" id="f-email" placeholder="jane@company.com"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Project Type</label>
+          <select class="form-select" id="f-type">
+            <option value="">Select a project type...</option>
+            <option>eLearning Course Design & Development</option>
+            <option>Accessibility Audit / ADA Remediation</option>
+            <option>Flash-to-HTML5 Conversion</option>
+            <option>Localisation Project</option>
+            <option>LMS Administration / SCORM Troubleshooting</option>
+            <option>AR/VR Learning Experience</option>
+            <option>Game-Based / Interactive Learning</option>
+            <option>Full-Time or Contract Role</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell me about your project</label>
+          <textarea class="form-textarea" id="f-msg" placeholder="Describe your project, timeline, audience, any technical requirements or constraints..."></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitForm()">Send Message →</button>
+      </div>
+      <div class="form-success" id="form-success">
+        <p>✓ Message received! I'll respond within 24 hours.</p>
+        <p style="margin-top:.5rem;opacity:.7">For faster response: WhatsApp +91 868 822 8517 or connect on LinkedIn.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer & eLearning Developer · 2024</div>
+  <ul class="footer-links"><li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li></ul>
+</footer>
+<script src="main.js"></script>
+<script>
+function submitForm(){
+  const n=document.getElementById('f-name').value.trim();
+  const e=document.getElementById('f-email').value.trim();
+  const m=document.getElementById('f-msg').value.trim();
+  if(!n||!e||!m){alert('Please fill in your name, email, and message.');return;}
+  if(!/\S+@\S+\.\S+/.test(e)){alert('Please enter a valid email address.');return;}
+  document.getElementById('contact-form').style.display='none';
+  document.getElementById('form-success').classList.add('show');
+}
+</script>
+</body>
+</html>

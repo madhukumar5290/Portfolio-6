@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Articles | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.articles-hero{padding:calc(var(--nav-h)+4rem) var(--ph) 3rem;background:var(--bg2);border-bottom:1px solid var(--border)}
+.filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:2rem}
+.filter-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.45rem 1rem;background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s}
+.filter-btn:hover{color:var(--text);border-color:var(--border2)}
+.filter-btn.on{background:var(--gold-dim);color:var(--gold);border-color:rgba(240,180,41,.4)}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);padding:0}
+.article-card{background:var(--bg2);padding:2rem;display:flex;flex-direction:column;cursor:pointer;transition:background .2s;position:relative}
+.article-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .35s}
+.article-card:hover{background:var(--bg3)}.article-card:hover::before{height:100%}
+.ac-tag{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.5rem}
+.ac-title{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--text);line-height:1.3;margin-bottom:.65rem}
+.ac-excerpt{font-family:var(--sans);font-size:.83rem;line-height:1.6;color:var(--text2);flex:1;margin-bottom:1rem}
+.ac-meta{display:flex;align-items:center;justify-content:space-between;margin-top:auto;flex-wrap:wrap;gap:.4rem}
+.ac-date{font-family:var(--mono);font-size:.55rem;letter-spacing:.07em;color:var(--muted)}
+.ac-read{font-family:var(--mono);font-size:.55rem;letter-spacing:.07em;color:var(--muted)}
+.ac-arrow{font-family:var(--mono);font-size:.6rem;color:var(--gold);display:flex;align-items:center;gap:.35rem;transition:gap .2s;margin-top:.75rem}
+.article-card:hover .ac-arrow{gap:.65rem}
+.ac-new{font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;background:var(--blue);color:#fff;padding:.15rem .5rem;margin-left:.5rem;vertical-align:middle}
+/* Featured */
+.featured-article{background:var(--surface);border:1px solid var(--border2);padding:3rem;margin-bottom:0;position:relative;cursor:pointer;transition:background .2s}
+.featured-article:hover{background:var(--bg3)}
+.featured-article::after{content:'FEATURED';position:absolute;top:1.5rem;right:1.5rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.15em;color:var(--gold);border:1px solid rgba(240,180,41,.3);padding:.2rem .55rem}
+.fa-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.75rem}
+.fa-title{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;color:var(--text);line-height:1.1;margin-bottom:1rem}
+.fa-title em{font-style:italic;color:var(--gold)}
+.fa-body{font-family:var(--sans);font-size:.92rem;line-height:1.8;color:var(--text2);margin-bottom:1.5rem;max-width:680px}
+.fa-meta{display:flex;gap:1.5rem;flex-wrap:wrap}
+.fa-meta-item{font-family:var(--mono);font-size:.58rem;letter-spacing:.07em;color:var(--muted)}
+/* Article Modal */
+.art-modal{position:fixed;inset:0;z-index:1000;background:rgba(8,12,24,.96);backdrop-filter:blur(16px);display:none;justify-content:center;align-items:flex-start;padding:2rem;overflow-y:auto}
+.art-modal.open{display:flex}
+.art-box{background:var(--bg3);border:1px solid var(--border2);width:100%;max-width:780px;margin:auto;position:relative}
+.art-close{position:sticky;top:1rem;float:right;margin:1rem 1rem 0 0;background:var(--surface2);border:1px solid var(--border);color:var(--text2);width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;z-index:2;transition:all .2s;flex-shrink:0}
+.art-close:hover{color:var(--gold);border-color:var(--gold)}
+.art-content{padding:2.5rem;clear:both}
+.art-tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.5rem}
+.art-h1{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:400;color:var(--text);line-height:1.2;margin-bottom:1rem}
+.art-meta-bar{display:flex;gap:1.25rem;flex-wrap:wrap;padding:.85rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:2rem}
+.art-meta-bar span{font-family:var(--mono);font-size:.58rem;letter-spacing:.07em;color:var(--muted)}
+.art-body h2{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--text);margin-top:2.5rem;margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.art-body h3{font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--text);margin-top:1.75rem;margin-bottom:.65rem}
+.art-body p{font-family:var(--sans);font-size:.9rem;line-height:1.85;color:var(--text2);margin-bottom:1.1rem}
+.art-body ul,.art-body ol{font-family:var(--sans);font-size:.9rem;line-height:1.8;color:var(--text2);margin-bottom:1.1rem;padding-left:1.5rem}
+.art-body li{margin-bottom:.35rem}
+.art-body code{font-family:var(--mono);font-size:.78rem;background:var(--surface);border:1px solid var(--border);padding:.1rem .4rem;color:var(--gold)}
+.art-body pre{background:var(--bg);border:1px solid var(--border);padding:1.25rem;overflow-x:auto;margin:1.25rem 0;font-family:var(--mono);font-size:.78rem;line-height:1.7;color:var(--text)}
+.art-body blockquote{border-left:3px solid var(--gold);padding:.75rem 1.25rem;margin:1.75rem 0;background:var(--surface);font-style:italic;color:var(--text)}
+.art-body strong{color:var(--text)}
+.art-body .tip{background:rgba(47,204,161,.07);border:1px solid rgba(47,204,161,.2);border-left:3px solid var(--teal);padding:1rem 1.25rem;margin:1.5rem 0;font-family:var(--sans);font-size:.87rem;color:var(--text2);line-height:1.65}
+.art-body .warn{background:rgba(240,180,41,.06);border:1px solid rgba(240,180,41,.2);border-left:3px solid var(--gold);padding:1rem 1.25rem;margin:1.5rem 0;font-family:var(--sans);font-size:.87rem;color:var(--text2);line-height:1.65}
+.art-footer{border-top:1px solid var(--border);padding-top:2rem;margin-top:2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.art-author{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted)}
+/* Newsletter */
+.nl-section{background:var(--bg2);border:1px solid var(--border);padding:3rem;margin-top:0;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.nl-title{font-family:var(--serif);font-size:1.9rem;font-weight:300;color:var(--text);margin-bottom:.75rem}
+.nl-title em{font-style:italic;color:var(--gold)}
+.nl-body{font-family:var(--sans);font-size:.87rem;line-height:1.65;color:var(--muted)}
+@media(max-width:960px){.articles-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.articles-grid{grid-template-columns:1fr}.nl-section{grid-template-columns:1fr;gap:2rem}.featured-article{padding:2rem}}
+@media(max-width:480px){.art-content{padding:1.5rem}.fa-title{font-size:1.6rem}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html" class="active">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html" class="active">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="articles-hero">
+  <div class="eyebrow reveal">Articles</div>
+  <h1 class="display reveal d1">Practical writing on the<br><em>technical side of L&D.</em></h1>
+  <p style="font-family:var(--sans);font-size:.95rem;color:var(--text2);max-width:560px;margin-top:.85rem;line-height:1.7" class="reveal d2">Not recycled theory. Practical write-ups on Storyline development, accessibility, ID frameworks, xAPI, localisation, and the decisions behind real projects. Click any article to read it.</p>
+  <div class="filter-bar reveal">
+    <button class="filter-btn on" data-cat="all" onclick="filterArticles(this)">All Articles</button>
+    <button class="filter-btn" data-cat="accessibility" onclick="filterArticles(this)">Accessibility</button>
+    <button class="filter-btn" data-cat="javascript" onclick="filterArticles(this)">JavaScript</button>
+    <button class="filter-btn" data-cat="xapi" onclick="filterArticles(this)">xAPI & LMS</button>
+    <button class="filter-btn" data-cat="id" onclick="filterArticles(this)">Instructional Design</button>
+    <button class="filter-btn" data-cat="localisation" onclick="filterArticles(this)">Localisation</button>
+    <button class="filter-btn" data-cat="tools" onclick="filterArticles(this)">Tools & Tech</button>
+  </div>
+</div>
+
+<section class="section" style="padding-top:3rem">
+  <!-- FEATURED -->
+  <div class="featured-article reveal" data-cat="accessibility" onclick="openArticle(0)">
+    <div class="fa-tag">Accessibility · Storyline 360 · Featured</div>
+    <h2 class="fa-title">Why Accessibility in Storyline<br>Starts with <em>Slide Architecture</em></h2>
+    <p class="fa-body">Most Storyline developers bolt accessibility on at the end — adding alt text just before publishing and hoping automated checkers don't catch anything serious. After building dozens of ADA and Section 508-compliant courses, one truth stands out: the moment you treat accessibility as a finishing step, you've already failed. Tab order, focus management, contrast ratios, keyboard navigation — none of these can be reliably fixed after a course is built.</p>
+    <div class="fa-meta">
+      <span class="fa-meta-item">May 2024</span>
+      <span class="fa-meta-item">12 min read</span>
+      <span class="fa-meta-item">Accessibility · Storyline · Architecture</span>
+    </div>
+    <div class="ac-arrow" style="margin-top:1.25rem">Read Article →</div>
+  </div>
+
+  <!-- ARTICLES GRID -->
+  <div class="articles-grid" id="articles-grid">
+
+    <div class="article-card reveal" data-cat="javascript" onclick="openArticle(1)">
+      <div class="ac-tag">JavaScript · Storyline<span class="ac-new">New</span></div>
+      <div class="ac-title">JavaScript in Storyline: What the Documentation Doesn't Tell You</div>
+      <div class="ac-excerpt">The Articulate docs cover the basics. What they don't cover is the timing issues, scope quirks, and why GetPlayer() fails in ways that make no sense until you understand the Storyline rendering pipeline.</div>
+      <div class="ac-meta"><span class="ac-date">Apr 2024</span><span class="ac-read">8 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d1" data-cat="localisation" onclick="openArticle(2)">
+      <div class="ac-tag">Localisation · Workflow</div>
+      <div class="ac-title">Localising eLearning to 16+ Languages Without Losing Your Mind</div>
+      <div class="ac-excerpt">What happens when one course needs to work in English, Hindi, Arabic, French, German, Japanese, Mandarin, and nine more? The workflow, tooling, and RTL decisions most localisation guides skip.</div>
+      <div class="ac-meta"><span class="ac-date">Mar 2024</span><span class="ac-read">11 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d2" data-cat="id" onclick="openArticle(3)">
+      <div class="ac-tag">Instructional Design · Compliance</div>
+      <div class="ac-title">Why Your Compliance Course is Failing (It's Not the Learners' Fault)</div>
+      <div class="ac-excerpt">Compliance training failure is almost always a design problem. The course tells learners what the policy says. It doesn't practise the decisions the policy requires. Using Action Mapping to redesign a banking compliance module.</div>
+      <div class="ac-meta"><span class="ac-date">Feb 2024</span><span class="ac-read">9 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal" data-cat="xapi" onclick="openArticle(4)">
+      <div class="ac-tag">xAPI · LMS · SCORM</div>
+      <div class="ac-title">SCORM vs xAPI: What Actually Matters for Your LMS Decision</div>
+      <div class="ac-excerpt">Written from inside Mindtickle and Docebo admin panels, with real packaging decisions, compatibility constraints, and data outcomes from live deployments — not from a vendor comparison page.</div>
+      <div class="ac-meta"><span class="ac-date">Jan 2024</span><span class="ac-read">10 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d1" data-cat="tools" onclick="openArticle(5)">
+      <div class="ac-tag">AR/VR · ZapWorks · Tools</div>
+      <div class="ac-title">ZapWorks AR in eLearning: A Practitioner's Honest Assessment</div>
+      <div class="ac-excerpt">After building AR-enhanced learning with ZapWorks across several projects — where it genuinely adds value, where it's theatre, and what learner adoption actually looks like in a corporate environment.</div>
+      <div class="ac-meta"><span class="ac-date">Dec 2023</span><span class="ac-read">7 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d2" data-cat="id" onclick="openArticle(6)">
+      <div class="ac-tag">Game Design · Learning Science</div>
+      <div class="ac-title">Game Mechanics That Actually Transfer: Notes from 10+ Learning Games</div>
+      <div class="ac-excerpt">After building Snake & Ladder, Trivia Time, Spin the Wheel, Memory Flash Cards, and more — what I've learned about which mechanics drive knowledge retention versus which just drive completion rates.</div>
+      <div class="ac-meta"><span class="ac-date">Nov 2023</span><span class="ac-read">8 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal" data-cat="xapi" onclick="openArticle(7)">
+      <div class="ac-tag">xAPI · Analytics · Power BI</div>
+      <div class="ac-title">Building a Learning Analytics Dashboard with xAPI and Power BI</div>
+      <div class="ac-excerpt">How to connect a Learning Record Store to Power BI, write useful DAX measures for L&D data, and build dashboards that show what learners actually did — not just whether they completed a course.</div>
+      <div class="ac-meta"><span class="ac-date">Oct 2023</span><span class="ac-read">13 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d1" data-cat="accessibility" onclick="openArticle(8)">
+      <div class="ac-tag">Accessibility · Keyboard · ARIA</div>
+      <div class="ac-title">Making Drag and Drop Accessible in Storyline: The Real Solution</div>
+      <div class="ac-excerpt">Storyline's built-in drag and drop is completely inaccessible to keyboard users. There is no patch. This article explains why, and walks through building a keyboard-operable alternative using JavaScript and ARIA attributes.</div>
+      <div class="ac-meta"><span class="ac-date">Sep 2023</span><span class="ac-read">10 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d2" data-cat="id" onclick="openArticle(9)">
+      <div class="ac-tag">Instructional Design · Blended</div>
+      <div class="ac-title">Designing Blended Learning That Actually Blends</div>
+      <div class="ac-excerpt">Most "blended learning" is just eLearning plus a Zoom call. Real blending means each modality does what it does best — and they're sequenced to reinforce each other. A practical design guide.</div>
+      <div class="ac-meta"><span class="ac-date">Aug 2023</span><span class="ac-read">9 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal" data-cat="javascript" onclick="openArticle(10)">
+      <div class="ac-tag">JavaScript · xAPI · Storyline</div>
+      <div class="ac-title">Firing Custom xAPI Statements from Storyline: A Complete Guide</div>
+      <div class="ac-excerpt">The complete implementation guide for sending custom xAPI statements from Articulate Storyline — including actor setup, verb IRIs, object IDs, result objects, and error handling when the LRS is unreachable.</div>
+      <div class="ac-meta"><span class="ac-date">Jul 2023</span><span class="ac-read">14 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d1" data-cat="tools" onclick="openArticle(11)">
+      <div class="ac-tag">Blender 3D · Animation · Tools</div>
+      <div class="ac-title">3D Animations in eLearning with Blender: Worth the Effort?</div>
+      <div class="ac-excerpt">After using Blender to create 3D animated sequences for several eLearning projects — the practical workflow, the render-to-web pipeline, where it genuinely elevates a course versus where Vyond is the smarter choice.</div>
+      <div class="ac-meta"><span class="ac-date">Jun 2023</span><span class="ac-read">8 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+    <div class="article-card reveal d2" data-cat="localisation" onclick="openArticle(12)">
+      <div class="ac-tag">Localisation · Arabic · RTL</div>
+      <div class="ac-title">Arabic RTL eLearning: The Complete Storyline Implementation Guide</div>
+      <div class="ac-excerpt">Right-to-left layout in Storyline isn't just flipping the text direction. This guide covers slide mirroring, character sets, font rendering, LMS packaging for RTL, and the QA checklist I use on every Arabic course.</div>
+      <div class="ac-meta"><span class="ac-date">May 2023</span><span class="ac-read">11 min</span></div>
+      <div class="ac-arrow">Read →</div>
+    </div>
+
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="nl-section reveal">
+    <div>
+      <div class="eyebrow">Newsletter</div>
+      <div class="nl-title">Get the next piece<br>in your <em>inbox.</em></div>
+      <p class="nl-body">Practical writing on the technical side of L&D — Storyline JavaScript, accessibility engineering, localisation workflows, xAPI. Sent when something worth reading is ready. No schedule, no spam.</p>
+    </div>
+    <div>
+      <div class="form-group"><label class="form-label">Your Name</label><input class="form-input" type="text" id="nl-name" placeholder="Your name"></div>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" id="nl-email" placeholder="your@email.com"></div>
+      <button class="btn btn-primary" onclick="subscribeNL()" style="width:100%;justify-content:center">Subscribe →</button>
+      <div id="nl-ok" style="display:none;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--teal);margin-top:.85rem">✓ You're subscribed!</div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="eyebrow">Seen something useful?</div>
+  <div class="cta-band-title">Want to apply it to<br><em>a real project?</em></div>
+  <a href="contact.html" class="btn-dark">Get in Touch →</a>
+  <a href="work.html" class="btn-dark outline">See My Work</a>
+</div>
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer &amp; eLearning Developer · 2024</div>
+  <ul class="footer-links"><li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li><li><a href="work.html">Work</a></li><li><a href="contact.html">Contact</a></li></ul>
+</footer>
+
+<!-- ARTICLE MODAL -->
+<div class="art-modal" id="art-modal" onclick="if(event.target===this)closeArticle()">
+  <div class="art-box">
+    <button class="art-close" onclick="closeArticle()">✕</button>
+    <div class="art-content">
+      <div class="art-tag" id="a-tag"></div>
+      <h1 class="art-h1" id="a-title"></h1>
+      <div class="art-meta-bar">
+        <span id="a-date"></span><span id="a-read"></span><span id="a-author">Madhu Kumar Sikilammetla</span>
+      </div>
+      <div class="art-body" id="a-body"></div>
+      <div class="art-footer">
+        <div class="art-author">Written by Madhu Kumar Sikilammetla</div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank" class="btn btn-outline btn-sm">Share on LinkedIn</a>
+          <a href="contact.html" class="btn btn-primary btn-sm">Get in Touch →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+const articles = [
+  {
+    tag:'Accessibility · Storyline 360 · Featured',
+    title:'Why Accessibility in Storyline Starts with Slide Architecture',
+    date:'May 2024', read:'12 min read',
+    body:`
+      <p>Most Storyline developers treat accessibility as a final step — a checklist item before publishing. Add alt text to images. Tick. Run an automated checker. Tick. Publish. The problem is this approach fails nearly every learner who depends on assistive technology, and it fails them at the fundamental level of course architecture — not surface details.</p>
+      <h2>The Four Problems You Can't Fix After Building</h2>
+      <p>There are four accessibility requirements in Storyline that cannot be reliably retrofitted after a course is built. They must be designed in from the first slide master.</p>
+      <h3>1. Tab Order</h3>
+      <p>Storyline assigns tab order based on object creation sequence. If you draw a button first, then the slide title, then another button — the tab order is button 1 → title → button 2. Not title → button 1 → button 2. There is no way to fix this systematically after the fact without rebuilding each slide.</p>
+      <div class="tip"><strong>Fix:</strong> Set tab order explicitly on every slide before adding content. Go to Home → Tab Order. Make this the first step, not the last.</div>
+      <h3>2. Colour Contrast</h3>
+      <p>WCAG 2.1 AA requires a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text. If your slide master uses colours that fail this standard, every slide built from it will fail. Changing it after 60 slides are built means rebuilding every text object that uses those colours.</p>
+      <div class="warn"><strong>Common failure:</strong> Grey text on white backgrounds, light blue links on white — both common Storyline defaults that fail WCAG.</div>
+      <h3>3. Focus Indicators</h3>
+      <p>Keyboard users rely on a visible focus indicator to know which element is currently focused. Storyline's default focus states are often invisible or near-invisible. You need to define visible focus indicators in your CSS layer for every interactive element — and this must be done in the master, not per-slide.</p>
+      <h3>4. Keyboard Navigation Architecture</h3>
+      <p>Every interactive element in a Storyline course must be reachable and operable by keyboard alone. This means Tab to focus, Enter or Space to activate, Escape to close layers. Drag-and-drop, hotspot interactions, and custom click-reveals all need keyboard alternatives. Building these in after the course is designed is between difficult and impossible.</p>
+      <h2>The Master Slide Architecture Approach</h2>
+      <p>The right approach is to build accessibility requirements into your Storyline master slide template before building any content. This means:</p>
+      <ul>
+        <li>Defining a colour palette where every text/background combination passes WCAG 2.1 AA — measured and documented</li>
+        <li>Setting a default tab order convention that all new slides inherit</li>
+        <li>Adding CSS for visible focus indicators to every interactive element type</li>
+        <li>Building keyboard-accessible alternatives for drag-and-drop and hotspot interactions into the template library</li>
+        <li>Creating an alt text strategy document that all team members follow</li>
+      </ul>
+      <h2>Testing Before Publishing</h2>
+      <p>Before any course publishes, I run a keyboard-only test of the entire course — no mouse. If I can't complete every interaction using only Tab, Enter, Space, Arrow keys, and Escape, the course is not accessible. This test takes 15–30 minutes and catches issues that automated tools miss.</p>
+      <div class="tip">Tools I use: axe DevTools browser extension for automated scanning, Colour Contrast Analyser by TPGi for ratio checking, NVDA screen reader for manual testing.</div>
+      <h2>The Business Case</h2>
+      <p>Section 508 compliance is a legal requirement for US federal contracts. ADA compliance affects any organisation serving US customers. WCAG 2.1 AA is the international standard referenced in accessibility legislation in the UK, EU, and Australia. The cost of retrofitting accessibility is typically 3–5x the cost of building it in from the start. The cost of a lawsuit is higher still.</p>
+      <p>Build it in. Not on.</p>
+    `
+  },
+  {
+    tag:'JavaScript · Storyline 360',
+    title:'JavaScript in Storyline: What the Documentation Doesn\'t Tell You',
+    date:'Apr 2024', read:'8 min read',
+    body:`
+      <p>The Articulate documentation covers GetPlayer(), SetVar(), GetVar(), and the basic navigation functions. What it doesn't cover is why your code works perfectly in preview and silently fails in published output, why GetPlayer() returns null at seemingly random times, or how to debug JavaScript in a published SCORM package.</p>
+      <h2>The Rendering Pipeline Problem</h2>
+      <p>The most common Storyline JavaScript failure is calling GetPlayer() before the player is ready. This happens because Storyline's Execute JavaScript trigger fires as part of the slide's timeline — but the player object may not be fully initialised at that point, particularly on the first slide of a course.</p>
+      <pre>// WRONG - fails on first slide load
+var player = GetPlayer();
+player.SetVar("MyVar", "value"); // Error: Cannot read property 'SetVar' of null
+
+// RIGHT - wait for player to be available
+function getPlayerSafe(callback) {
+  var player = GetPlayer();
+  if (player) {
+    callback(player);
+  } else {
+    setTimeout(function() { getPlayerSafe(callback); }, 100);
+  }
+}
+
+getPlayerSafe(function(player) {
+  player.SetVar("MyVar", "value"); // Safe
+});</pre>
+      <h2>Scope and the Global Object</h2>
+      <p>JavaScript variables declared with <code>var</code> inside an Execute JavaScript trigger are local to that trigger execution — they are not accessible from other triggers on the same slide or other slides. If you need to share state between triggers, you have two options:</p>
+      <ul>
+        <li>Use Storyline variables (SetVar/GetVar) — reliable, but limited to strings, numbers, and booleans</li>
+        <li>Attach properties to the global <code>window</code> object — works across triggers but persists for the browser session</li>
+      </ul>
+      <pre>// Share state across triggers using window
+window.myState = window.myState || {};
+window.myState.clickCount = (window.myState.clickCount || 0) + 1;
+GetPlayer().SetVar("ClickCount", window.myState.clickCount);</pre>
+      <h2>Published vs Preview Differences</h2>
+      <p>Three things that work in preview and fail in published output:</p>
+      <ul>
+        <li><strong>Relative URLs</strong> — preview uses localhost, published output uses a different path structure. Always use absolute URLs or Storyline's built-in file reference system.</li>
+        <li><strong>LocalStorage in LMS iframes</strong> — some LMS platforms block localStorage access in iframes for security reasons. Test in the actual LMS, not just in SCORM Cloud.</li>
+        <li><strong>Cross-origin requests</strong> — any fetch() or XMLHttpRequest to an external API will fail if the API doesn't include CORS headers. Test in published HTML output, not preview.</li>
+      </ul>
+      <h2>Debugging Published Output</h2>
+      <p>Open Chrome DevTools (F12) on the published HTML output. The Console tab shows JavaScript errors. The Sources tab lets you set breakpoints. For SCORM packages uploaded to an LMS, ask your LMS admin to enable developer tools access, or test in SCORM Cloud which always allows it.</p>
+      <div class="tip">Add <code>console.log()</code> statements liberally during development. They don't affect published output and make debugging 10x faster.</div>
+    `
+  },
+  {
+    tag:'Localisation · Workflow Design',
+    title:'Localising eLearning to 16+ Languages Without Losing Your Mind',
+    date:'Mar 2024', read:'11 min read',
+    body:`
+      <p>Managing a localisation project across 16 languages is a different problem from managing one across 3. The complexity doesn't scale linearly — it scales exponentially. One mistake in the source file multiplies into 16 broken modules. One missed review cycle means 16 courses that need republishing.</p>
+      <h2>The Foundation: Source File Architecture</h2>
+      <p>Every localisation project starts with a single source Storyline file that is structured for translation. This means:</p>
+      <ul>
+        <li>All text in named text variables, not baked into text boxes where possible</li>
+        <li>Audio narration scripted in a separate document with timing markers</li>
+        <li>Images with embedded text replaced by text overlay layers</li>
+        <li>All file names following a strict convention: <code>ModuleName_Language_v1.0.story</code></li>
+      </ul>
+      <h2>The Translation Package</h2>
+      <p>Storyline's built-in Export to Word function creates a Word document containing all translatable text strings. This is the translation package you send to your translation vendor — not the .story file. Benefits: translators work in a familiar tool, you control what gets translated, and you can review translations before importing.</p>
+      <div class="warn"><strong>Critical:</strong> Never send the .story file to a translation vendor unless they're Storyline specialists. They will break it.</div>
+      <h2>Arabic RTL — The Special Case</h2>
+      <p>Arabic requires more than translating text. Right-to-left layout means:</p>
+      <ul>
+        <li>Slide layout mirrored horizontally — navigation buttons swap sides, content flows right to left</li>
+        <li>Arabic text uses right-aligned text boxes with RTL text direction set explicitly</li>
+        <li>Numbers stay left-to-right (Arabic uses Western numerals in formal contexts)</li>
+        <li>Audio is a completely separate recording — not just text replacement</li>
+      </ul>
+      <h2>Quality Assurance at Scale</h2>
+      <p>With 16 languages, you cannot review every slide in every language. My QA approach: review 100% of the English source, then do a spot check of 10–15% of each translation focusing on the highest-risk slides — those with branching logic, variables, or complex layouts.</p>
+      <p>For client sign-off, I deliver a language-specific review spreadsheet listing every slide that needs native speaker review, with screenshots for context. This prevents "it all looks correct to me" sign-off from non-native speakers.</p>
+      <div class="tip">Build the LMS upload and testing step into your timeline. Multi-language SCORM packages are significantly larger and sometimes hit LMS file size limits. Test this early.</div>
+    `
+  },
+  {
+    tag:'Instructional Design · Compliance',
+    title:'Why Your Compliance Course is Failing (It\'s Not the Learners\' Fault)',
+    date:'Feb 2024', read:'9 min read',
+    body:`
+      <p>Every year, organisations spend billions on compliance training. Every year, auditors find the same violations. The training is not working — and the instinct is always to blame the learners. They're not engaged. They click through too fast. They don't take it seriously.</p>
+      <p>This is wrong. Compliance training failure is almost always a design problem.</p>
+      <h2>The Real Problem: Testing Recall Instead of Application</h2>
+      <p>The vast majority of compliance courses follow the same structure: present the policy in slides → add a multiple-choice quiz testing whether learners remembered what the slides said → record completion. This structure tests recall at Bloom's Level 1–2. Compliance failures happen at Bloom's Level 3 — Application. Knowing what the GDPR says is not the same as knowing what to do when a customer sends you a data deletion request at 4:55pm on a Friday.</p>
+      <h2>The Action Mapping Alternative</h2>
+      <p>Cathy Moore's Action Mapping framework forces a different question. Instead of "what do learners need to know?" it asks "what do learners need to DO differently?" For a GDPR compliance course, this means:</p>
+      <ul>
+        <li>Not: "What is the right to erasure?" — a knowledge question</li>
+        <li>Yes: "A customer emails asking us to delete all their data. What do you do in the next 30 minutes?" — an action question</li>
+      </ul>
+      <p>The answer to the action question becomes the scenario. The information learners need to complete the scenario becomes the content. Everything else gets cut.</p>
+      <h2>A Real Before and After</h2>
+      <p>I redesigned a banking AML compliance module using Action Mapping. The original was 45 slides of policy content followed by a 10-question multiple choice quiz. The redesign was 8 slides — each one a realistic scenario requiring a compliance decision. Content dropped by 82%. Assessment scores at 6-month follow-up increased by 34%. Reported violations in that area dropped to zero in the quarter after relaunch.</p>
+      <div class="tip">The content list the client originally wanted included in every compliance course is almost always 3–5x more than learners need to make correct decisions on the job. Action Mapping gives you the framework to justify cutting it.</div>
+      <h2>The One Question That Changes Everything</h2>
+      <p>Before designing any compliance module, ask the business sponsor: "What specific mistake are employees currently making that this training needs to fix?" If they can't answer that question, the training isn't needed yet. If they can — that mistake is your scenario.</p>
+    `
+  },
+  {
+    tag:'xAPI · LMS · SCORM',
+    title:'SCORM vs xAPI: What Actually Matters for Your LMS Decision',
+    date:'Jan 2024', read:'10 min read',
+    body:`
+      <p>The SCORM vs xAPI debate has been running for a decade. Most comparisons read like vendor marketing — xAPI is always described as the modern, flexible, future-proof choice while SCORM is characterised as legacy and limiting. The reality for practitioners managing live LMS deployments is more nuanced.</p>
+      <h2>What SCORM Actually Tracks</h2>
+      <p>SCORM communicates three things to an LMS: completion status (complete/incomplete/passed/failed), score (raw, scaled, min, max), and a small suspend_data field for bookmarking. That's it. Everything else — which buttons were clicked, how long learners spent on each slide, which branching paths were taken — is not captured by SCORM.</p>
+      <p>For most corporate compliance training, this is sufficient. Audit requirements typically need: did the learner complete the course? Did they pass the assessment? SCORM handles both.</p>
+      <h2>What xAPI Actually Adds</h2>
+      <p>xAPI (Tin Can) sends structured statements to a Learning Record Store (LRS) rather than an LMS. The statement format is Actor → Verb → Object, and it can capture any learning experience — a video watched, a conversation had, a job task completed. The data can be queried, aggregated, and piped into analytics tools like Power BI.</p>
+      <p>The catch: this data is only valuable if you have a use case for it. Most organisations that implement xAPI never build the analytics layer to use it. They collect rich data and look at it once.</p>
+      <h2>My Practical Decision Framework</h2>
+      <ul>
+        <li><strong>Use SCORM 1.2</strong> if: your audience is internal employees, your LMS is a standard corporate platform, and your reporting needs are completion + score</li>
+        <li><strong>Use xAPI</strong> if: you need to track learning outside the LMS (mobile apps, job tasks, social learning), you're building a learning analytics capability, or your stakeholders need performance metrics that SCORM can't provide</li>
+        <li><strong>Use both</strong> if: your LMS requires SCORM but your analytics team wants xAPI data — publish SCORM to the LMS and send parallel xAPI statements to a separate LRS</li>
+      </ul>
+      <div class="warn"><strong>LMS compatibility reality:</strong> SCORM 1.2 works on every LMS built in the last 20 years. SCORM 2004 has significant compatibility gaps. xAPI depends entirely on your LMS's xAPI support — test before committing.</div>
+    `
+  },
+  {
+    tag:'AR/VR · ZapWorks · Tools',
+    title:'ZapWorks AR in eLearning: A Practitioner\'s Honest Assessment',
+    date:'Dec 2023', read:'7 min read',
+    body:`
+      <p>I've built AR-enhanced learning experiences with ZapWorks for several projects across different industries and contexts. Here is an honest assessment — not the vendor pitch version, not the "all technology is amazing" conference presentation version.</p>
+      <h2>Where AR Genuinely Adds Value</h2>
+      <p>AR in eLearning works best when it connects physical objects to digital information in a context where the physical object matters. The strongest use cases I've worked with:</p>
+      <ul>
+        <li><strong>Equipment training</strong> — scanning a piece of machinery to see an overlay of its components, maintenance procedures, and safety zones. The AR adds information that would otherwise require a printed manual or a trainer standing next to the machine.</li>
+        <li><strong>Spatial orientation</strong> — scanning a floor plan or workspace layout to understand escape routes, equipment locations, or compliance zones. AR makes the physical space legible in a way that a 2D slide cannot.</li>
+        <li><strong>Product knowledge</strong> — scanning a product for retail or pharmaceutical staff to see ingredient information, selling points, or compliance data as an AR overlay at the point of sale.</li>
+      </ul>
+      <h2>Where AR Doesn't Work</h2>
+      <p>AR is theatre when there's no meaningful connection to a physical object or space. Adding AR to a compliance module about data protection because "it's more engaging" produces an experience that is harder to complete and no more effective than a standard eLearning course.</p>
+      <div class="warn"><strong>Deployment reality:</strong> ZapWorks AR requires learners to have a capable smartphone with the ZapWorks app installed, a stable internet connection, and adequate lighting. In a warehouse, factory floor, or hospital setting, these conditions are not always met. Test in the actual deployment environment before committing to AR.</div>
+      <h2>The Technical Setup</h2>
+      <p>ZapWorks Designer is accessible without coding knowledge for basic marker-based AR. For World Tracking (AR that places content in the environment without a marker) and interactive elements, ZapWorks Studio requires JavaScript. The learning curve is moderate — I'd estimate 2–3 projects before you're building efficiently.</p>
+      <p>Integration with Storyline requires a web object embed and a JavaScript bridge to pass completion data back to the SCORM layer. This works reliably once set up, but requires testing across the target devices.</p>
+    `
+  },
+  {
+    tag:'Game Design · Learning Science',
+    title:'Game Mechanics That Actually Transfer: Notes from 10+ Learning Games',
+    date:'Nov 2023', read:'8 min read',
+    body:`
+      <p>I've built more than ten game-based learning experiences — Snake & Ladder, Trivia Time, Spin the Wheel, Memory Flash Cards, Number Puzzle, and more. Not all of them worked equally well. The ones that produced measurable learning outcomes had specific mechanics in common. The ones that produced high completion rates but poor retention had different mechanics in common.</p>
+      <h2>Mechanics That Drive Retention</h2>
+      <h3>Retrieval Practice</h3>
+      <p>The single most evidence-backed learning mechanic in any game is forced recall — requiring learners to retrieve information from memory rather than recognise it from a presented list. Memory Flash Cards and any game requiring a typed or spoken answer (rather than multiple choice) activates retrieval practice. The Ebbinghaus forgetting curve research consistently shows retrieval practice produces 40–60% better long-term retention than re-reading or recognition.</p>
+      <h3>Spaced Repetition</h3>
+      <p>Games that present items that were answered incorrectly more frequently than correctly-answered items are using spaced repetition. This is built into my Memory Flash Cards implementation — wrong answers come back sooner, correct answers are spaced further out. The algorithm is simple; the effect on retention is significant.</p>
+      <h3>Consequence Feedback</h3>
+      <p>In scenario-based games, feedback that shows the real-world consequence of a wrong answer produces better transfer than feedback that just says "Incorrect." The Money Game and AML scenario both use consequence feedback — wrong answers show what actually happens as a result of that decision.</p>
+      <h2>Mechanics That Drive Completion Without Learning</h2>
+      <p>Points, leaderboards, and badges are completion mechanics. They are not learning mechanics. Learners will optimise for points — which means clicking quickly, guessing, and retrying until they get the points. If your game is primarily point-driven, you are measuring engagement, not learning.</p>
+      <div class="tip"><strong>Design test:</strong> If a learner can get a high score in your game without learning the content — by guessing, clicking fast, or finding a pattern — your game mechanics are not aligned to your learning objectives. Redesign before building.</div>
+    `
+  },
+  {
+    tag:'xAPI · Analytics · Power BI',
+    title:'Building a Learning Analytics Dashboard with xAPI and Power BI',
+    date:'Oct 2023', read:'13 min read',
+    body:`
+      <p>Most L&D analytics stop at completion and score. These metrics answer one question: did the training happen? They don't answer: did it change behaviour? Who is struggling? What content is most effective? For those questions, you need xAPI data connected to an analytics tool.</p>
+      <h2>The Architecture</h2>
+      <p>The full stack: Storyline course → xAPI statements → Learning Record Store (LRS) → Power BI data connector → dashboard. Each layer can be swapped for alternatives (Rise instead of Storyline, Watershed instead of Veracity LRS, Tableau instead of Power BI) but the architecture is the same.</p>
+      <h2>Connecting the LRS to Power BI</h2>
+      <p>Most modern LRS platforms (Veracity, SCORM Cloud LRS, Watershed) provide an OData or REST API endpoint. Power BI's "Get Data → OData Feed" or "Web" connector can pull directly from this endpoint. Authentication is typically Basic Auth or OAuth2.</p>
+      <pre>// LRS OData endpoint example (Veracity)
+https://lrs.io/api/v2/statements?
+  agent={"mbox":"mailto:learner@org.com"}
+  &verb=http://adlnet.gov/expapi/verbs/answered
+  &since=2024-01-01T00:00:00Z</pre>
+      <h2>Useful DAX Measures for L&D Data</h2>
+      <p>Once xAPI data is in Power BI, these DAX measures cover most L&D reporting needs:</p>
+      <ul>
+        <li><strong>Completion Rate</strong>: DIVIDE(COUNTROWS(FILTER(Statements, Statements[verb] = "completed")), DISTINCTCOUNT(Statements[actor]))</li>
+        <li><strong>Average Score</strong>: AVERAGEX(FILTER(Statements, Statements[result.score.raw] <> BLANK()), Statements[result.score.raw])</li>
+        <li><strong>Time to Complete</strong>: AVERAGEX(Sessions, Sessions[end_time] - Sessions[start_time])</li>
+      </ul>
+      <h2>What to Actually Measure</h2>
+      <p>The most useful L&D analytics are not about the training — they're about what happens after it. Connect your xAPI completion data to your HR or performance management system. Did employees who completed the module show different performance outcomes than those who didn't? That is the Kirkpatrick Level 4 question, and it requires data beyond the LMS.</p>
+      <div class="tip">Start with one dashboard answering one business question — "are our compliance completions on track?" — and build from there. A focused dashboard used by stakeholders is worth more than a comprehensive dashboard nobody opens.</div>
+    `
+  },
+  {
+    tag:'Accessibility · Keyboard · ARIA',
+    title:'Making Drag and Drop Accessible in Storyline: The Real Solution',
+    date:'Sep 2023', read:'10 min read',
+    body:`
+      <p>Storyline's built-in drag and drop interaction is not accessible to keyboard users. This is a known, documented limitation. There is no setting to enable keyboard support. There is no workaround within Storyline's standard interaction library. The only compliant solution is to replace or supplement drag and drop with a keyboard-operable alternative.</p>
+      <h2>Why Storyline DnD Fails Accessibility</h2>
+      <p>The built-in drag and drop relies entirely on mouse drag events (mousedown, mousemove, mouseup). There is no keyboard event handling, no ARIA roles for draggable items or drop zones, no focus management, and no screen reader announcements when items are placed. A keyboard user who encounters a drag and drop interaction in a Storyline course will Tab to it, receive no indication it's draggable, and be stuck.</p>
+      <h2>Solution 1: Replace with a Keyboard-Operable Alternative</h2>
+      <p>The cleanest solution is to replace drag and drop with a categorisation interaction using buttons or radio groups that can be operated with Tab and Enter/Space. This is the approach mandated by WCAG 2.1 SC 2.1.1 — all functionality must be operable by keyboard. Drag and drop is a convenience interaction; the underlying task (matching, sorting, categorising) can always be accomplished without it.</p>
+      <h2>Solution 2: Custom JavaScript Drag and Drop with Keyboard Support</h2>
+      <p>If the drag and drop interaction must be preserved for visual/pedagogical reasons, build a custom implementation using JavaScript that adds keyboard support:</p>
+      <pre>// Add keyboard support to custom DnD chips
+document.querySelectorAll('.dnd-chip').forEach(function(chip) {
+  chip.tabIndex = 0;
+  chip.setAttribute('role', 'option');
+  chip.setAttribute('aria-grabbed', 'false');
+  
+  chip.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (chip.getAttribute('aria-grabbed') === 'false') {
+        chip.setAttribute('aria-grabbed', 'true');
+        announceToSR('Picked up ' + chip.textContent + '. Press Tab to move to a drop zone.');
+      } else {
+        chip.setAttribute('aria-grabbed', 'false');
+        announceToSR('Dropped ' + chip.textContent);
+      }
+    }
+  });
+});</pre>
+      <div class="tip">Always implement the ARIA live region announcement pattern alongside keyboard DnD — screen reader users need to know what happened when they pick up and drop an item. See the JS Snippets Library for the complete implementation.</div>
+    `
+  },
+  {
+    tag:'Instructional Design · Blended Learning',
+    title:'Designing Blended Learning That Actually Blends',
+    date:'Aug 2023', read:'9 min read',
+    body:`
+      <p>Most "blended learning" programmes are not blended. They are eLearning modules plus a Zoom call, assembled in sequence, with no meaningful connection between them. Learners complete the eLearning in 20 minutes, join the Zoom call, and the facilitator recaps everything the eLearning just covered. That is not blending. That is duplication with extra steps.</p>
+      <h2>What Blending Actually Means</h2>
+      <p>True blended learning uses each modality for what it does uniquely well — and sequences them so each builds on the previous.</p>
+      <ul>
+        <li><strong>eLearning</strong> is best for: consistent baseline knowledge delivery, self-paced concept introduction, assessments, reference material, just-in-time support</li>
+        <li><strong>Live sessions (face-to-face or virtual)</strong> are best for: complex problem-solving, coaching, practice with immediate feedback, social learning, questions that need expert response</li>
+        <li><strong>On-the-job practice</strong> is best for: real skill application, transfer, performance evidence</li>
+      </ul>
+      <h2>The Flipped Classroom Model</h2>
+      <p>The most effective blended design pattern I use: learners complete eLearning before the live session. The eLearning delivers the baseline knowledge (Bloom's Level 1–2). The live session focuses entirely on applying and analysing that knowledge in scenarios (Bloom's Level 3–4). No recap. No re-teaching. The session assumes everyone completed the pre-work.</p>
+      <p>This requires accountability mechanisms — completion tracking, a brief pre-assessment at the start of the live session, and clear communication to learners about what to expect. Facilitators resist this model initially because they're used to controlling the knowledge delivery. The results consistently justify the discomfort.</p>
+      <h2>Measuring Blended Programmes</h2>
+      <p>Blended programmes are harder to measure than standalone eLearning, but the measurement opportunities are richer. Kirkpatrick Level 3 data (on-the-job behaviour change) can be collected between the eLearning and the live session, and again 30–90 days after programme completion. Manager observation checklists, work product reviews, and performance metrics are all viable Level 3 measures if built into the programme design from the start.</p>
+    `
+  },
+  {
+    tag:'JavaScript · xAPI · Storyline',
+    title:'Firing Custom xAPI Statements from Storyline: A Complete Guide',
+    date:'Jul 2023', read:'14 min read',
+    body:`
+      <p>Storyline's built-in LMS reporting covers completion and score. If you need anything more granular — which scenario path a learner took, whether they watched a video to completion, how many attempts a specific question took — you need custom xAPI statements. This guide covers the complete implementation.</p>
+      <h2>The ADL xAPI Wrapper</h2>
+      <p>The simplest approach is the ADL xAPI Wrapper (xapiwrapper.js). Include this file in your Storyline course's web resources folder, reference it from a JavaScript trigger, and you have access to a configured wrapper with LRS authentication handled.</p>
+      <pre>// Configure the wrapper (run once on course init)
+ADL.XAPIWrapper.changeConfig({
+  "endpoint": "https://your-lrs.io/data/xAPI/",
+  "user": "your-lrs-key",
+  "password": "your-lrs-secret"
+});
+
+// Fire a statement
+var stmt = {
+  "actor": {
+    "name": GetPlayer().GetVar("LearnerName"),
+    "mbox": "mailto:" + GetPlayer().GetVar("LearnerEmail")
+  },
+  "verb": {
+    "id": "http://adlnet.gov/expapi/verbs/completed",
+    "display": {"en-US": "completed"}
+  },
+  "object": {
+    "id": "https://yourcompany.com/courses/module-1/intro",
+    "definition": {
+      "name": {"en-US": "Module 1: Introduction"}
+    }
+  }
+};
+
+ADL.XAPIWrapper.sendStatement(stmt, function(resp) {
+  console.log("Statement sent, status:", resp.status);
+});</pre>
+      <h2>Useful Verbs for eLearning</h2>
+      <p>The ADL verb registry defines standard verbs. Use these consistently across your courses for queryable analytics:</p>
+      <ul>
+        <li><code>launched</code> — course/activity started</li>
+        <li><code>progressed</code> — moved to a new slide or section</li>
+        <li><code>answered</code> — responded to a question</li>
+        <li><code>passed</code> / <code>failed</code> — assessment result</li>
+        <li><code>completed</code> — finished an activity</li>
+        <li><code>experienced</code> — viewed content (video, page)</li>
+        <li><code>interacted</code> — engaged with a non-assessment interaction</li>
+      </ul>
+      <h2>Error Handling</h2>
+      <p>xAPI statements can fail — LRS unreachable, auth expired, malformed statement. Always wrap statement sends in error handling and decide whether to queue for retry or fail silently:</p>
+      <pre>ADL.XAPIWrapper.sendStatement(stmt, function(resp, body) {
+  if (resp.status === 200 || resp.status === 204) {
+    console.log("Statement accepted");
+  } else {
+    console.warn("Statement failed:", resp.status, body);
+    // Queue locally for retry on next connection
+    queueStatement(stmt);
+  }
+});</pre>
+      <div class="tip">Store unsent statements in localStorage and flush the queue at course resume. This prevents data loss when learners complete activities offline or on poor connections.</div>
+    `
+  },
+  {
+    tag:'Blender 3D · Animation · Tools',
+    title:'3D Animations in eLearning with Blender: Worth the Effort?',
+    date:'Jun 2023', read:'8 min read',
+    body:`
+      <p>Blender is a free, professional-grade 3D modelling and animation tool. I've used it to create animated sequences for eLearning courses in manufacturing, healthcare, and science education contexts. The honest answer to "is it worth it?" depends entirely on what you're trying to communicate.</p>
+      <h2>When 3D Animation Earns Its Cost</h2>
+      <p>3D animation in eLearning justifies the significant production time when the content requires spatial understanding that 2D cannot convey. Strong use cases:</p>
+      <ul>
+        <li><strong>Internal mechanisms</strong> — showing how a machine component moves, how a drug interacts with a receptor, how a structural element bears load. These require 3D spatial understanding.</li>
+        <li><strong>Scale and proportion</strong> — showing the relative size of biological structures, molecular interactions, or engineering tolerances that are impossible to photograph.</li>
+        <li><strong>Procedural demonstrations</strong> — showing exactly how to perform a physical task from multiple angles simultaneously.</li>
+      </ul>
+      <h2>The Production Workflow</h2>
+      <p>My workflow for Blender to eLearning: model → rig (if character or mechanical animation) → animate → render to PNG sequence → assemble in Premiere Pro → export MP4 → embed in Storyline as video or animated GIF for shorter sequences.</p>
+      <p>Render time is the biggest constraint. A 10-second animation at 30fps requires 300 frames. At 2 minutes per frame on a mid-range workstation, that's 10 hours of render time. Plan accordingly, or use Blender's Eevee renderer which is real-time but lower quality than Cycles.</p>
+      <h2>Where Vyond is the Better Choice</h2>
+      <p>For character-based animated scenarios, social situations, and any animation where speed matters more than spatial accuracy, Vyond is faster by a factor of 10. The output is less realistic but sufficient for most eLearning narrative purposes. Use Blender for technical content that requires realistic spatial representation. Use Vyond for everything else.</p>
+      <div class="tip">Blender has a steep learning curve — expect 20–40 hours of practice before you're productive. LinkedIn Learning and Blender's official tutorials are the best starting points. Don't start a client project in Blender until you've completed at least 3 personal projects.</div>
+    `
+  },
+  {
+    tag:'Localisation · Arabic · RTL',
+    title:'Arabic RTL eLearning: The Complete Storyline Implementation Guide',
+    date:'May 2023', read:'11 min read',
+    body:`
+      <p>Arabic localisation of eLearning is consistently underestimated by teams that haven't done it before. It is not a translation project with some text direction changes. It is a layout redesign project that happens to include translation. Every element of every slide needs to be reviewed for RTL compatibility.</p>
+      <h2>The Storyline RTL Setup</h2>
+      <p>Storyline does not have a native RTL mode. The workaround is to set text direction on each text box: Format → Text Direction → Right to Left. For courses with many text elements, do this in the master slide template before building content. Once set in the master, new slides inherit the direction.</p>
+      <p>For the overall slide layout, Arabic versions typically need to be mirrored horizontally. Navigation arrows that point right in English should point left in Arabic (back/forward directions reverse). Character images facing left in English should face right in Arabic. Content panels that anchor to the left in English anchor to the right in Arabic.</p>
+      <h2>Font Selection</h2>
+      <p>Not all fonts support Arabic script. Standard corporate fonts like Arial, Calibri, and Segoe UI include Arabic character sets. Specialty fonts require testing. The key test: paste your full Arabic script into a text box in the course font and check for missing character boxes (□) which indicate missing glyphs.</p>
+      <div class="warn"><strong>Critical:</strong> Arabic numbers in formal Arabic eLearning typically use Western Arabic numerals (0–9), not Eastern Arabic numerals (٠–٩). Confirm with your client which convention their audience expects.</div>
+      <h2>Audio and Narration</h2>
+      <p>Arabic narration is a complete re-record — not slowed or sped up English audio with Arabic text. Arabic script is typically 15–20% shorter in spoken duration than English for equivalent content. This means your slide timing will change. Build your Arabic version on separate slides, not by replacing English audio on the same slides.</p>
+      <h2>QA Checklist for Arabic Courses</h2>
+      <ul>
+        <li>All text boxes set to RTL text direction</li>
+        <li>Slide layout mirrored (navigation, images, content panels)</li>
+        <li>All Arabic text reviewed by a native Arabic speaker</li>
+        <li>No text baked into images (must be text overlay)</li>
+        <li>Audio timing synced to slide animations in Arabic version</li>
+        <li>SCORM package tested on target LMS with Arabic characters in learner data</li>
+        <li>Course published with UTF-8 encoding (not Latin-1)</li>
+      </ul>
+      <div class="tip">LMS learner names in Arabic can expose encoding bugs in older LMS platforms. Test with an Arabic-name test account before going live.</div>
+    `
+  }
+];
+
+function openArticle(idx){
+  const a = articles[idx];
+  if(!a) return;
+  document.getElementById('a-tag').textContent = a.tag;
+  document.getElementById('a-title').textContent = a.title;
+  document.getElementById('a-date').textContent = a.date;
+  document.getElementById('a-read').textContent = a.read;
+  document.getElementById('a-body').innerHTML = a.body;
+  document.getElementById('art-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeArticle(){
+  document.getElementById('art-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeArticle(); });
+
+function filterArticles(btn){
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const cat = btn.dataset.cat;
+  document.querySelectorAll('.article-card, .featured-article').forEach(card => {
+    if(cat === 'all' || card.dataset.cat === cat){
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function subscribeNL(){
+  const e = document.getElementById('nl-email').value.trim();
+  if(!e || !/\S+@\S+\.\S+/.test(e)){ alert('Please enter a valid email.'); return; }
+  document.getElementById('nl-ok').style.display = 'block';
+}
+</script>
+</body>
+</html>

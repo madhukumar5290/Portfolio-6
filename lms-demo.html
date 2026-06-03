@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LMS Demo | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.lms-shell{background:var(--bg2);border:1px solid var(--border2);overflow:hidden;margin-top:3.5rem}
+.lms-topbar{background:#060A14;border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:48px;flex-shrink:0}
+.lms-brand{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:.5rem}
+.lms-user{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--muted)}
+.lms-body{display:grid;grid-template-columns:240px 1fr;min-height:560px}
+.lms-sidebar{background:#060A14;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.lms-sidebar-heading{font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:.9rem 1.25rem .4rem}
+.lms-nav-item{padding:.8rem 1.25rem;cursor:pointer;display:flex;align-items:center;gap:.65rem;transition:background .2s;border-left:2px solid transparent;min-width:0}
+.lms-nav-item:hover{background:rgba(255,255,255,.03)}
+.lms-nav-item.active{background:rgba(240,180,41,.06);border-left-color:var(--gold)}
+.lms-nav-icon{font-size:.85rem;flex-shrink:0}
+.lms-nav-text{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.lms-nav-item.active .lms-nav-text{color:var(--gold)}
+.lms-status-badge{font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;padding:.15rem .45rem;flex-shrink:0}
+.sb-done{background:rgba(47,204,161,.12);color:var(--teal);border:1px solid rgba(47,204,161,.2)}
+.sb-open{background:rgba(91,156,246,.1);color:var(--blue);border:1px solid rgba(91,156,246,.2)}
+.sb-lock{background:rgba(107,120,145,.1);color:var(--muted);border:1px solid var(--border)}
+.lms-xapi-mini{padding:.75rem 1.25rem;border-top:1px solid var(--border);background:rgba(0,0,0,.2);font-family:var(--mono);font-size:.5rem;color:var(--teal);line-height:1.7;max-height:120px;overflow-y:auto;word-break:break-all}
+.lms-content{padding:2.25rem;overflow-y:auto}
+.screen{display:none}.screen.on{display:block}
+
+/* Overview screen */
+.ring-wrap{position:relative;width:90px;height:90px;margin:0 auto 1.5rem}
+svg.ring{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--border);stroke-width:7}
+.ring-fg{fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.3rem;color:var(--gold)}
+.course-meta-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:1.5rem 0}
+.cm-item{background:var(--surface);padding:.9rem;text-align:center}
+.cm-val{font-family:var(--serif);font-size:1.4rem;color:var(--gold);display:block;line-height:1}
+.cm-lbl{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-top:.2rem}
+
+/* Lesson screen */
+.lesson-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:.35rem}
+.lesson-title{font-family:var(--serif);font-size:1.6rem;font-weight:400;color:var(--text);margin-bottom:1.25rem;line-height:1.2}
+.lesson-body{font-family:var(--sans);font-size:.88rem;line-height:1.8;color:var(--text2);margin-bottom:1.25rem}
+.lesson-hl{background:var(--surface2);border-left:3px solid var(--gold);padding:1rem 1.4rem;margin:1.25rem 0}
+.lesson-hl p{font-family:var(--sans);font-size:.88rem;color:var(--text);margin:0;font-style:italic}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+
+/* Quiz screen */
+.quiz-q{font-family:var(--serif);font-size:1.2rem;color:var(--text);margin-bottom:1.5rem;line-height:1.4}
+.quiz-opt{background:var(--bg3);border:1px solid var(--border);padding:.9rem 1.1rem;margin-bottom:.5rem;cursor:pointer;display:flex;align-items:start;gap:.8rem;transition:all .2s;text-align:left;width:100%}
+.quiz-opt:hover{border-color:var(--border2)}.quiz-opt.selected{border-color:var(--blue);background:rgba(91,156,246,.07)}
+.quiz-opt.correct{border-color:var(--teal);background:rgba(47,204,161,.07)}.quiz-opt.wrong{border-color:var(--red);background:rgba(240,107,107,.07)}
+.qo-key{font-family:var(--mono);font-size:.62rem;color:var(--blue);flex-shrink:0;margin-top:.1rem}
+.qo-text{font-family:var(--sans);font-size:.88rem;color:var(--text);line-height:1.4}
+.quiz-fb{padding:.9rem 1.25rem;margin-bottom:1.25rem;display:none;font-family:var(--mono);font-size:.62rem;letter-spacing:.05em}
+.quiz-fb.show{display:block}
+.quiz-fb.c{background:rgba(47,204,161,.08);border:1px solid rgba(47,204,161,.2);color:var(--teal)}
+.quiz-fb.w{background:rgba(240,107,107,.08);border:1px solid rgba(240,107,107,.2);color:var(--red)}
+
+/* Certificate screen */
+.cert-frame{background:linear-gradient(135deg,#0a0f1e 0%,#161d2f 100%);border:1px solid rgba(240,180,41,.25);padding:2.5rem;text-align:center;position:relative;overflow:hidden}
+.cert-frame::before,.cert-frame::after{content:'';position:absolute;border:1px solid rgba(240,180,41,.07);border-radius:50%}
+.cert-frame::before{width:300px;height:300px;top:-150px;right:-150px}
+.cert-frame::after{width:200px;height:200px;bottom:-100px;left:-100px}
+.cert-badge{font-size:2.5rem;margin-bottom:.75rem;display:block}
+.cert-issued-lbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.cert-title{font-family:var(--serif);font-size:1.6rem;font-weight:400;color:var(--text);margin-bottom:.35rem}
+.cert-awarded{font-family:var(--sans);font-size:.82rem;color:var(--muted);margin-bottom:.75rem}
+.cert-name{font-family:var(--serif);font-size:2.2rem;font-style:italic;color:var(--gold);border-bottom:1px solid rgba(240,180,41,.25);padding-bottom:.75rem;margin-bottom:.75rem;line-height:1.2}
+.cert-detail{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:var(--muted)}
+.xapi-full-log{background:#060A14;border:1px solid var(--border);padding:1.1rem;max-height:150px;overflow-y:auto;margin-top:1.5rem}
+.xapi-log-title{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:.65rem;display:flex;align-items:center;gap:.5rem}
+.xapi-stmt{font-family:var(--mono);font-size:.52rem;color:var(--teal);line-height:1.8;border-bottom:1px solid rgba(255,255,255,.04);padding-bottom:.35rem;margin-bottom:.35rem}
+.xapi-stmt:last-child{border-bottom:none}
+.xapi-verb{color:var(--gold)}.xapi-obj{color:var(--blue)}
+
+@media(max-width:700px){.lms-body{grid-template-columns:1fr}.lms-sidebar{display:none}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html" class="active">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html" class="active">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="eyebrow reveal">Live Demo</div>
+  <h1 class="display reveal d1">A fully working LMS<br><em>in your browser.</em></h1>
+  <p style="font-family:var(--sans);font-size:1rem;color:var(--text2);max-width:600px;margin-top:.75rem;line-height:1.7" class="reveal d2">Real course player. Structured lessons. Live xAPI statement stream. Knowledge check with scoring. Certificate generation. All running in real time — click through and watch it track.</p>
+</div>
+
+<section class="section">
+  <div class="lms-shell reveal">
+    <div class="lms-topbar">
+      <div class="lms-brand">🎓 NexusLMS · Demo Portal</div>
+      <div class="lms-user" id="session-status">Learner: Guest User &nbsp;·&nbsp; <span style="color:var(--teal)">● Session Active</span></div>
+    </div>
+    <div class="lms-body">
+      <div class="lms-sidebar">
+        <div class="lms-sidebar-heading">Course Contents</div>
+        <div class="lms-nav-item active" id="nav-overview" onclick="goTo('overview')">
+          <span class="lms-nav-icon">🏠</span><span class="lms-nav-text">Course Overview</span>
+          <span class="lms-status-badge sb-open" id="st-overview">Active</span>
+        </div>
+        <div class="lms-nav-item" id="nav-lesson1" onclick="goTo('lesson1')">
+          <span class="lms-nav-icon">📖</span><span class="lms-nav-text">1. What is SCORM?</span>
+          <span class="lms-status-badge sb-lock" id="st-lesson1">Locked</span>
+        </div>
+        <div class="lms-nav-item" id="nav-lesson2" onclick="goTo('lesson2')">
+          <span class="lms-nav-icon">📖</span><span class="lms-nav-text">2. xAPI vs SCORM</span>
+          <span class="lms-status-badge sb-lock" id="st-lesson2">Locked</span>
+        </div>
+        <div class="lms-nav-item" id="nav-quiz" onclick="goTo('quiz')">
+          <span class="lms-nav-icon">✅</span><span class="lms-nav-text">Knowledge Check</span>
+          <span class="lms-status-badge sb-lock" id="st-quiz">Locked</span>
+        </div>
+        <div class="lms-nav-item" id="nav-cert" onclick="goTo('cert')">
+          <span class="lms-nav-icon">🏆</span><span class="lms-nav-text">Certificate</span>
+          <span class="lms-status-badge sb-lock" id="st-cert">Locked</span>
+        </div>
+        <div class="lms-sidebar-heading" style="margin-top:1rem">Live xAPI Stream</div>
+        <div class="lms-xapi-mini" id="xapi-mini">Waiting for learner actions...</div>
+      </div>
+
+      <div class="lms-content">
+
+        <!-- OVERVIEW -->
+        <div class="screen on" id="screen-overview">
+          <div style="text-align:center;padding:1.5rem 0">
+            <div class="ring-wrap">
+              <svg class="ring" width="90" height="90" viewBox="0 0 90 90">
+                <circle class="ring-bg" cx="45" cy="45" r="38"/>
+                <circle class="ring-fg" id="ring-fg" cx="45" cy="45" r="38" stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
+              </svg>
+              <div class="ring-pct" id="ring-pct">0%</div>
+            </div>
+            <div style="font-family:var(--serif);font-size:1.6rem;font-weight:400;color:var(--text);margin-bottom:.25rem">SCORM & xAPI Fundamentals</div>
+            <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted);margin-bottom:1.5rem">A Portfolio Demonstration Course · NexusLMS</div>
+            <p style="font-family:var(--sans);font-size:.85rem;color:var(--text2);max-width:380px;margin:0 auto 1.5rem;line-height:1.65">A live demonstration of LMS delivery — SCORM/xAPI packaging, tracked completion, knowledge assessment, and certificate generation. Click through to watch the xAPI statements fire in real time.</p>
+            <div class="course-meta-bar">
+              <div class="cm-item"><span class="cm-val">3</span><span class="cm-lbl">Modules</span></div>
+              <div class="cm-item"><span class="cm-val" id="completed-count">0</span><span class="cm-lbl">Completed</span></div>
+              <div class="cm-item"><span class="cm-val">~8</span><span class="cm-lbl">Minutes</span></div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="startCourse()">Launch Course →</button>
+          </div>
+        </div>
+
+        <!-- LESSON 1 -->
+        <div class="screen" id="screen-lesson1">
+          <div class="lesson-num">Module 01 of 02</div>
+          <div class="lesson-title">What is SCORM?</div>
+          <p class="lesson-body">SCORM — Sharable Content Object Reference Model — is the technical standard that allows eLearning content to communicate with a Learning Management System. When you publish a Storyline or Captivate course to SCORM, you're creating a package that any SCORM-compliant LMS can launch, track, and report on.</p>
+          <div class="lesson-hl"><p>SCORM tells the LMS three things: did the learner launch the course, did they complete it, and did they pass the assessment. Everything else — where they clicked, how long they paused, which branches they chose — is not captured.</p></div>
+          <p class="lesson-body">SCORM 1.2 and SCORM 2004 are the two versions you'll encounter. SCORM 1.2 is older but almost universally supported across LMS platforms. SCORM 2004 adds sequencing and navigation rules but has inconsistent LMS support. In practice, most organisations default to SCORM 1.2 unless they have a specific reason to use 2004.</p>
+          <p class="lesson-body">The LMS-SCORM communication happens through a JavaScript API exposed by the LMS in the browser window. The content calls <code style="font-family:var(--mono);font-size:.8rem;color:var(--gold);background:var(--surface);padding:.1rem .4rem">LMSInitialize()</code> on launch and <code style="font-family:var(--mono);font-size:.8rem;color:var(--gold);background:var(--surface);padding:.1rem .4rem">LMSSetValue()</code> to send completion and score data back to the LMS for storage against the learner record.</p>
+          <div class="lesson-nav">
+            <button class="btn btn-outline btn-sm" onclick="goTo('overview')">← Back</button>
+            <button class="btn btn-primary" onclick="completeLesson('lesson1')">Mark Complete & Continue →</button>
+          </div>
+        </div>
+
+        <!-- LESSON 2 -->
+        <div class="screen" id="screen-lesson2">
+          <div class="lesson-num">Module 02 of 02</div>
+          <div class="lesson-title">xAPI vs SCORM — The Difference That Matters</div>
+          <p class="lesson-body">xAPI (Experience API, also known as Tin Can) was designed to fix what SCORM couldn't do. While SCORM is limited to tracking course completions inside an LMS, xAPI can track any learning experience — a conversation, a job task, a simulation, a mobile activity — and send that data to a Learning Record Store anywhere, not just an LMS.</p>
+          <div class="lesson-hl"><p>The xAPI statement format is beautifully simple: <strong style="color:var(--gold)">Actor → Verb → Object</strong>. "Madhu completed Module 1." "Guest User answered Question 3 correctly." Every learner interaction becomes structured, queryable data.</p></div>
+          <p class="lesson-body">The LRS (Learning Record Store) receives, stores, and queries xAPI statements. Unlike an LMS, it doesn't deliver content — it stores the evidence of learning. You can connect an LRS to Power BI, Tableau, or any analytics platform to build dashboards that show what learners actually did, not just whether they clicked through a course.</p>
+          <p class="lesson-body">Use xAPI over SCORM when you need more than pass/fail data, when learning happens outside the LMS, when you want to connect learning data to performance data, or when you're building a serious analytics capability. Otherwise, SCORM 1.2 remains the practical, universally-supported default.</p>
+          <div class="lesson-nav">
+            <button class="btn btn-outline btn-sm" onclick="goTo('lesson1')">← Back</button>
+            <button class="btn btn-primary" onclick="completeLesson('lesson2')">Mark Complete & Take Quiz →</button>
+          </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div class="screen" id="screen-quiz">
+          <div class="lesson-num">Knowledge Check</div>
+          <div class="lesson-title">Test Your Understanding</div>
+          <div id="quiz-q-container"></div>
+          <div class="quiz-fb" id="quiz-fb"><span id="quiz-fb-text"></span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem">
+            <div style="font-family:var(--mono);font-size:.6rem;color:var(--muted)" id="q-counter">Question 1 of 3</div>
+            <button class="btn btn-primary" id="q-submit-btn" onclick="submitQuizAnswer()" disabled>Submit →</button>
+          </div>
+        </div>
+
+        <!-- CERTIFICATE -->
+        <div class="screen" id="screen-cert">
+          <div class="cert-frame">
+            <span class="cert-badge">🏆</span>
+            <div class="cert-issued-lbl">Certificate of Completion</div>
+            <div class="cert-title">SCORM & xAPI Fundamentals</div>
+            <div class="cert-awarded">This certificate is proudly awarded to</div>
+            <div class="cert-name">Guest User</div>
+            <div class="cert-awarded">for successfully completing this course with a passing score.</div>
+            <div class="cert-detail" id="cert-date" style="margin-top:1.25rem"></div>
+          </div>
+          <div class="xapi-full-log">
+            <div class="xapi-log-title">📡 Full xAPI Statement Log — Generated During This Session</div>
+            <div id="xapi-full"></div>
+          </div>
+          <div style="display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="window.print()">Download Certificate</button>
+            <a href="work.html" class="btn btn-outline">See Real Projects →</a>
+            <button class="btn btn-outline" onclick="restartLMS()">Restart Demo</button>
+          </div>
+        </div>
+
+      </div><!-- /lms-content -->
+    </div><!-- /lms-body -->
+  </div><!-- /lms-shell -->
+</section>
+
+<div class="cta-band">
+  <div class="eyebrow">Want this built for real?</div>
+  <div class="cta-band-title">This demo shows what I build.<br><em>Let's talk about your project.</em></div>
+  <a href="contact.html" class="btn-dark">Get in Touch →</a>
+  <a href="work.html" class="btn-dark outline">See Full Portfolio</a>
+</div>
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer & eLearning Developer · 2024</div>
+  <ul class="footer-links"><li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li><li><a href="work.html">Work</a></li><li><a href="contact.html">Contact</a></li></ul>
+</footer>
+<script src="main.js"></script>
+<script>
+const xLog=[];
+const completed={overview:false,lesson1:false,lesson2:false,quiz:false,cert:false};
+
+const quizData=[
+  {q:'What does SCORM primarily enable?',opts:['Track any learning experience from any device','Communication between eLearning content and an LMS','Build AR and VR learning experiences','Generate AI-personalised learning paths'],correct:1,exp:'Correct. SCORM enables structured communication between a course package and an LMS — passing completion status, score, and basic tracking data to the learner record.'},
+  {q:'What is the correct xAPI statement format?',opts:['Subject → Predicate → Complement','Input → Process → Output','Actor → Verb → Object','Learner → Course → LMS'],correct:2,exp:'Correct. Every xAPI statement follows the Actor → Verb → Object structure. Example: "Guest User completed Module 1."'},
+  {q:'When should you choose xAPI over SCORM 1.2?',opts:['When you need faster page loading times','When learning happens outside the LMS and you need detailed behavioural data','When your LMS does not support SCORM packages','When you want to add gamification to your course'],correct:1,exp:'Correct. xAPI is the better choice when learning extends beyond the LMS, or when you need detailed behavioural data beyond the binary pass/fail and completion record SCORM provides.'}
+];
+let currentQ=0,quizScore=0,selectedOpt=null,qAnswered=false;
+
+function fireXAPI(actor,verb,obj,extra){
+  const ts=new Date().toLocaleTimeString();
+  const stmt={ts,actor,verb,object:obj,...(extra||{})};
+  xLog.push(stmt);
+  // mini log in sidebar
+  const mini=document.getElementById('xapi-mini');
+  mini.innerHTML=`<span style="color:var(--muted)">${ts}</span> <span class="xapi-verb">${verb}</span> <span class="xapi-obj">${obj}</span>\n`+mini.innerHTML;
+  // full log on cert screen
+  const full=document.getElementById('xapi-full');
+  full.innerHTML+=`<div class="xapi-stmt"><span style="color:var(--muted)">${ts}</span> · <span class="xapi-verb">${actor}</span> → <span class="xapi-verb">${verb}</span> → <span class="xapi-obj">${obj}</span>${extra?` · <span style="color:var(--muted);font-size:.48rem">${JSON.stringify(extra)}</span>`:''}</div>`;
+}
+
+function updateProgress(){
+  const done=Object.values(completed).filter(Boolean).length-1;// exclude cert
+  const total=4;
+  const pct=Math.max(0,Math.round(done/total*100));
+  document.getElementById('completed-count').textContent=done;
+  document.getElementById('ring-pct').textContent=pct+'%';
+  const offset=238.76*(1-pct/100);
+  document.getElementById('ring-fg').style.strokeDashoffset=offset;
+}
+
+function setNavStatus(id,cls,text){
+  const badge=document.getElementById('st-'+id);
+  if(badge){badge.className='lms-status-badge '+cls;badge.textContent=text;}
+}
+
+function setNavActive(id){
+  document.querySelectorAll('.lms-nav-item').forEach(n=>n.classList.remove('active'));
+  const el=document.getElementById('nav-'+id);
+  if(el) el.classList.add('active');
+}
+
+function goTo(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById('screen-'+screen).classList.add('on');
+  setNavActive(screen);
+}
+
+function startCourse(){
+  setNavStatus('lesson1','sb-open','Open');
+  fireXAPI('Guest User','launched','SCORM & xAPI Fundamentals');
+  goTo('lesson1');
+}
+
+function completeLesson(id){
+  completed[id]=true;
+  setNavStatus(id,'sb-done','Done');
+  fireXAPI('Guest User','completed','Module: '+(id==='lesson1'?'What is SCORM?':'xAPI vs SCORM'));
+  updateProgress();
+  if(id==='lesson1'){setNavStatus('lesson2','sb-open','Open');goTo('lesson2');}
+  else{setNavStatus('quiz','sb-open','Open');initQuiz();goTo('quiz');}
+}
+
+function initQuiz(){currentQ=0;quizScore=0;renderQ();}
+
+function renderQ(){
+  qAnswered=false;selectedOpt=null;
+  document.getElementById('q-submit-btn').disabled=true;
+  document.getElementById('quiz-fb').className='quiz-fb';
+  document.getElementById('q-counter').textContent='Question '+(currentQ+1)+' of '+quizData.length;
+  const d=quizData[currentQ];
+  document.getElementById('quiz-q-container').innerHTML=`<div class="quiz-q">${d.q}</div>${d.opts.map((o,i)=>`<button class="quiz-opt" id="qo${i}" onclick="selectOpt(${i})" aria-pressed="false"><span class="qo-key">${String.fromCharCode(65+i)}</span><span class="qo-text">${o}</span></button>`).join('')}`;
+}
+
+function selectOpt(i){
+  if(qAnswered) return;
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('qo'+i).classList.add('selected');
+  selectedOpt=i;
+  document.getElementById('q-submit-btn').disabled=false;
+}
+
+function submitQuizAnswer(){
+  if(selectedOpt===null||qAnswered) return;
+  qAnswered=true;
+  const d=quizData[currentQ];
+  const ok=(selectedOpt===d.correct);
+  if(ok) quizScore++;
+  document.getElementById('qo'+selectedOpt).classList.add(ok?'correct':'wrong');
+  if(!ok) document.getElementById('qo'+d.correct).classList.add('correct');
+  const fb=document.getElementById('quiz-fb');
+  document.getElementById('quiz-fb-text').textContent=(ok?'✓ Correct! ':'✗ Incorrect. ')+d.exp;
+  fb.className='quiz-fb show '+(ok?'c':'w');
+  fireXAPI('Guest User',ok?'answered correctly':'answered incorrectly','Question '+(currentQ+1),{score:ok?1:0});
+  setTimeout(()=>{
+    currentQ++;
+    if(currentQ<quizData.length){renderQ();}
+    else{finishQuiz();}
+  },2200);
+}
+
+function finishQuiz(){
+  const pass=(quizScore>=2);
+  completed.quiz=true;
+  setNavStatus('quiz','sb-done','Done');
+  fireXAPI('Guest User',pass?'passed':'failed','Knowledge Check',{score:quizScore,outOf:3});
+  updateProgress();
+  if(pass){
+    completed.cert=true;
+    setNavStatus('cert','sb-open','Ready');
+    fireXAPI('Guest User','earned','Certificate of Completion');
+    document.getElementById('cert-date').textContent='Completed: '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    goTo('cert');
+  } else {
+    document.getElementById('quiz-q-container').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:2rem;margin-bottom:.75rem">😕</div><div style="font-family:var(--serif);font-size:1.5rem;color:var(--gold);margin-bottom:.75rem">Score: ${quizScore}/3</div><p style="font-family:var(--sans);font-size:.88rem;color:var(--text2);margin-bottom:1.5rem">You need 2/3 correct to pass. Review the lessons and try again.</p><button class="btn btn-primary" onclick="initQuiz()">Retry Quiz →</button></div>`;
+  }
+}
+
+function restartLMS(){
+  Object.keys(completed).forEach(k=>completed[k]=false);
+  currentQ=0;quizScore=0;
+  ['lesson1','lesson2','quiz','cert'].forEach(id=>setNavStatus(id,'sb-lock','Locked'));
+  setNavStatus('overview','sb-open','Active');
+  document.getElementById('xapi-mini').textContent='Waiting for learner actions...';
+  document.getElementById('xapi-full').innerHTML='';
+  updateProgress();
+  goTo('overview');
+}
+
+fireXAPI('Guest User','accessed','LMS Demo Portal');
+</script>
+</body>
+</html>

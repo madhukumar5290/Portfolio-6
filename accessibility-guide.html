@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accessibility Guide | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.guide-layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - var(--nav-h));margin-top:var(--nav-h)}
+.guide-nav{background:var(--bg2);border-right:1px solid var(--border);padding:2rem 0;position:sticky;top:var(--nav-h);height:calc(100vh - var(--nav-h));overflow-y:auto}
+.gn-heading{font-family:var(--mono);font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:.5rem 1.5rem .75rem;display:block}
+.gn-link{display:block;padding:.65rem 1.5rem;font-family:var(--sans);font-size:.82rem;color:var(--text2);transition:all .2s;border-left:2px solid transparent;cursor:pointer}
+.gn-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.gn-link.active{color:var(--gold);border-left-color:var(--gold);background:rgba(240,180,41,.05)}
+.guide-content{padding:3rem;max-width:820px}
+.guide-section{padding:3rem 0;border-bottom:1px solid var(--border)}
+.guide-section:first-child{padding-top:0}
+.guide-section:last-child{border-bottom:none}
+.gs-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:var(--blue);margin-bottom:.4rem}
+.gs-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:400;color:var(--text);margin-bottom:.85rem;line-height:1.2}
+.gs-title em{font-style:italic;color:var(--gold)}
+.gs-intro{font-family:var(--sans);font-size:.92rem;line-height:1.8;color:var(--text2);margin-bottom:1.75rem}
+.gs-rule{background:var(--surface);border:1px solid var(--border);padding:1.5rem;margin-bottom:1.25rem;position:relative}
+.gs-rule::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--teal)}
+.gs-rule-title{font-family:var(--sans);font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.35rem;display:flex;align-items:center;gap:.6rem}
+.gs-rule-title .badge{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .5rem}
+.badge-pass{background:rgba(47,204,161,.1);color:var(--teal);border:1px solid rgba(47,204,161,.2)}
+.badge-fail{background:rgba(240,107,107,.1);color:var(--red);border:1px solid rgba(240,107,107,.2)}
+.badge-wcag{background:rgba(91,156,246,.1);color:var(--blue);border:1px solid rgba(91,156,246,.2)}
+.gs-rule-body{font-family:var(--sans);font-size:.85rem;color:var(--text2);line-height:1.65}
+.gs-code{background:var(--bg);border:1px solid var(--border);padding:1rem 1.25rem;font-family:var(--mono);font-size:.78rem;line-height:1.7;color:var(--text);overflow-x:auto;margin:1rem 0}
+.gs-do-dont{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:1.5rem 0}
+.gs-do,.gs-dont{padding:1.5rem;background:var(--bg2)}
+.gs-do-title{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem}
+.gs-dont-title{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem}
+.gs-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.gs-list li{font-family:var(--sans);font-size:.85rem;color:var(--text2);display:flex;align-items:flex-start;gap:.6rem;line-height:1.5}
+.gs-list li::before{font-size:.7rem;flex-shrink:0;margin-top:.1rem}
+.gs-do .gs-list li::before{content:'✓';color:var(--teal)}
+.gs-dont .gs-list li::before{content:'✗';color:var(--red)}
+.checklist{display:flex;flex-direction:column;gap:.5rem;margin-top:1rem}
+.chk-item{display:flex;align-items:flex-start;gap:.85rem;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:background .2s;user-select:none}
+.chk-item:hover{background:var(--surface2)}
+.chk-item.done{opacity:.6}
+.chk-box{width:16px;height:16px;border:2px solid var(--border2);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;transition:all .2s}
+.chk-item.done .chk-box{background:var(--teal);border-color:var(--teal);color:#fff;font-size:.65rem}
+.chk-label{font-family:var(--sans);font-size:.85rem;color:var(--text);line-height:1.45}
+.chk-item.done .chk-label{text-decoration:line-through;color:var(--muted)}
+.chk-sc{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;color:var(--muted);margin-top:.2rem}
+.progress-band{background:var(--surface);border:1px solid var(--border);padding:1.1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem}
+.prog-track{flex:1;height:4px;background:var(--border);overflow:hidden;border-radius:2px}
+.prog-fill{height:100%;background:var(--teal);transition:width .4s ease;border-radius:2px}
+.prog-text{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--teal);white-space:nowrap}
+.contrast-demo{padding:1.5rem;margin:1rem 0;border:1px solid var(--border)}
+.contrast-ratio-big{font-family:var(--serif);font-size:2.5rem;font-weight:300;line-height:1}
+.ratio-pass{color:var(--teal)}.ratio-fail{color:var(--red)}
+@media(max-width:860px){.guide-layout{grid-template-columns:1fr}.guide-nav{display:none}.guide-content{padding:1.5rem}.gs-do-dont{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html" class="active">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div style="background:var(--bg2);border-bottom:1px solid var(--border);padding:3rem var(--ph) 2.5rem;margin-top:var(--nav-h)">
+  <div style="max-width:700px">
+    <div class="eyebrow">WCAG 2.1 · Section 508 · ADA</div>
+    <h1 class="display" style="font-size:clamp(2rem,5vw,4rem)">Accessibility in Storyline,<br><em>practically explained.</em></h1>
+    <p style="font-family:var(--sans);font-size:.95rem;color:var(--text2);margin-top:.85rem;line-height:1.7">Not a theory lecture. Practical, actionable guides for the four accessibility problems that appear in almost every Storyline course — and how to fix them properly, from the architecture level.</p>
+    <div style="display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap">
+      <span style="font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--teal)">♿ WCAG 2.1 AA</span>
+      <span style="font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--muted)">Section 508</span>
+      <span style="font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--muted)">Storyline 360</span>
+      <span style="font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--muted)">Interactive checklists</span>
+    </div>
+  </div>
+</div>
+
+<div class="guide-layout">
+  <nav class="guide-nav" aria-label="Guide sections">
+    <span class="gn-heading">Sections</span>
+    <a class="gn-link active" onclick="scrollTo('s1')">01 · Focus Order</a>
+    <a class="gn-link" onclick="scrollTo('s2')">02 · Colour Contrast</a>
+    <a class="gn-link" onclick="scrollTo('s3')">03 · Alt Text Strategy</a>
+    <a class="gn-link" onclick="scrollTo('s4')">04 · Keyboard Navigation</a>
+    <a class="gn-link" onclick="scrollTo('s5')">05 · Screen Reader Text</a>
+    <a class="gn-link" onclick="scrollTo('s6')">06 · Captions & Transcripts</a>
+    <a class="gn-link" onclick="scrollTo('s7')">07 · Audit Checklist</a>
+    <span class="gn-heading" style="margin-top:1.5rem">Standards</span>
+    <a class="gn-link" href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank">WCAG 2.1 Quick Ref ↗</a>
+    <a class="gn-link" href="https://www.section508.gov/" target="_blank">Section 508 ↗</a>
+    <a class="gn-link" href="sl-snippets.html">JS Snippets Library →</a>
+  </nav>
+
+  <div class="guide-content">
+
+    <!-- SECTION 1: FOCUS ORDER -->
+    <div class="guide-section" id="s1">
+      <div class="gs-num">01</div>
+      <h2 class="gs-title">Focus Order — <em>The Foundation</em></h2>
+      <p class="gs-intro">Storyline sets tab order based on the order objects were created on the slide — which almost never matches logical reading order. This means keyboard users Tab through your course in a random, confusing sequence. Every single interactive course needs explicit focus order defined. This is the most common accessibility failure in Storyline courses.</p>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">Why Storyline's default is broken <span class="badge badge-wcag">WCAG 2.4.3 — Level A</span></div>
+        <div class="gs-rule-body">When you build a slide in Storyline, objects are assigned tab positions based on creation sequence. If you draw a button, then the title, then another button, the tab order is: button 1 → title → button 2. Not title → button 1 → button 2. The default is never logical unless you created every object in perfect reading order — which never happens in practice.</div>
+      </div>
+
+      <div class="gs-do-dont">
+        <div class="gs-do">
+          <div class="gs-do-title">✓ Do This</div>
+          <ul class="gs-list">
+            <li>Set tab order explicitly on every slide with interactive elements</li>
+            <li>Use the Tab Order dialog (Home → Tab Order) before publishing</li>
+            <li>Follow visual reading order: top-left → top-right → bottom-left → bottom-right</li>
+            <li>Exclude purely decorative elements from tab order (set to -1)</li>
+            <li>Test with Tab key before every course publish</li>
+          </ul>
+        </div>
+        <div class="gs-dont">
+          <div class="gs-dont-title">✗ Not This</div>
+          <ul class="gs-list">
+            <li>Relying on Storyline's automatic tab order</li>
+            <li>Setting all tabIndex values to 0 (browser-default, still unpredictable)</li>
+            <li>Including decorative images in tab order</li>
+            <li>Testing accessibility only by clicking — always test with keyboard too</li>
+            <li>Adding alt text without also checking focus order</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">How to Fix It in Storyline <span class="badge badge-pass">Actionable</span></div>
+        <div class="gs-rule-body" style="line-height:1.8">
+          <strong style="color:var(--text)">Step 1:</strong> Go to Home tab → Tab Order (or press Alt+T)<br>
+          <strong style="color:var(--text)">Step 2:</strong> Reorder items to match visual reading order by dragging<br>
+          <strong style="color:var(--text)">Step 3:</strong> Set decorative images to "excluded" by clicking the eye icon<br>
+          <strong style="color:var(--text)">Step 4:</strong> For complex interactions, use JavaScript to enforce order programmatically (see JS Snippets)
+        </div>
+      </div>
+
+      <div class="gs-code">// Test focus order in browser DevTools console
+// Tab through the slide and run this to see current focused element:
+document.addEventListener('focusin', function(e) {
+  console.log('Focused:', e.target.tagName, e.target.id, 
+              'tabIndex:', e.target.tabIndex);
+});</div>
+    </div>
+
+    <!-- SECTION 2: COLOUR CONTRAST -->
+    <div class="guide-section" id="s2">
+      <div class="gs-num">02</div>
+      <h2 class="gs-title">Colour Contrast — <em>The Numbers That Matter</em></h2>
+      <p class="gs-intro">WCAG 2.1 Level AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt or 14pt bold). Most Storyline templates fail this standard. "Dark text on light background" is not enough — you need to measure the actual ratio.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1.75rem">
+        <div class="contrast-demo" style="background:#1e1e1e">
+          <div class="contrast-ratio-big ratio-fail">2.1:1</div>
+          <div style="font-family:var(--mono);font-size:.6rem;color:var(--red);margin:.4rem 0">✗ FAIL — Below AA minimum</div>
+          <div style="color:#555;font-family:var(--sans);font-size:.88rem">Text that looks like this is unreadable for many users</div>
+        </div>
+        <div class="contrast-demo" style="background:var(--surface)">
+          <div class="contrast-ratio-big ratio-pass">7.2:1</div>
+          <div style="font-family:var(--mono);font-size:.6rem;color:var(--teal);margin:.4rem 0">✓ PASS — Exceeds AA, meets AAA</div>
+          <div style="color:var(--text);font-family:var(--sans);font-size:.88rem">Text that looks like this is clearly readable</div>
+        </div>
+      </div>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">The Minimum Requirements <span class="badge badge-wcag">WCAG 1.4.3 — Level AA</span></div>
+        <div class="gs-rule-body" style="line-height:1.9">
+          <strong style="color:var(--text)">Normal text (under 18pt / under 14pt bold):</strong> Minimum 4.5:1 contrast ratio<br>
+          <strong style="color:var(--text)">Large text (18pt+ / 14pt+ bold):</strong> Minimum 3:1 contrast ratio<br>
+          <strong style="color:var(--text)">UI components and icons:</strong> Minimum 3:1 against adjacent colours<br>
+          <strong style="color:var(--text)">Decorative text in images:</strong> No requirement (but avoid putting critical info in images)<br>
+          <strong style="color:var(--text)">Disabled controls:</strong> No requirement (but make it visually clear they're disabled)
+        </div>
+      </div>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">Tools for Checking Contrast <span class="badge badge-pass">Free Tools</span></div>
+        <div class="gs-rule-body" style="line-height:1.9">
+          <strong style="color:var(--text)">WebAIM Contrast Checker</strong> — webaim.org/resources/contrastchecker — paste hex codes, get instant ratio<br>
+          <strong style="color:var(--text)">Colour Contrast Analyser</strong> — TPGi app — pipette any colour from your screen<br>
+          <strong style="color:var(--text)">Chrome DevTools</strong> — hover over any element in inspector, contrast ratio appears in tooltip<br>
+          <strong style="color:var(--text)">axe DevTools</strong> — browser extension that audits an entire page automatically
+        </div>
+      </div>
+
+      <div class="gs-do-dont">
+        <div class="gs-do">
+          <div class="gs-do-title">✓ Colour Pairs That Pass</div>
+          <ul class="gs-list">
+            <li>#E4E8F1 on #080C18 — 13.2:1 (AAA)</li>
+            <li>#F0B429 on #080C18 — 7.2:1 (AAA)</li>
+            <li>#2FCCA1 on #080C18 — 6.1:1 (AA)</li>
+            <li>#000000 on #FFFFFF — 21:1 (Maximum)</li>
+            <li>#FFFFFF on #1A6CF0 — 4.7:1 (AA)</li>
+          </ul>
+        </div>
+        <div class="gs-dont">
+          <div class="gs-dont-title">✗ Colour Pairs That Fail</div>
+          <ul class="gs-list">
+            <li>#777777 on #AAAAAA — 1.8:1 (Fail)</li>
+            <li>#4B4B4B on #282828 — 1.7:1 (Fail)</li>
+            <li>Grey text on white without measuring</li>
+            <li>Light blue on white (common Storyline default)</li>
+            <li>Yellow on white — almost always fails</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: ALT TEXT -->
+    <div class="guide-section" id="s3">
+      <div class="gs-num">03</div>
+      <h2 class="gs-title">Alt Text Strategy — <em>Not Just "Add Alt Text"</em></h2>
+      <p class="gs-intro">Alt text is not just about adding a description to every image. The strategy depends on whether the image is informational, decorative, complex, or functional. Wrong alt text is sometimes worse than missing alt text — it creates confusion and noise for screen reader users.</p>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">The Four Types of Images <span class="badge badge-wcag">WCAG 1.1.1 — Level A</span></div>
+        <div class="gs-rule-body" style="line-height:1.9">
+          <strong style="color:var(--text)">1. Informational:</strong> Conveys information necessary to understand the content → Must have descriptive alt text that conveys the same information<br>
+          <strong style="color:var(--text)">2. Decorative:</strong> Only for visual effect, adds no information → Set alt="" (empty) to be skipped by screen readers. In Storyline: uncheck "Object is visible to accessibility tools"<br>
+          <strong style="color:var(--text)">3. Functional:</strong> A button or link with an image → Alt text should describe the function, not the image ("Submit form", not "Arrow pointing right")<br>
+          <strong style="color:var(--text)">4. Complex:</strong> Charts, graphs, diagrams → Short alt text plus a long description — or equivalent text on the slide itself
+        </div>
+      </div>
+
+      <div class="gs-do-dont">
+        <div class="gs-do">
+          <div class="gs-do-title">✓ Good Alt Text Examples</div>
+          <ul class="gs-list">
+            <li>Chart: "Bar chart showing 40% increase in errors after training gap"</li>
+            <li>Workflow: "5-step compliance process: Identify → Assess → Report → Document → Review"</li>
+            <li>Person: "Doctor reviewing patient chart in hospital setting"</li>
+            <li>Button with icon: "Submit quiz answers"</li>
+            <li>Decorative swirl: alt="" (empty — correctly excluded)</li>
+          </ul>
+        </div>
+        <div class="gs-dont">
+          <div class="gs-dont-title">✗ Bad Alt Text Examples</div>
+          <ul class="gs-list">
+            <li>"image" or "graphic" — meaningless to screen reader users</li>
+            <li>"photo1.jpg" — file name as alt text</li>
+            <li>Repeating the adjacent caption word-for-word</li>
+            <li>Adding alt text to purely decorative images (creates noise)</li>
+            <li>"Click here button" for a button — redundant word "button"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">Setting Alt Text in Storyline <span class="badge badge-pass">Step by Step</span></div>
+        <div class="gs-rule-body" style="line-height:1.9">
+          <strong style="color:var(--text)">For informational images:</strong> Right-click → Accessibility → type in "Alt Text" field<br>
+          <strong style="color:var(--text)">For decorative images:</strong> Right-click → Accessibility → uncheck "Object is visible to accessibility tools"<br>
+          <strong style="color:var(--text)">For complex charts:</strong> Add alt text AND provide equivalent text on the slide or in an expandable section<br>
+          <strong style="color:var(--text)">Audit tool:</strong> Publish to HTML5 → open in browser → run axe DevTools extension → it will flag every missing alt text
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: KEYBOARD NAV -->
+    <div class="guide-section" id="s4">
+      <div class="gs-num">04</div>
+      <h2 class="gs-title">Keyboard Navigation — <em>Every Interaction</em></h2>
+      <p class="gs-intro">All interactive elements in a Storyline course must be operable by keyboard alone — Tab to focus, Enter or Space to activate, Escape to close. Drag-and-drop, click-and-reveal, and custom interactions must have keyboard equivalents. This is the hardest accessibility requirement to retrofit — it must be designed in from the start.</p>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">Required Keyboard Behaviours <span class="badge badge-wcag">WCAG 2.1.1 — Level A</span></div>
+        <div class="gs-rule-body" style="line-height:1.9">
+          <strong style="color:var(--text)">Tab:</strong> Move focus to next focusable element<br>
+          <strong style="color:var(--text)">Shift + Tab:</strong> Move focus to previous focusable element<br>
+          <strong style="color:var(--text)">Enter / Space:</strong> Activate focused button, link, or control<br>
+          <strong style="color:var(--text)">Escape:</strong> Close modal, popup, or overlay layer<br>
+          <strong style="color:var(--text)">Arrow keys:</strong> Navigate within a component (radio buttons, sliders, accordions)
+        </div>
+      </div>
+
+      <div class="gs-code">// Make a custom Storyline button keyboard-accessible
+var btn = document.getElementById("your-button-id");
+if (btn) {
+  // Ensure it's focusable
+  btn.tabIndex = 1;
+  btn.setAttribute("role", "button");
+  btn.setAttribute("aria-label", "Describe what this does");
+
+  // Activate on Enter or Space
+  btn.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      btn.click(); // Triggers Storyline's click action
+    }
+  });
+
+  // Escape closes any open layer
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      var player = GetPlayer();
+      player.SetVar("CloseLayer", true);
+    }
+  });
+}</div>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">Drag and Drop — The Hardest One <span class="badge badge-fail">Common Failure</span></div>
+        <div class="gs-rule-body">Storyline's built-in drag-and-drop is completely inaccessible to keyboard users. There is no keyboard activation, no focus management, and no screen reader announcements. The only compliant solution is to build a keyboard alternative — either a separate interaction or a custom JS drag-and-drop. See the JS Snippets library for the tab order management code.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: SCREEN READER -->
+    <div class="guide-section" id="s5">
+      <div class="gs-num">05</div>
+      <h2 class="gs-title">Screen Reader Text — <em>What Gets Announced</em></h2>
+      <p class="gs-intro">Screen readers announce content in the order it appears in the DOM — which in Storyline is determined by the layer order and the tab order you set. Understanding what gets announced and when is essential for building truly accessible Storyline courses.</p>
+
+      <div class="gs-rule">
+        <div class="gs-rule-title">What Storyline Announces by Default</div>
+        <div class="gs-rule-body" style="line-height:1.9">
+          <strong style="color:var(--text)">Text boxes:</strong> Content is read if the object is in the tab order<br>
+          <strong style="color:var(--text)">Buttons:</strong> Announced as "button" + the button label<br>
+          <strong style="color:var(--text)">Images:</strong> Alt text is read, or "graphic" if no alt text set<br>
+          <strong style="color:var(--text)">Images with "not visible to accessibility tools":</strong> Skipped entirely<br>
+          <strong style="color:var(--text)">State changes:</strong> NOT automatically announced — must use ARIA live regions
+        </div>
+      </div>
+
+      <div class="gs-code">// Announce dynamic changes to screen readers
+// (e.g. when quiz feedback appears, when score updates)
+function announceToScreenReader(message) {
+  var region = document.getElementById("sr-announcer");
+  if (!region) {
+    region = document.createElement("div");
+    region.id = "sr-announcer";
+    region.setAttribute("role", "status");
+    region.setAttribute("aria-live", "polite");
+    region.setAttribute("aria-atomic", "true");
+    region.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px";
+    document.body.appendChild(region);
+  }
+  region.textContent = "";
+  setTimeout(function() { region.textContent = message; }, 100);
+}
+
+// Call whenever state changes that users need to know about:
+announceToScreenReader("Correct answer. Your score is now 80 out of 100.");
+announceToScreenReader("Drag and drop complete. All items placed correctly.");</div>
+    </div>
+
+    <!-- SECTION 6: CAPTIONS -->
+    <div class="guide-section" id="s6">
+      <div class="gs-num">06</div>
+      <h2 class="gs-title">Captions & Transcripts — <em>All Audio and Video</em></h2>
+      <p class="gs-intro">All pre-recorded audio and video content must have captions. Live audio must have real-time captions. Audio-only content (e.g. narration over a static image) must have a transcript. This applies to videos embedded in Storyline, Vyond animations with audio, and recorded narration.</p>
+
+      <div class="gs-do-dont">
+        <div class="gs-do">
+          <div class="gs-do-title">✓ Compliant Approach</div>
+          <ul class="gs-list">
+            <li>Add closed captions (SRT or VTT file) to all videos</li>
+            <li>Use Storyline's built-in caption support for narrated slides</li>
+            <li>Provide a transcript download link for audio-only content</li>
+            <li>Caption all Vyond and Camtasia videos before embedding</li>
+            <li>Auto-captions reviewed and corrected before publishing</li>
+          </ul>
+        </div>
+        <div class="gs-dont">
+          <div class="gs-dont-title">✗ Non-Compliant</div>
+          <ul class="gs-list">
+            <li>Video with no captions at all</li>
+            <li>Auto-captions published without human review</li>
+            <li>Captions as a separate PDF download (not synchronized)</li>
+            <li>"Transcript available on request" — must be immediately available</li>
+            <li>Captions that only show the speaker's name, not the content</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: AUDIT CHECKLIST -->
+    <div class="guide-section" id="s7">
+      <div class="gs-num">07</div>
+      <h2 class="gs-title">Pre-Publish <em>Audit Checklist</em></h2>
+      <p class="gs-intro">Run through this checklist before publishing every Storyline course. Track your progress — click each item to mark it complete.</p>
+
+      <div class="progress-band">
+        <div class="prog-track"><div class="prog-fill" id="chk-prog" style="width:0%"></div></div>
+        <span class="prog-text" id="chk-pct">0 / 20 complete</span>
+      </div>
+
+      <div class="checklist" id="checklist">
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Tab order set explicitly on all slides with interactive elements</div><div class="chk-sc">WCAG 2.4.3 — Focus Order</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Tab order follows visual reading order (top-left to bottom-right)</div><div class="chk-sc">WCAG 2.4.3 — Focus Order</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Decorative images excluded from tab order and accessibility tools</div><div class="chk-sc">WCAG 1.1.1 — Non-text Content</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">All informational images have descriptive alt text</div><div class="chk-sc">WCAG 1.1.1 — Non-text Content</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">All buttons have meaningful accessible names (not just "Button 1")</div><div class="chk-sc">WCAG 4.1.2 — Name, Role, Value</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Normal text contrast ratio ≥ 4.5:1 (checked with contrast tool)</div><div class="chk-sc">WCAG 1.4.3 — Contrast (Minimum)</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Large text contrast ratio ≥ 3:1</div><div class="chk-sc">WCAG 1.4.3 — Contrast (Minimum)</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">UI component contrast ratio ≥ 3:1</div><div class="chk-sc">WCAG 1.4.11 — Non-text Contrast</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">All interactive elements reachable by Tab key</div><div class="chk-sc">WCAG 2.1.1 — Keyboard</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">All interactive elements activatable by Enter or Space key</div><div class="chk-sc">WCAG 2.1.1 — Keyboard</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Modals and layers can be closed with Escape key</div><div class="chk-sc">WCAG 2.1.2 — No Keyboard Trap</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Focus indicator visible on all interactive elements</div><div class="chk-sc">WCAG 2.4.7 — Focus Visible</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">All videos have synchronized closed captions</div><div class="chk-sc">WCAG 1.2.2 — Captions (Prerecorded)</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Slide narration has caption track or transcript</div><div class="chk-sc">WCAG 1.2.1 — Audio-only / Video-only</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">No information conveyed by colour alone</div><div class="chk-sc">WCAG 1.4.1 — Use of Colour</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Text can be resized 200% without loss of functionality</div><div class="chk-sc">WCAG 1.4.4 — Resize Text</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Error messages identify the field and describe the fix</div><div class="chk-sc">WCAG 3.3.1 — Error Identification</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Time limits have warnings and can be extended</div><div class="chk-sc">WCAG 2.2.1 — Timing Adjustable</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">No content flashes more than 3 times per second</div><div class="chk-sc">WCAG 2.3.1 — Three Flashes</div></div></div>
+        <div class="chk-item" onclick="toggleChk(this)"><div class="chk-box"></div><div><div class="chk-label">Tested with keyboard only (no mouse) — entire course navigable</div><div class="chk-sc">Final verification</div></div></div>
+      </div>
+    </div>
+
+  </div><!-- /guide-content -->
+</div><!-- /guide-layout -->
+
+<div class="cta-band">
+  <div class="eyebrow">See accessibility applied</div>
+  <div class="cta-band-title">Want to see these principles<br><em>in real projects?</em></div>
+  <a href="work.html" class="btn-dark">See My Work →</a>
+  <a href="sl-snippets.html" class="btn-dark outline">JS Snippets Library →</a>
+</div>
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer & eLearning Developer · 2024</div>
+  <ul class="footer-links"><li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li><li><a href="work.html">Work</a></li><li><a href="contact.html">Contact</a></li></ul>
+</footer>
+<script src="main.js"></script>
+<script>
+function scrollTo(id){ document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'}); }
+function toggleChk(item){
+  item.classList.toggle('done');
+  if(item.classList.contains('done')) item.querySelector('.chk-box').textContent='✓';
+  else item.querySelector('.chk-box').textContent='';
+  updateProgress();
+}
+function updateProgress(){
+  const all=document.querySelectorAll('.chk-item').length;
+  const done=document.querySelectorAll('.chk-item.done').length;
+  document.getElementById('chk-prog').style.width=(done/all*100)+'%';
+  document.getElementById('chk-pct').textContent=done+' / '+all+' complete';
+}
+// Sidebar active on scroll
+const sections=['s1','s2','s3','s4','s5','s6','s7'];
+window.addEventListener('scroll',function(){
+  let current='';
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&el.getBoundingClientRect().top<200)current=id;
+  });
+  document.querySelectorAll('.gn-link').forEach(l=>{
+    l.classList.toggle('active',l.getAttribute('onclick')&&l.getAttribute('onclick').includes(current));
+  });
+});
+</script>
+</body>
+</html>

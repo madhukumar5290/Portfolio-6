@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Madhu Kumar Sikilammetla — Instructional Designer & eLearning Developer. 7+ years building ADA-accessible, SCORM/xAPI courses.">
+<title>Madhu Kumar Sikilammetla | Instructional Designer & eLearning Developer</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--nav-h)+3.5rem) var(--ph) 3rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;background:var(--grad-hero);opacity:.8}
+.hero-dots{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(79,142,247,.15) 1px,transparent 1px);background-size:30px 30px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+.hero-inner{display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:center;position:relative;z-index:1;max-width:1400px}
+.hero-avail{display:inline-flex;align-items:center;gap:.65rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:1.75rem;background:rgba(48,213,168,.07);border:1px solid rgba(48,213,168,.2);padding:.45rem 1rem;width:fit-content}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.3rem,6.5vw,6.8rem);font-weight:400;line-height:1.02;letter-spacing:-.03em;color:var(--text);margin-bottom:.35rem}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-h1 .hl{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-family:var(--mono);font-size:clamp(.58rem,.9vw,.75rem);letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1.75rem}
+.hero-body{font-family:var(--sans);font-size:clamp(.9rem,1.2vw,1.05rem);line-height:1.8;color:var(--text2);margin-bottom:2.5rem;max-width:560px}
+.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-rec{background:transparent;color:var(--muted);border:1px solid var(--border2);font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.88rem 1.6rem;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-rec:hover{border-color:var(--text2);color:var(--text)}
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border2);border-left:1px solid var(--border2)}
+.stat{padding:1.4rem 1.5rem;border-right:1px solid var(--border2);border-bottom:1px solid var(--border2)}
+.stat-n{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:300;color:var(--gold);line-height:1;display:block;margin-bottom:.2rem}
+.stat-l{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* Profile card */
+.hero-card{background:var(--surface);border:1px solid var(--border2);padding:1.5rem;box-shadow:var(--shadow)}
+.hero-card-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;margin-bottom:1.1rem;border:1px solid var(--border)}
+.hero-card-name{font-family:var(--sans);font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.15rem}
+.hero-card-role{font-family:var(--mono);font-size:.54rem;letter-spacing:.07em;color:var(--blue2);margin-bottom:.3rem;line-height:1.4}
+.hero-card-loc{font-family:var(--mono);font-size:.54rem;letter-spacing:.06em;color:var(--muted);margin-bottom:.85rem}
+
+/* ── PILLARS ── */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:3rem}
+.pillar{background:var(--bg2);padding:2.75rem;transition:background .3s;position:relative;overflow:hidden}
+.pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad-gold);transform:scaleX(0);transition:transform .4s;transform-origin:left}
+.pillar:hover{background:var(--bg3)}.pillar:hover::before{transform:scaleX(1)}
+.pillar-n{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:var(--muted);margin-bottom:1.1rem}
+.pillar-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.pillar-title{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--text);margin-bottom:.75rem;line-height:1.2}
+.pillar-body{font-family:var(--sans);font-size:.85rem;line-height:1.7;color:var(--text2);margin-bottom:1rem}
+
+/* ── VIDEO ── */
+.video-split{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.video-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--blue2);margin-bottom:1.25rem;display:flex;align-items:center;gap:.65rem}
+.video-label::before{content:'';width:24px;height:1px;background:var(--blue)}
+.video-h{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,3rem);font-weight:400;color:var(--text);line-height:1.1;margin-bottom:1.1rem}
+.video-h em{font-style:italic;color:var(--gold)}
+.video-p{font-family:var(--sans);font-size:.9rem;line-height:1.8;color:var(--text2);margin-bottom:1.75rem}
+.video-frame{position:relative;width:100%;aspect-ratio:16/9;background:var(--surface);border:1px solid var(--border2);overflow:hidden;box-shadow:var(--shadow-lg)}
+.video-frame::before{content:'';position:absolute;inset:-1px;background:linear-gradient(135deg,var(--gold),var(--blue),var(--teal));z-index:-1;border-radius:1px}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+
+/* ── HOME PROJECTS ── */
+.home-projects{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:3rem}
+
+/* ── A11Y DEMOS ── */
+.a11y-section{background:var(--bg2);padding:var(--sv) var(--ph)}
+.a11y-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.a11y-demo{background:var(--bg3);padding:2.25rem}
+.demo-n{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--blue2);margin-bottom:.35rem}
+.demo-title{font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.demo-sub{font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;color:var(--muted);margin-bottom:1.25rem}
+.toggle-wrap{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.toggle-lbl{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:var(--surface2);border:1px solid var(--border2);cursor:pointer;transition:.3s;border-radius:24px}
+.toggle-slider::before{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;background:var(--muted);border-radius:50%;transition:.3s}
+input:checked+.toggle-slider{background:var(--teal);border-color:var(--teal)}
+input:checked+.toggle-slider::before{background:#fff;transform:translateX(20px)}
+.fd-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.65rem}
+.fd-grid button{font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;text-transform:uppercase;padding:.58rem .7rem;border:1px solid var(--border);background:var(--surface);color:var(--text2);transition:all .2s}
+.fd-grid button:focus{outline:2px solid var(--gold);outline-offset:2px;background:var(--surface2);color:var(--text)}
+.cc-card{padding:1rem 1.25rem;transition:all .3s;border:1px solid transparent}
+.cc-ratio{font-family:var(--mono);font-size:.55rem;margin-bottom:.35rem}
+.cc-fail{color:var(--red)}.cc-pass{color:var(--teal)}
+.cc-ttl{font-family:var(--sans);font-size:.87rem;font-weight:600;margin-bottom:.2rem}
+.cc-txt{font-family:var(--sans);font-size:.77rem;line-height:1.5}
+.alt-row{display:flex;gap:.75rem;flex-wrap:wrap}
+.alt-item{flex:1;min-width:110px;background:var(--surface);border:1px solid var(--border);padding:.85rem;text-align:center}
+.alt-icon{font-size:1.4rem;display:block;margin-bottom:.35rem}
+.alt-nm{font-family:var(--mono);font-size:.52rem;letter-spacing:.07em;color:var(--muted);margin-bottom:.3rem}
+.alt-sr{background:var(--bg);border:1px solid var(--border);padding:.3rem .55rem;margin-top:.35rem;text-align:left}
+.alt-sr-lbl{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue2);margin-bottom:.12rem}
+.alt-sr-txt{font-family:var(--mono);font-size:.54rem;color:var(--text2)}
+.alt-badge{display:inline-block;font-family:var(--mono);font-size:.47rem;letter-spacing:.07em;text-transform:uppercase;padding:.14rem .45rem;border-radius:2px;margin-top:.3rem}
+.bfail{background:rgba(242,107,107,.1);color:var(--red);border:1px solid rgba(242,107,107,.25)}
+.bpass{background:rgba(48,213,168,.07);color:var(--teal);border:1px solid rgba(48,213,168,.2)}
+.kb-acc{display:flex;flex-direction:column;gap:2px}
+.kb-item{border:1px solid var(--border);overflow:hidden}
+.kb-hdr{padding:.75rem 1rem;font-family:var(--sans);font-size:.82rem;color:var(--text);display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:var(--surface);transition:background .2s}
+.kb-hdr:hover{background:var(--surface2)}.kb-hdr.acc:focus{outline:2px solid var(--gold);outline-offset:-2px}
+.kb-icn{color:var(--muted);transition:transform .3s;font-size:.7rem}
+.kb-item.open .kb-icn{transform:rotate(45deg)}
+.kb-body{font-family:var(--sans);font-size:.79rem;color:var(--text2);padding:0 1rem;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;line-height:1.6}
+.kb-item.open .kb-body{max-height:120px;padding:.65rem 1rem}
+.a11y-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);margin-top:2.5rem}
+.as-item{background:var(--bg2);padding:1.1rem;text-align:center}
+.as-lbl{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.3rem}
+.as-val{font-family:var(--sans);font-size:.85rem;font-weight:600;color:var(--teal)}
+
+/* ── TOOLS BENTO ── */
+.tools-bento{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:3rem}
+.tb{background:var(--bg2);padding:2rem;transition:background .25s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block}
+.tb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s}
+.tb:hover{background:var(--bg3)}.tb:hover::after{transform:scaleX(1)}
+.tb-badge{font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;padding:.16rem .52rem;display:inline-block;margin-bottom:.6rem}
+.tb-icon{font-size:1.75rem;margin-bottom:.7rem;display:block}
+.tb-title{font-family:var(--serif);font-size:1.1rem;font-weight:500;color:var(--text);margin-bottom:.4rem;line-height:1.25}
+.tb-body{font-family:var(--sans);font-size:.8rem;color:var(--text2);line-height:1.55;margin-bottom:.7rem}
+.tb-arrow{font-family:var(--mono);font-size:.56rem;color:var(--gold);display:flex;align-items:center;gap:.35rem;transition:gap .2s}
+.tb:hover .tb-arrow{gap:.65rem}
+.tb-large{grid-column:span 2}
+
+/* ── TESTIMONIALS ── */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.testi-card{background:var(--surface);border:1px solid var(--border2);padding:2.25rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.testi-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.testi-card::before{content:'\201C';font-family:var(--serif);font-size:6rem;color:var(--gold);position:absolute;top:.5rem;left:1.25rem;line-height:1;opacity:.15}
+.testi-q{font-family:var(--sans);font-size:.88rem;line-height:1.75;color:var(--text2);margin-bottom:1.5rem;padding-top:1rem;font-style:italic}
+.testi-author{font-family:var(--sans);font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.15rem}
+.testi-role{font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;color:var(--gold)}
+.testi-num{position:absolute;bottom:1.5rem;right:1.75rem;font-family:var(--serif);font-size:3rem;font-weight:300;color:var(--border);line-height:1}
+
+/* ── RADAR ── */
+.radar-split{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.radar-legend{display:flex;flex-direction:column;gap:.85rem;margin-top:1.75rem}
+.rl-item{display:flex;align-items:flex-start;gap:.8rem}
+.rl-dot{width:7px;height:7px;border-radius:50%;margin-top:.38rem;flex-shrink:0}
+.rl-t{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:.1rem}
+.rl-d{font-family:var(--sans);font-size:.8rem;color:var(--muted);line-height:1.45}
+
+/* ── SCROLLABLE TIMELINE ── */
+.tl-scroll-wrap{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;margin-top:2.5rem;padding-bottom:1rem}
+.tl-scroll-wrap::-webkit-scrollbar{height:3px}
+.tl-scroll-wrap::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+.tl-track{display:flex;position:relative;min-width:max-content;padding:0 2rem}
+.tl-track::before{content:'';position:absolute;top:24px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 2%,var(--border2) 10%,var(--border2) 90%,transparent 98%)}
+.tl-node{display:flex;flex-direction:column;align-items:center;width:200px;flex-shrink:0;padding:0 1.25rem;cursor:pointer}
+.tl-dot{width:14px;height:14px;background:var(--surface2);border:2px solid var(--border2);border-radius:50%;margin-bottom:.9rem;transition:all .3s;flex-shrink:0}
+.tl-node.active .tl-dot,.tl-node:hover .tl-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 5px rgba(245,200,66,.15)}
+.tl-year{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--blue2);margin-bottom:.25rem}
+.tl-role{font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.15rem;text-align:center;line-height:1.3}
+.tl-org{font-family:var(--mono);font-size:.54rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.tl-detail{background:var(--surface);border:1px solid var(--border2);padding:2rem;margin-top:2rem;display:none;border-left:3px solid var(--gold)}
+.tl-detail.active{display:block;animation:tlfd .3s ease}
+@keyframes tlfd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.tl-dt-year{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;color:var(--blue2);margin-bottom:.2rem}
+.tl-dt-title{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--text);margin-bottom:.2rem}
+.tl-dt-org{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:var(--gold);margin-bottom:.65rem}
+.tl-dt-body{font-family:var(--sans);font-size:.85rem;line-height:1.75;color:var(--text2)}
+
+/* ── RECRUITER MODAL ── */
+.r-modal{position:fixed;inset:0;z-index:1000;background:rgba(5,8,17,.96);backdrop-filter:var(--blur);display:none;align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto}
+.r-modal.open{display:flex;animation:mfade .25s ease}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.r-box{background:var(--bg3);border:1px solid var(--border3);width:100%;max-width:740px;position:relative;padding:3rem;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);margin:auto}
+.r-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all .2s}
+.r-close:hover{color:var(--gold);border-color:var(--gold)}
+.r-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.r-title{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.2rem);font-weight:400;color:var(--text);line-height:1.15;margin-bottom:.75rem}
+.r-title em{font-style:italic;color:var(--gold)}
+.r-sub{font-family:var(--sans);font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:1.75rem}
+.r-kws{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.75rem}
+.r-kw{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;padding:.24rem .65rem;background:var(--blue-dim);color:var(--blue2);border:1px solid rgba(79,142,247,.25)}
+.r-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1.75rem}
+.r-card{background:var(--surface);padding:1.4rem}
+.r-ci{font-size:1.4rem;display:block;margin-bottom:.45rem}
+.r-ct{font-family:var(--sans);font-size:.86rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.r-cb{font-family:var(--sans);font-size:.78rem;color:var(--text2);line-height:1.5}
+.r-cs{font-family:var(--mono);font-size:.58rem;color:var(--gold);margin-top:.3rem}
+.r-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+
+/* ── NEWSLETTER MODAL ── */
+.nl-modal{position:fixed;inset:0;z-index:1001;background:rgba(5,8,17,.9);backdrop-filter:var(--blur);display:none;align-items:flex-end;justify-content:center;padding:1.5rem}
+.nl-modal.open{display:flex;animation:nlup .35s ease}
+@keyframes nlup{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.nl-box{background:var(--bg3);border:1px solid var(--border3);width:100%;max-width:540px;padding:2.25rem;position:relative;box-shadow:var(--shadow-lg)}
+.nl-close{position:absolute;top:.9rem;right:.9rem;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;transition:color .2s}
+.nl-close:hover{color:var(--text)}
+.nl-star{color:var(--gold);font-size:.6rem;letter-spacing:.25em;margin-bottom:.6rem;display:block}
+.nl-title{font-family:var(--serif);font-size:1.65rem;font-weight:300;color:var(--text);line-height:1.2;margin-bottom:.6rem}
+.nl-title em{font-style:italic;color:var(--gold)}
+.nl-body{font-family:var(--sans);font-size:.84rem;line-height:1.65;color:var(--text2);margin-bottom:1.1rem}
+.nl-pts{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-bottom:1.1rem}
+.nl-pts li{font-family:var(--sans);font-size:.82rem;color:var(--text2);display:flex;align-items:center;gap:.5rem}
+.nl-pts li::before{content:'✓';color:var(--teal);font-family:var(--mono);font-size:.65rem;flex-shrink:0}
+.nl-form{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.6rem}
+.nl-inp{flex:1;min-width:160px;font-family:var(--sans);font-size:.9rem;background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:.75rem 1rem;outline:none;transition:all .2s}
+.nl-inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.1)}
+.nl-skip{font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;transition:color .2s;display:block;margin-top:.25rem}
+.nl-skip:hover{color:var(--text)}
+.nl-legal{font-family:var(--mono);font-size:.52rem;color:var(--muted);margin-top:.5rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1280px){
+  .hero-inner{grid-template-columns:1fr}.hero-card{display:none}
+  .tools-bento{grid-template-columns:1fr 1fr}.tb-large{grid-column:span 2}
+}
+@media(max-width:960px){
+  .video-split{grid-template-columns:1fr;gap:2.5rem}
+  .radar-split{grid-template-columns:1fr;gap:3rem}
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .a11y-grid{grid-template-columns:1fr}
+  .a11y-stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:768px){
+  .hero{padding-top:calc(var(--nav-h)+2rem)}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:1px solid var(--border2)}.stat:nth-child(even){border-right:none}
+  .pillars{grid-template-columns:1fr}
+  .home-projects{grid-template-columns:1fr}
+  .tools-bento{grid-template-columns:1fr}.tb-large{grid-column:span 1}
+  .testi-grid{grid-template-columns:1fr}
+  .a11y-stats{grid-template-columns:1fr 1fr}
+  .r-cards{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero-h1{font-size:2.15rem}
+  .hero-actions .btn,.hero-actions .btn-rec{padding:.78rem 1.2rem;font-size:.62rem}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .nl-form{flex-direction:column}
+  .r-box{padding:1.75rem}
+  .a11y-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" title="Back to top" aria-label="Back to top">↑</button>
+
+<!-- ANNOUNCE BAR -->
+<div class="announce-bar" id="abar">
+  <span>🎯 Open to new opportunities — <a href="contact.html">eLearning Dev, ID &amp; L&D roles</a> &nbsp;·&nbsp; <a href="ai-analyzer.html">✦ New: AI Course Analyzer →</a> &nbsp;·&nbsp; <a href="resources.html">Free Templates →</a></span>
+  <button class="ab-close" onclick="this.parentElement.style.display='none'" aria-label="Dismiss">✕</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="buzz.html">Buzz</a></li>
+    <li><a href="certifications.html">Certifications</a></li>
+    <li><a href="id-frameworks.html">ID Cheat Sheet</a></li>
+    <li><a href="articles.html">Articles</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="sl-snippets.html">JS Snippets ↗</a></li>
+    <li><a href="ai-analyzer.html">AI Analyzer ↗</a></li>
+    <li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html" class="active">Home</a>
+  <a href="work.html">Work</a><a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a><a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a><a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a><a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Course Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div><div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-avail reveal"><span class="dot-avail"></span>Available for new opportunities &nbsp;·&nbsp; Immediate start</div>
+      <h1 class="hero-h1 reveal d1">I design the course.<br>I build the interaction.<br><em>I make it <span class="hl">accessible.</span></em></h1>
+      <p class="hero-sub reveal d2">Madhu Kumar Sikilammetla &nbsp;·&nbsp; Instructional Designer &amp; eLearning Developer</p>
+      <p class="hero-body reveal d2">7+ years designing and building SCORM/xAPI-compliant, ADA-accessible learning across Healthcare, Banking, Retail, Education and Manufacturing. Custom JavaScript in Storyline 360, AR/VR with ZapWorks, 3D with Blender, and localisation across 16–22 languages.</p>
+      <div class="hero-actions reveal d3">
+        <a href="work.html" class="btn btn-primary btn-lg">See My Work →</a>
+        <a href="contact.html" class="btn btn-outline btn-lg">Let's Talk</a>
+        <button class="btn-rec btn-lg" onclick="openRecruiter()">For Recruiters ↗</button>
+      </div>
+      <div class="stats-row reveal d3">
+        <div class="stat"><span class="stat-n"><span class="counter" data-target="7" data-suffix="+">7+</span></span><span class="stat-l">Years in L&amp;D</span></div>
+        <div class="stat"><span class="stat-n"><span class="counter" data-target="20" data-suffix="+">20+</span></span><span class="stat-l">Projects Built</span></div>
+        <div class="stat"><span class="stat-n"><span class="counter" data-target="16" data-suffix="+">16+</span></span><span class="stat-l">Languages</span></div>
+        <div class="stat"><span class="stat-n"><span class="counter" data-target="5" data-suffix="+">5+</span></span><span class="stat-l">Industries</span></div>
+      </div>
+    </div>
+    <div class="hero-card reveal d2">
+      <img class="hero-card-img" src="https://lh3.googleusercontent.com/sitesv/AA5AbUDrUecff9TABrfMo6Sl2qkFbZmlRVNQypsJ1LuhV4kh4r3mpVREXZwcI0vNGCu9O62S7Kgtucn8FfksrEqkx9gknCZbneNubROplxMlW8PGWQ64i-h6ZanSLNBrUnFHSFJb8HXtl3ZJPfDEDCAQFLsMKD1jWULIzN9ZdnLyISinG-5HWmWqfJWqDT42GrnB9vu8aq8361x8whw3dQYEIsVgmYuYa64ZDOZj=w400" alt="Madhu Kumar Sikilammetla" onerror="this.src='https://ui-avatars.com/api/?name=MK&background=131B2E&color=F5C842&size=280&bold=true'">
+      <div class="hero-card-name">Madhu Kumar Sikilammetla</div>
+      <div class="hero-card-role">Instructional Designer &amp; eLearning Developer</div>
+      <div class="hero-card-loc">📍 India &nbsp;·&nbsp; <span class="dot-avail"></span>Open to Work</div>
+      <div class="tags"><span class="tag tag-b">Storyline 360</span><span class="tag tag-b">xAPI</span><span class="tag tag-g">ZapWorks</span><span class="tag tag-t">ADA/508</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap"><div class="ticker-inner">
+  <span class="ticker-item">Articulate Storyline 360</span><span class="ticker-item">Rise 360</span><span class="ticker-item">Lectora</span><span class="ticker-item">Adobe Captivate</span><span class="ticker-item">iSpring</span><span class="ticker-item">ZapWorks AR/VR</span><span class="ticker-item">Blender 3D</span><span class="ticker-item">Vyond</span><span class="ticker-item">Camtasia</span><span class="ticker-item">JavaScript</span><span class="ticker-item">xAPI · SCORM</span><span class="ticker-item">ADA / Section 508</span><span class="ticker-item">Mindtickle</span><span class="ticker-item">Docebo LMS</span><span class="ticker-item">Power Automate</span><span class="ticker-item">16–22 Languages</span><span class="ticker-item">Adobe Creative Suite</span><span class="ticker-item">DominKnow</span><span class="ticker-item">Elucidat</span>
+  <span class="ticker-item">Articulate Storyline 360</span><span class="ticker-item">Rise 360</span><span class="ticker-item">Lectora</span><span class="ticker-item">Adobe Captivate</span><span class="ticker-item">iSpring</span><span class="ticker-item">ZapWorks AR/VR</span><span class="ticker-item">Blender 3D</span><span class="ticker-item">Vyond</span><span class="ticker-item">Camtasia</span><span class="ticker-item">JavaScript</span><span class="ticker-item">xAPI · SCORM</span><span class="ticker-item">ADA / Section 508</span><span class="ticker-item">Mindtickle</span><span class="ticker-item">Docebo LMS</span><span class="ticker-item">Power Automate</span><span class="ticker-item">16–22 Languages</span><span class="ticker-item">Adobe Creative Suite</span><span class="ticker-item">DominKnow</span><span class="ticker-item">Elucidat</span>
+</div></div>
+
+<!-- WHAT I DO -->
+<section class="section section-alt">
+  <div class="eyebrow reveal">What I Do</div>
+  <h2 class="display reveal d1">Design thinking meets<br><em>engineering precision.</em></h2>
+  <div class="pillars">
+    <div class="pillar reveal d1"><div class="pillar-n">01</div><span class="pillar-icon">✏️</span><h3 class="pillar-title">Instructional Design</h3><p class="pillar-body">Scenario-based learning, branching narratives, and assessments grounded in ADDIE, SAM, Bloom's Taxonomy, and Gagné's 9 Events — designed for measurable behaviour change.</p><div class="tags"><span class="tag tag-b">ADDIE · SAM</span><span class="tag tag-b">Bloom's</span><span class="tag">Scenario Design</span></div></div>
+    <div class="pillar reveal d2"><div class="pillar-n">02</div><span class="pillar-icon">⚡</span><h3 class="pillar-title">eLearning Development</h3><p class="pillar-body">Custom JavaScript in Storyline 360, AR/VR with ZapWorks, 3D animation with Blender, video with Vyond, SCORM/xAPI packaging — built beyond the authoring tool default, every time.</p><div class="tags"><span class="tag tag-b">Storyline 360</span><span class="tag tag-b">JavaScript</span><span class="tag tag-g">ZapWorks AR</span></div></div>
+    <div class="pillar reveal d3"><div class="pillar-n">03</div><span class="pillar-icon">🌍</span><h3 class="pillar-title">Localisation &amp; Accessibility</h3><p class="pillar-body">End-to-end localisation across 16–22 languages including Arabic RTL, LMS admin on Mindtickle and Docebo, ADA/Section 508 compliance engineered from the template level.</p><div class="tags"><span class="tag tag-t">ADA / 508</span><span class="tag tag-b">16–22 Languages</span><span class="tag">RTL</span></div></div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="section">
+  <div class="video-split">
+    <div class="reveal">
+      <div class="video-label">Introduction</div>
+      <h2 class="video-h">See the work<br>in <em>action.</em></h2>
+      <p class="video-p">A walkthrough of my portfolio, design process, and the thinking behind each project — from initial storyboard to published SCORM package.</p>
+      <a href="work.html" class="btn btn-primary">Browse All Projects →</a>
+    </div>
+    <div class="reveal d2">
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/dysL1f70cvQ?rel=0&modestbranding=1" title="Portfolio Introduction" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SELECTED WORK -->
+<section class="section section-alt">
+  <div class="eyebrow reveal g">Selected Work</div>
+  <h2 class="display reveal d1">Projects that show<br><em>how I think.</em></h2>
+  <div class="home-projects">
+    <div class="project-card reveal d1" style="cursor:pointer" onclick="location.href='work.html'">
+      <div class="proj-thumb"><img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBwf5RZgw4q7TVGbgROkHXCiXDArm4QPVqMN92V1uKb7IDdcCHuPisz_OgOljHTvl5laslAXr4sRnAln2B760Ldz4aVqHeCFMIh0XcbCaS8_H903BWIimQ1JWa1VpWZ-ed1kolHz5eMFbiEuTIehENWLz-OArZOR9Vc8-sv8POPVY1hsmbYkYOSqwosnhUt7GBoSCG3uOB3wZvj4WJ2YJVX003xBoW6rWiMPCo=w640" alt="AML" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=640&q=70'"><div class="proj-overlay"><span class="proj-cta">View project →</span></div></div>
+      <div class="proj-body"><div class="proj-num">01</div><div class="proj-cat">Compliance · Banking</div><div class="proj-title">Anti-Money Laundering</div><div class="proj-desc">Branching scenario placing learners inside real suspicious transaction reviews with regulatory-grounded consequence feedback.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">ADDIE + Action Mapping · Bloom's L3</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-b">Storyline</span><span class="tag">SCORM</span></div><div class="proj-arrow">View →</div></div></div>
+    </div>
+    <div class="project-card reveal d2" style="cursor:pointer" onclick="location.href='work.html'">
+      <div class="proj-thumb"><img src="https://lh3.googleusercontent.com/sitesv/AA5AbUABSWXFa9K5AGNbZ7-Bv5oeT7XYwTbqckamuV7mEcA3cxQb3RCeYAf8NMTxdr73ybc9YbriGyVg3R6PClbG6ZcDHM_DfaphRm4Vd-sjKBq4hvywpxRjmgXcWA4izV1r4IFmqfmsZGipP9Njn2klBDWoYqMiWuGZPjO9Fny7FpILNq5OkVL17k9q-zLjzOQP2-zKqGq-bS4sp3_4VZKogefY6f_8PXFn3wso290=w640" alt="Bees" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=640&q=70'"><div class="proj-overlay"><span class="proj-cta">View project →</span></div></div>
+      <div class="proj-body"><div class="proj-num">02</div><div class="proj-cat">Game-Based · Science</div><div class="proj-title">Bees and Beehives</div><div class="proj-desc">Interactive biology game using Merrill's First Principles — starting with a real-world problem, guiding discovery over exposition.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Merrill's First Principles</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Game</span><span class="tag tag-b">Storyline</span></div><div class="proj-arrow">View →</div></div></div>
+    </div>
+    <div class="project-card reveal d1" style="cursor:pointer" onclick="location.href='work.html'">
+      <div class="proj-thumb"><img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBrcEpUJRTmgdlZSo1XwDfqT1u8KyKWZQ9ogTIZ66svAdRKdnvH-fft_jelo3ffwiB6fa4xeQB8fJCa8W9wsOLNVotWuWfsaoULwG-pCKD8_RJoFYGxHsFYV_MkPraHsJw71ig3k7u315-Ph2VIwktz3r3_pHkopyh-df6p7GrtGybgIPqeDuXTPzOAI76XgGVSHP71n2z0u1QhZXPRrMh8wf7dv6ClUoEe2JI=w640" alt="Memory" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=640&q=70'"><div class="proj-overlay"><span class="proj-cta">View project →</span></div></div>
+      <div class="proj-body"><div class="proj-num">03</div><div class="proj-cat">Game-Based · Memory</div><div class="proj-title">Memory Flash Cards</div><div class="proj-desc">Spaced repetition game grounded in the Retrieval Practice Effect. Adaptable to any subject for post-training reinforcement.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Cognitive Load · Spaced Repetition</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Game</span><span class="tag tag-b">Storyline</span></div><div class="proj-arrow">View →</div></div></div>
+    </div>
+    <a href="work.html" class="project-card reveal d2" style="display:flex;align-items:center;justify-content:center;min-height:260px;text-decoration:none;background:var(--surface)">
+      <div style="text-align:center;padding:2rem"><div style="font-family:var(--serif);font-size:4rem;color:var(--gold);font-weight:300;line-height:1;margin-bottom:.5rem">20+</div><div style="font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem">projects in portfolio</div><div class="proj-arrow" style="justify-content:center">See all →</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- A11Y DEMOS -->
+<div class="a11y-section">
+  <div class="eyebrow reveal t">♿ Accessibility Practice</div>
+  <h2 class="display reveal d1">Accessibility is<br><em>architectural.</em></h2>
+  <p style="font-family:var(--sans);font-size:.92rem;color:var(--text2);max-width:580px;margin:.75rem 0 2rem;line-height:1.7" class="reveal d2">Toggle each demo to feel the difference between broken and properly implemented accessibility in Storyline.</p>
+  <div style="background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--blue);padding:1.4rem 1.75rem;margin-bottom:2.25rem;display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap" class="reveal">
+    <span style="font-size:1.3rem;flex-shrink:0">📘</span>
+    <div style="flex:1;min-width:200px"><div style="font-family:var(--sans);font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Built in — not bolted on.</div><div style="font-family:var(--sans);font-size:.83rem;color:var(--text2);line-height:1.6">Every course I build starts from an ADA/508-compliant template. Tab order, contrast, alt text, and keyboard nav defined at architecture level.</div></div>
+    <a href="accessibility-guide.html" class="btn btn-ghost btn-sm" style="align-self:center;flex-shrink:0">Full Guide →</a>
+  </div>
+  <div class="a11y-grid reveal">
+    <div class="a11y-demo"><div class="demo-n">01</div><div class="demo-title">Focus Order</div><div class="demo-sub">Tab through the buttons</div>
+      <div class="toggle-wrap"><span class="toggle-lbl">Off</span><label class="toggle"><input type="checkbox" id="fo-t"><span class="toggle-slider"></span></label><span class="toggle-lbl">Fixed</span></div>
+      <div class="fd-grid" id="fo-demo"><button tabindex="3">Next →</button><button tabindex="1">Start</button><button tabindex="4">Help</button><button tabindex="2">Menu</button><button tabindex="5" style="grid-column:span 2">Back ←</button></div>
+      <div style="font-family:var(--mono);font-size:.54rem;margin-top:.5rem;color:var(--red)" id="fo-status">✗ Order: 3→1→4→2→5 — broken for keyboard users</div>
+    </div>
+    <div class="a11y-demo"><div class="demo-n">02</div><div class="demo-title">Colour Contrast</div><div class="demo-sub">WCAG 2.1 AA requires 4.5:1</div>
+      <div class="toggle-wrap"><span class="toggle-lbl">Off</span><label class="toggle"><input type="checkbox" id="cc-t"><span class="toggle-slider"></span></label><span class="toggle-lbl">Fixed</span></div>
+      <div class="cc-card" id="cc-card" style="background:#1a1a1a;color:#4a4a4a"><div class="cc-ratio" id="cc-ratio"><span class="cc-fail">2.1:1 ✗ FAIL</span></div><div class="cc-ttl">Module Introduction</div><div class="cc-txt">By the end of this module, you will be able to identify the three core compliance requirements.</div><button style="background:#4a4a4a;color:#6a6a6a;border:none;font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;text-transform:uppercase;padding:.5rem 1rem;cursor:pointer;margin-top:.6rem" id="cc-btn">Continue →</button></div>
+    </div>
+    <div class="a11y-demo"><div class="demo-n">03</div><div class="demo-title">Alt Text Strategy</div><div class="demo-sub">What screen readers announce</div>
+      <div class="toggle-wrap"><span class="toggle-lbl">Off</span><label class="toggle"><input type="checkbox" id="at-t"><span class="toggle-slider"></span></label><span class="toggle-lbl">Fixed</span></div>
+      <div class="alt-row"><div class="alt-item"><span class="alt-icon">📊</span><div class="alt-nm">Workflow diagram</div><div class="alt-sr"><div class="alt-sr-lbl">🔊 Screen reader:</div><div class="alt-sr-txt" id="sri">"image"</div></div><span class="alt-badge bfail" id="bi">Missing alt</span></div><div class="alt-item"><span class="alt-icon">🎨</span><div class="alt-nm">Decorative border</div><div class="alt-sr"><div class="alt-sr-lbl">🔊 Screen reader:</div><div class="alt-sr-txt">(skipped)</div></div><span class="alt-badge bpass">alt="" ✓</span></div></div>
+    </div>
+    <div class="a11y-demo"><div class="demo-n">04</div><div class="demo-title">Keyboard Navigation</div><div class="demo-sub">Try without a mouse</div>
+      <div class="toggle-wrap"><span class="toggle-lbl">Off</span><label class="toggle"><input type="checkbox" id="kn-t"><span class="toggle-slider"></span></label><span class="toggle-lbl">Fixed</span></div>
+      <div class="kb-acc" id="kb-acc">
+        <div class="kb-item"><div class="kb-hdr" onclick="kbT(this)">What is WCAG 2.1?<span class="kb-icn">+</span></div><div class="kb-body">Web Content Accessibility Guidelines — the international standard for accessible digital content, covering a wide range of disabilities.</div></div>
+        <div class="kb-item"><div class="kb-hdr" onclick="kbT(this)">Why does Storyline need custom focus?<span class="kb-icn">+</span></div><div class="kb-body">Storyline's default tab order is based on object creation sequence — which almost never matches logical reading order.</div></div>
+        <div class="kb-item"><div class="kb-hdr" onclick="kbT(this)">What is "accessible by design"?<span class="kb-icn">+</span></div><div class="kb-body">Building accessibility into the template architecture from the start — not patching individual courses after the fact.</div></div>
+      </div>
+      <p style="font-family:var(--mono);font-size:.54rem;color:var(--muted);margin-top:.55rem" id="kn-hint">Mouse-only: keyboard users locked out</p>
+    </div>
+  </div>
+  <div class="a11y-stats reveal">
+    <div class="as-item"><span class="as-lbl">Standard</span><span class="as-val">WCAG 2.1 AA</span></div>
+    <div class="as-item"><span class="as-lbl">Min. Contrast</span><span class="as-val">4.5:1</span></div>
+    <div class="as-item"><span class="as-lbl">Keyboard Nav</span><span class="as-val">All interactions</span></div>
+    <div class="as-item"><span class="as-lbl">Focus Order</span><span class="as-val">Explicitly set</span></div>
+    <div class="as-item"><span class="as-lbl">Alt Text</span><span class="as-val">Info + Decorative</span></div>
+  </div>
+</div>
+
+<!-- TOOLS BENTO -->
+<section class="section">
+  <div class="eyebrow reveal g">Tools &amp; Interactive Demos</div>
+  <h2 class="display reveal d1">Don't just read.<br><em>Try it.</em></h2>
+  <p style="font-family:var(--sans);font-size:.9rem;color:var(--text2);max-width:520px;margin-top:.65rem;line-height:1.7" class="reveal d2">Working tools, live demos, and AI-powered features. No PDFs. No screenshots. Click in.</p>
+  <div class="tools-bento reveal">
+    <a href="ai-analyzer.html" class="tb tb-large" style="background:linear-gradient(135deg,rgba(79,142,247,.08) 0%,rgba(48,213,168,.06) 100%);border-bottom:1px solid var(--border)">
+      <span class="tb-badge badge-new">✦ AI-Powered</span>
+      <span class="tb-icon">🤖</span>
+      <div class="tb-title">AI Course Quality Analyzer</div>
+      <div class="tb-body">Describe your course scenario and get instant instructional design feedback, ID model recommendations, accessibility checklist, and improvement suggestions — powered by Claude AI.</div>
+      <div class="tb-arrow">Analyze my course →</div>
+    </a>
+    <a href="sl-snippets.html" class="tb">
+      <span class="tb-badge badge-tool">Tool</span><span class="tb-icon">⚡</span>
+      <div class="tb-title">JS Snippets Library</div>
+      <div class="tb-body">100+ tested, copy-ready JavaScript snippets for Storyline 360.</div>
+      <div class="tb-arrow">Browse →</div>
+    </a>
+    <a href="resources.html" class="tb">
+      <span class="tb-badge badge-tool">Free</span><span class="tb-icon">📦</span>
+      <div class="tb-title">Free Resources</div>
+      <div class="tb-body">Templates, checklists, storyboard frameworks, and style guides.</div>
+      <div class="tb-arrow">Download →</div>
+    </a>
+    <a href="demo-xapi.html" class="tb">
+      <span class="tb-badge badge-demo">Demo</span><span class="tb-icon">📡</span>
+      <div class="tb-title">The Invisible Student</div>
+      <div class="tb-body">Step through a course and watch every action become a live xAPI statement.</div>
+      <div class="tb-arrow">Try →</div>
+    </a>
+    <a href="demo-storyboard.html" class="tb">
+      <span class="tb-badge badge-demo">Demo</span><span class="tb-icon">🗂️</span>
+      <div class="tb-title">Storyboard Generator</div>
+      <div class="tb-body">Pick a topic and ID model. Get a complete storyboard instantly.</div>
+      <div class="tb-arrow">Generate →</div>
+    </a>
+    <a href="spot-the-bug.html" class="tb">
+      <span class="tb-badge badge-game">Game</span><span class="tb-icon">🐛</span>
+      <div class="tb-title">Spot the Bug</div>
+      <div class="tb-body">5 rounds. Real accessibility violations in fake slides. 30 seconds each.</div>
+      <div class="tb-arrow">Play →</div>
+    </a>
+    <a href="id-model-selector.html" class="tb">
+      <span class="tb-badge badge-tool">Tool</span><span class="tb-icon">🧭</span>
+      <div class="tb-title">ID Model Selector</div>
+      <div class="tb-body">5 questions → personalised ID framework recommendation.</div>
+      <div class="tb-arrow">Try →</div>
+    </a>
+    <a href="lms-demo.html" class="tb">
+      <span class="tb-badge badge-demo">Demo</span><span class="tb-icon">🎓</span>
+      <div class="tb-title">Working LMS Demo</div>
+      <div class="tb-body">Fully functional LMS in your browser — lessons, quiz, certificate, xAPI.</div>
+      <div class="tb-arrow">Launch →</div>
+    </a>
+    <a href="effort-estimator.html" class="tb">
+      <span class="tb-badge badge-tool">Tool</span><span class="tb-icon">📊</span>
+      <div class="tb-title">Effort Estimator</div>
+      <div class="tb-body">Calculate project hours, cost, and timeline from your requirements.</div>
+      <div class="tb-arrow">Estimate →</div>
+    </a>
+    <a href="accessibility-guide.html" class="tb">
+      <span class="tb-badge badge-tool">Guide</span><span class="tb-icon">♿</span>
+      <div class="tb-title">Accessibility Guide</div>
+      <div class="tb-body">Practical WCAG 2.1 AA guide for Storyline with interactive checklist.</div>
+      <div class="tb-arrow">Read →</div>
+    </a>
+    <a href="demo-template.html" class="tb">
+      <span class="tb-badge badge-demo">Demo</span><span class="tb-icon">🔧</span>
+      <div class="tb-title">Interaction Patterns</div>
+      <div class="tb-body">Tabs, accordion, branching scenario, drag &amp; drop — live with code.</div>
+      <div class="tb-arrow">Explore →</div>
+    </a>
+    <a href="articles.html" class="tb">
+      <span class="tb-badge badge-tool">Writing</span><span class="tb-icon">✍️</span>
+      <div class="tb-title">Articles</div>
+      <div class="tb-body">13 practical articles on Storyline JS, accessibility, xAPI, localisation.</div>
+      <div class="tb-arrow">Read →</div>
+    </a>
+  </div>
+</section>
+
+<!-- RADAR -->
+<section class="section section-alt">
+  <div class="radar-split">
+    <div>
+      <div class="eyebrow reveal">Competency Map</div>
+      <h2 class="display reveal d1">Where I sit across<br><em>the L&D spectrum.</em></h2>
+      <p style="font-family:var(--sans);font-size:.9rem;color:var(--text2);max-width:420px;margin-top:.65rem;line-height:1.7" class="reveal d2">Seven years across five industries. Mapped honestly — grounded in real project evidence, not aspirational claims.</p>
+      <div class="radar-legend">
+        <div class="rl-item reveal d1"><div class="rl-dot" style="background:var(--blue)"></div><div><div class="rl-t">Instructional Design</div><div class="rl-d">ID models, storyboarding, learning theory as structural decisions.</div></div></div>
+        <div class="rl-item reveal d2"><div class="rl-dot" style="background:var(--blue2)"></div><div><div class="rl-t">Technical Development</div><div class="rl-d">JavaScript, ZapWorks AR/VR, Blender 3D, custom interactions.</div></div></div>
+        <div class="rl-item reveal d3"><div class="rl-dot" style="background:var(--gold)"></div><div><div class="rl-t">Accessibility &amp; Standards</div><div class="rl-d">ADA/508, WCAG 2.1 AA — engineered from template level.</div></div></div>
+        <div class="rl-item reveal"><div class="rl-dot" style="background:var(--teal)"></div><div><div class="rl-t">Localisation (16–22 Languages)</div><div class="rl-d">RTL support, Arabic, multi-region LMS deployment.</div></div></div>
+        <div class="rl-item reveal d1"><div class="rl-dot" style="background:var(--red)"></div><div><div class="rl-t">LMS &amp; Operations</div><div class="rl-d">Mindtickle, Docebo, SCORM Cloud, Power Automate.</div></div></div>
+      </div>
+    </div>
+    <div class="reveal d2"><canvas id="radar" width="420" height="420" style="max-width:100%"></canvas></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section">
+  <div class="eyebrow reveal">The Journey</div>
+  <h2 class="display reveal d1">The path that built<br><em>this skillset.</em></h2>
+  <p style="font-family:var(--sans);font-size:.9rem;color:var(--text2);max-width:480px;margin-top:.65rem;line-height:1.7" class="reveal d2">Started in L&D in 2018. Every role added a layer. Click any milestone to expand.</p>
+  <div class="tl-scroll-wrap reveal" data-drag-scroll id="tl-scroll">
+    <div class="tl-track">
+      <div class="tl-node active" data-i="0" onclick="tlS(this)"><div class="tl-dot"></div><div class="tl-year">2018</div><div class="tl-role">eLearning Developer</div><div class="tl-org">CommLab India</div></div>
+      <div class="tl-node" data-i="1" onclick="tlS(this)"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-role">Freelance ID &amp; Dev</div><div class="tl-org">Independent</div></div>
+      <div class="tl-node" data-i="2" onclick="tlS(this)"><div class="tl-dot"></div><div class="tl-year">2021</div><div class="tl-role">Digital Learning Experience Dev</div><div class="tl-org">Previous Employer</div></div>
+      <div class="tl-node" data-i="3" onclick="tlS(this)"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-role">Senior Learning Developer</div><div class="tl-org">Current Role</div></div>
+      <div class="tl-node" data-i="4" onclick="tlS(this)"><div class="tl-dot"></div><div class="tl-year">Now</div><div class="tl-role">Open to Work</div><div class="tl-org">Available</div></div>
+    </div>
+  </div>
+  <div id="tl-details">
+    <div class="tl-detail active" data-i="0"><div class="tl-dt-year">Sep 2018 – Sep 2021 · 3 years</div><div class="tl-dt-title">eLearning Developer</div><div class="tl-dt-org">CommLab India LLP</div><div class="tl-dt-body">Built the technical foundation — Storyline 360, Rise, Lectora, Captivate, Flash-to-HTML5 conversions, multi-language localisation, and custom JavaScript interactions across multiple industries.</div></div>
+    <div class="tl-detail" data-i="1"><div class="tl-dt-year">2020 – Present · 5+ years</div><div class="tl-dt-title">Freelance Instructional Designer &amp; eLearning Developer</div><div class="tl-dt-org">Independent · Multiple Clients Globally</div><div class="tl-dt-body">Full L&D stack — storyboarding, ID framework application, Storyline development, accessibility audits, LMS configuration, and multi-language localisation across Healthcare, Banking, Education, and Non-Profit sectors.</div></div>
+    <div class="tl-detail" data-i="2"><div class="tl-dt-year">Sep 2021 – Oct 2023 · 2 years</div><div class="tl-dt-title">Digital Learning Experience Developer</div><div class="tl-dt-org">Previous Employer</div><div class="tl-dt-body">Expanded into ADA/508-compliant builds, AR/VR with ZapWorks, Blender 3D animations, Vyond video production, and localisation workflows across 16+ languages including Arabic RTL.</div></div>
+    <div class="tl-detail" data-i="3"><div class="tl-dt-year">Oct 2023 – Present · 1+ years</div><div class="tl-dt-title">Senior Learning Developer</div><div class="tl-dt-org">Current Employer</div><div class="tl-dt-body">Senior role covering full-stack L&D delivery — needs analysis, ID, technical development, LMS administration, learning analytics, mentoring junior developers, and establishing accessibility standards.</div></div>
+    <div class="tl-detail" data-i="4"><div class="tl-dt-year">Now · Open to new opportunities</div><div class="tl-dt-title">Available for Freelance &amp; Full-Time</div><div class="tl-dt-org">Immediate start available</div><div class="tl-dt-body">7+ years across the full L&D stack. Open to freelance, full-time, and contract engagements globally. Get in touch via the contact page or LinkedIn.</div></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;color:var(--muted);margin-top:1rem;text-align:center">← Drag or scroll · Click any milestone to expand →</p>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section section-alt">
+  <div class="eyebrow reveal g">What People Say</div>
+  <h2 class="display reveal d1">Straight from the<br><em>people I've worked with.</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card reveal d1">
+      <div class="testi-q">Madhu is a highly skilled professional with fantastic ideas, attention to detail, and delivers high impact programs that produce amazing results.</div>
+      <div class="testi-author">Amit Goyal</div>
+      <div class="testi-role">Sr. Director Content &amp; Operations · Acadecraft</div>
+      <div class="testi-num">01</div>
+    </div>
+    <div class="testi-card reveal d2">
+      <div class="testi-q">Madhu definitely stands out for his diligence, adaptability, very high level of professionalism, and attention to quality. He has the insight to balance learner needs with project parameters.</div>
+      <div class="testi-author">Vineet Jaishwal</div>
+      <div class="testi-role">Training Development Lead</div>
+      <div class="testi-num">02</div>
+    </div>
+    <div class="testi-card reveal d3">
+      <div class="testi-q">Madhu provided excellent instructional design and development services. I found his work to be very innovative and well received by stakeholders. He was a pleasure to work with.</div>
+      <div class="testi-author">Mohmad Husnain</div>
+      <div class="testi-role">Lead Training Consultant</div>
+      <div class="testi-num">03</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:2.5rem"><a href="buzz.html" class="btn btn-outline">Read All Testimonials →</a></div>
+</section>
+
+<!-- NEWSLETTER BAND -->
+<div style="background:var(--bg3);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);padding:2.5rem var(--ph);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
+  <div><div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue2);margin-bottom:.35rem">✦ Newsletter · The Hard Part</div><div style="font-family:var(--serif);font-size:1.2rem;color:var(--text)">Practical L&D writing — <em style="color:var(--gold)">in your inbox.</em></div><div style="font-family:var(--sans);font-size:.82rem;color:var(--muted);margin-top:.2rem">Storyline JS, accessibility, xAPI, game design. No recycled theory.</div></div>
+  <button class="btn btn-primary" onclick="openNL()">Subscribe →</button>
+</div>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="eyebrow">Let's build something</div>
+  <div class="cta-band-title">Most IDs design it.<br>Most devs build it.<br><em>I do both.</em></div>
+  <a href="contact.html" class="btn-band btn-band-primary">Get in Touch →</a>
+  <a href="work.html" class="btn-band btn-band-outline">See My Work</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">MK. Madhu Kumar Sikilammetla</div>
+      <div class="footer-desc">Instructional Designer &amp; eLearning Developer. 7+ years building accessible, multilingual, SCORM/xAPI-compliant learning experiences.</div>
+    </div>
+    <div class="footer-links-grid">
+      <div class="footer-col">
+        <div class="footer-col-title">Portfolio</div>
+        <a href="work.html">Work</a><a href="about.html">About</a>
+        <a href="buzz.html">Buzz</a><a href="certifications.html">Certifications</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Resources</div>
+        <a href="articles.html">Articles</a><a href="resources.html">Free Templates</a>
+        <a href="id-frameworks.html">ID Cheat Sheet</a><a href="sl-snippets.html">JS Snippets</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Tools</div>
+        <a href="ai-analyzer.html">AI Analyzer</a><a href="lms-demo.html">LMS Demo</a>
+        <a href="effort-estimator.html">Effort Estimator</a><a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 Madhu Kumar Sikilammetla · All rights reserved</div>
+    <div class="footer-socials">
+      <a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a>
+      <a href="https://drive.google.com/file/d/1wsBtUEBdSjdLwK7CxFID6ttaW6afTxf6/view" target="_blank">CV / Resume</a>
+      <a href="mailto:madhukumar5290@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WCAG BADGE -->
+<div class="wcag-badge" onclick="toggleWcag()" title="WCAG Compliance"><div class="wcag-badge-inner"><span class="wcag-label">WCAG 2.1</span><span class="wcag-status">● AA ✓</span></div></div>
+<div class="wcag-panel" id="wcag-panel">
+  <div class="wcag-panel-title">This page · WCAG 2.1</div>
+  <div class="wcag-row"><span class="wcag-row-label">Standard</span><span class="wcag-row-val">AA ✓</span></div>
+  <div class="wcag-row"><span class="wcag-row-label">Min. contrast</span><span class="wcag-row-val">7.2:1</span></div>
+  <div class="wcag-row"><span class="wcag-row-label">Keyboard nav</span><span class="wcag-row-val">All ✓</span></div>
+  <div class="wcag-row"><span class="wcag-row-label">Focus order</span><span class="wcag-row-val">Defined ✓</span></div>
+  <button class="wcag-close-btn" onclick="toggleWcag()">✕ Close</button>
+</div>
+
+<!-- RECRUITER MODAL -->
+<div class="r-modal" id="r-modal" onclick="if(event.target===this)closeR()">
+  <div class="r-box">
+    <button class="r-close" onclick="closeR()">✕</button>
+    <div class="r-label">For Recruiters &amp; Hiring Managers</div>
+    <h2 class="r-title">Senior L&D Professional<br>who actually <em>builds things.</em></h2>
+    <p class="r-sub">7+ years in Learning &amp; Development. Designs training that works. Builds it himself. Available immediately for freelance, contract, or full-time roles.</p>
+    <div style="font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue2);margin-bottom:.6rem">Keywords</div>
+    <div class="r-kws"><span class="r-kw">Instructional Design</span><span class="r-kw">eLearning Development</span><span class="r-kw">Articulate Storyline 360</span><span class="r-kw">SCORM / xAPI</span><span class="r-kw">ADA / Section 508</span><span class="r-kw">Localisation</span><span class="r-kw">ZapWorks AR/VR</span><span class="r-kw">JavaScript</span><span class="r-kw">Remote Ready</span></div>
+    <div class="r-cards">
+      <div class="r-card"><span class="r-ci">🎯</span><div class="r-ct">Designs for behaviour change</div><div class="r-cb">Scenarios and assessments that make people do jobs differently.</div><div class="r-cs">7+ years · 20+ projects</div></div>
+      <div class="r-card"><span class="r-ci">🌍</span><div class="r-ct">16–22 language localisation</div><div class="r-cb">End-to-end including Arabic RTL. Full design integrity maintained.</div><div class="r-cs">16–22 languages · RTL</div></div>
+      <div class="r-card"><span class="r-ci">♿</span><div class="r-ct">Accessibility from day one</div><div class="r-cb">ADA/508 from the first slide master — not retrofitted after.</div><div class="r-cs">WCAG 2.1 AA · Section 508</div></div>
+      <div class="r-card"><span class="r-ci">⚡</span><div class="r-ct">Writes JavaScript in Storyline</div><div class="r-cb">Custom interactions, xAPI, APIs — built from scratch.</div><div class="r-cs">JS · ZapWorks · Blender</div></div>
+    </div>
+    <div class="r-actions">
+      <a href="https://drive.google.com/file/d/1wsBtUEBdSjdLwK7CxFID6ttaW6afTxf6/view" target="_blank" class="btn btn-primary">Download CV →</a>
+      <a href="contact.html" class="btn btn-outline">Get in Touch →</a>
+      <a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank" class="btn btn-ghost">LinkedIn →</a>
+    </div>
+  </div>
+</div>
+
+<!-- NEWSLETTER MODAL -->
+<div class="nl-modal" id="nl-modal" onclick="if(event.target===this)closeNL()">
+  <div class="nl-box">
+    <button class="nl-close" onclick="closeNL()">✕</button>
+    <span class="nl-star">✦ The Hard Part · Newsletter</span>
+    <h3 class="nl-title">Get the next piece<br>in your <em>inbox.</em></h3>
+    <p class="nl-body">The <strong style="color:var(--text)">technical side of L&D</strong> — Storyline JS, xAPI, accessibility, game design, localisation. Practical. Tested. No recycled theory.</p>
+    <ul class="nl-pts"><li>New articles straight to inbox</li><li>In-depth write-ups, free</li><li>No fluff, no spam</li></ul>
+    <div class="nl-form"><input class="nl-inp" type="email" id="nl-e" placeholder="your@email.com"><button class="btn btn-primary" onclick="subNL()">Subscribe →</button></div>
+    <p class="nl-legal">No spam. Unsubscribe anytime.</p>
+    <button class="nl-skip" onclick="closeNL()">I'll catch it on LinkedIn instead</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="main.js"></script>
+<script>
+// Radar
+new Chart(document.getElementById('radar').getContext('2d'),{
+  type:'radar',
+  data:{labels:['Instructional\nDesign','Technical\nDev','Accessibility\n& Standards','Localisation','LMS &\nOps'],
+  datasets:[{label:'MK',data:[90,82,87,88,80],backgroundColor:'rgba(79,142,247,.08)',borderColor:'rgba(79,142,247,.6)',borderWidth:2,pointBackgroundColor:'#F5C842',pointBorderColor:'rgba(5,8,17,1)',pointBorderWidth:2,pointRadius:5,pointHoverRadius:7}]},
+  options:{responsive:true,scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'rgba(255,255,255,.05)'},angleLines:{color:'rgba(255,255,255,.05)'},pointLabels:{color:'rgba(237,240,247,.6)',font:{family:"'JetBrains Mono',monospace",size:10}}}},plugins:{legend:{display:false}}}
+});
+// Modals
+function openRecruiter(){document.getElementById('r-modal').classList.add('open');document.body.style.overflow='hidden'}
+function closeR(){document.getElementById('r-modal').classList.remove('open');document.body.style.overflow=''}
+function openNL(){document.getElementById('nl-modal').classList.add('open');document.body.style.overflow='hidden'}
+function closeNL(){document.getElementById('nl-modal').classList.remove('open');document.body.style.overflow=''}
+function subNL(){
+  const e=document.getElementById('nl-e').value.trim();
+  if(!e||!/\S+@\S+\.\S+/.test(e)){alert('Please enter a valid email.');return;}
+  document.querySelector('.nl-box').innerHTML='<div style="text-align:center;padding:2rem"><div style="font-size:2.5rem;margin-bottom:1rem">✓</div><div style="font-family:var(--serif);font-size:1.5rem;color:var(--text);margin-bottom:.5rem">You\'re subscribed!</div><div style="font-family:var(--sans);font-size:.88rem;color:var(--text2)">I\'ll be in touch when the next piece is ready.</div><button onclick="closeNL()" style="margin-top:1.25rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;background:var(--gold);color:var(--bg);border:none;padding:.75rem 1.5rem;cursor:pointer">Close</button></div>';
+}
+// Timeline
+function tlS(n){document.querySelectorAll('.tl-node').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tl-detail').forEach(x=>x.classList.remove('active'));n.classList.add('active');document.querySelector('.tl-detail[data-i="'+n.dataset.i+'"]')?.classList.add('active');}
+// A11y demos
+document.getElementById('fo-t').addEventListener('change',function(){
+  const d=document.getElementById('fo-demo'),s=document.getElementById('fo-status');
+  if(this.checked){d.querySelectorAll('button').forEach((b,i)=>b.tabIndex=i+1);s.style.color='var(--teal)';s.textContent='✓ Fixed: Tab order follows logical reading flow.';}
+  else{[3,1,4,2,5].forEach((t,i)=>d.querySelectorAll('button')[i].tabIndex=t);s.style.color='var(--red)';s.textContent='✗ Order: 3→1→4→2→5 — broken for keyboard users';}
+});
+document.getElementById('cc-t').addEventListener('change',function(){
+  const c=document.getElementById('cc-card'),r=document.getElementById('cc-ratio'),b=document.getElementById('cc-btn');
+  if(this.checked){c.style.background='var(--surface)';c.style.color='var(--text)';r.innerHTML='<span class="cc-pass">7.2:1 ✓ PASS</span>';b.style.background='var(--gold)';b.style.color='var(--bg)';}
+  else{c.style.background='#1a1a1a';c.style.color='#4a4a4a';r.innerHTML='<span class="cc-fail">2.1:1 ✗ FAIL</span>';b.style.background='#4a4a4a';b.style.color='#6a6a6a';}
+});
+document.getElementById('at-t').addEventListener('change',function(){
+  if(this.checked){document.getElementById('sri').textContent='"Compliance workflow: Identify→Assess→Document→Report→Review"';document.getElementById('bi').className='alt-badge bpass';document.getElementById('bi').textContent='Descriptive ✓';}
+  else{document.getElementById('sri').textContent='"image"';document.getElementById('bi').className='alt-badge bfail';document.getElementById('bi').textContent='Missing alt';}
+});
+document.getElementById('kn-t').addEventListener('change',function(){
+  const acc=document.getElementById('kb-acc'),hint=document.getElementById('kn-hint');
+  if(this.checked){acc.querySelectorAll('.kb-hdr').forEach(h=>{h.classList.add('acc');h.tabIndex=0;h.setAttribute('role','button');h.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();kbT(h);}};});}
+  else{acc.querySelectorAll('.kb-hdr').forEach(h=>{h.classList.remove('acc');h.tabIndex=-1;h.removeAttribute('role');h.onkeydown=null;});}
+  hint.style.color=this.checked?'var(--teal)':'var(--muted)';
+  hint.textContent=this.checked?'✓ Fixed: headers focusable via keyboard':'Mouse-only: keyboard users locked out';
+});
+function kbT(h){const i=h.parentElement,o=i.classList.toggle('open');h.setAttribute('aria-expanded',String(o));}
+if(!sessionStorage.getItem('nl-shown')){setTimeout(()=>{openNL();sessionStorage.setItem('nl-shown','1');},50000);}
+</script>
+</body>
+</html>

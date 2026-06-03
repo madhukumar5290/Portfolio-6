@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storyboard Generator | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.gen-wrap{max-width:960px;margin:0 auto;padding:5rem var(--ph)}
+.gen-form{background:var(--bg2);border:1px solid var(--border);padding:2.5rem;margin-top:3rem}
+.gen-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+.gen-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:.5rem}
+.gen-input,.gen-select{width:100%;font-family:var(--sans);font-size:.9rem;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:.85rem 1rem;outline:none;transition:border-color .2s;appearance:none}
+.gen-input:focus,.gen-select:focus{border-color:var(--blue)}
+.gen-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B7891'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+.gen-btn{background:var(--gold);color:var(--bg);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;border:none;padding:1rem 2.5rem;cursor:pointer;transition:opacity .2s;display:flex;align-items:center;gap:.6rem;margin-top:1.5rem}
+.gen-btn:hover{opacity:.88}
+.gen-btn:disabled{opacity:.4;cursor:not-allowed}
+.gen-btn .spinner{width:14px;height:14px;border:2px solid rgba(8,12,24,.3);border-top-color:var(--bg);border-radius:50%;animation:spin .7s linear infinite;display:none}
+.gen-btn.loading .spinner{display:block}
+.gen-btn.loading .btn-text{opacity:.6}
+@keyframes spin{to{transform:rotate(360deg)}}
+.storyboard{display:none;margin-top:3rem}
+.storyboard.show{display:block;animation:fadein .5s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.sb-header{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.sb-meta{flex:1}
+.sb-course-title{font-family:var(--serif);font-size:1.8rem;font-weight:400;color:var(--text);line-height:1.2;margin-bottom:.4rem}
+.sb-course-title em{font-style:italic;color:var(--gold)}
+.sb-info{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem}
+.sb-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+.sb-slides{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.slide-row{background:var(--bg2);padding:2rem;transition:background .2s}
+.slide-row:hover{background:var(--bg3)}
+.slide-num{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;color:var(--muted);margin-bottom:.4rem}
+.slide-title{font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--text);margin-bottom.3rem}
+.slide-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin-top:1.1rem}
+.slide-col{background:var(--bg3);padding:1.1rem}
+.slide-col-head{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem}
+.slide-col-body{font-family:var(--sans);font-size:.82rem;color:var(--text2);line-height:1.6}
+.slide-badge{display:inline-block;font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .55rem;margin-top:.75rem}
+.badge-interact{background:rgba(240,180,41,.08);color:var(--gold);border:1px solid rgba(240,180,41,.2)}
+.badge-narr{background:rgba(91,156,246,.08);color:var(--blue);border:1px solid rgba(91,156,246,.2)}
+.badge-visual{background:rgba(47,204,161,.08);color:var(--teal);border:1px solid rgba(47,204,161,.2)}
+.obj-box{background:var(--surface);border-left:3px solid var(--gold);padding:1.1rem 1.5rem;margin:1.5rem 0}
+.obj-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.obj-text{font-family:var(--sans);font-size:.9rem;color:var(--text);line-height:1.55}
+@media(max-width:700px){.gen-row{grid-template-columns:1fr}.slide-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html" class="active">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="gen-wrap">
+  <div class="eyebrow reveal">Interactive Demo</div>
+  <h1 class="display reveal d1">Storyboard <em>Generator</em></h1>
+  <p style="font-family:var(--sans);font-size:1rem;color:var(--text2);max-width:580px;margin-top:.85rem;line-height:1.75" class="reveal d2">Enter a topic, select an ID model, audience, and duration. Generate a complete storyboard with slide structure, narration script, on-screen visuals, and interaction types — ready to hand to a developer.</p>
+
+  <div class="gen-form reveal">
+    <div class="gen-row">
+      <div>
+        <label class="gen-label">Course Topic</label>
+        <input class="gen-input" id="g-topic" placeholder="e.g. Anti-Money Laundering, Fire Safety, GDPR Data Handling..." maxlength="80">
+      </div>
+      <div>
+        <label class="gen-label">Target Audience</label>
+        <input class="gen-input" id="g-audience" placeholder="e.g. New bank employees, Healthcare staff..." maxlength="60">
+      </div>
+    </div>
+    <div class="gen-row">
+      <div>
+        <label class="gen-label">ID Model</label>
+        <select class="gen-select" id="g-model">
+          <option value="addie">ADDIE — Structured, documented process</option>
+          <option value="action">Action Mapping — Behaviour change focus</option>
+          <option value="gagne">Gagné's 9 Events — Sequential lesson structure</option>
+          <option value="merrill">Merrill's First Principles — Problem-centred</option>
+          <option value="sam">SAM — Agile prototype approach</option>
+        </select>
+      </div>
+      <div>
+        <label class="gen-label">Course Duration</label>
+        <select class="gen-select" id="g-duration">
+          <option value="5">5 minutes (micro-learning)</option>
+          <option value="10" selected>10 minutes (standard)</option>
+          <option value="20">20 minutes (comprehensive)</option>
+          <option value="30">30 minutes (deep dive)</option>
+        </select>
+      </div>
+    </div>
+    <div class="gen-row">
+      <div>
+        <label class="gen-label">Bloom's Level</label>
+        <select class="gen-select" id="g-bloom">
+          <option value="1">Level 1–2: Remember / Understand</option>
+          <option value="3" selected>Level 3: Apply (scenarios)</option>
+          <option value="4">Level 4–5: Analyse / Evaluate</option>
+        </select>
+      </div>
+      <div>
+        <label class="gen-label">Primary Interaction</label>
+        <select class="gen-select" id="g-interaction">
+          <option value="scenario">Branching scenario</option>
+          <option value="click">Click-to-reveal</option>
+          <option value="quiz">Knowledge check quiz</option>
+          <option value="drag">Drag and drop</option>
+          <option value="sim">Software simulation</option>
+        </select>
+      </div>
+    </div>
+    <button class="gen-btn" id="gen-btn" onclick="generateStoryboard()">
+      <div class="spinner"></div>
+      <span class="btn-text">Generate Storyboard →</span>
+    </button>
+  </div>
+
+  <div class="storyboard" id="storyboard">
+    <div class="sb-header">
+      <div class="sb-meta">
+        <div class="sb-course-title" id="sb-title">—</div>
+        <div class="sb-info" id="sb-info">—</div>
+        <div class="obj-box">
+          <div class="obj-label">Learning Objective</div>
+          <div class="obj-text" id="sb-objective">—</div>
+        </div>
+      </div>
+      <div class="sb-actions">
+        <button class="btn btn-outline btn-sm" onclick="window.print()">Export PDF</button>
+        <button class="btn btn-primary btn-sm" onclick="document.getElementById('g-topic').focus()">New Storyboard</button>
+      </div>
+    </div>
+    <div class="sb-slides" id="sb-slides"></div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="eyebrow">Like what you see?</div>
+  <div class="cta-band-title">This is how I approach<br><em>every new project.</em></div>
+  <a href="work.html" class="btn-dark">See Real Projects →</a>
+  <a href="contact.html" class="btn-dark outline">Let's Work Together</a>
+</div>
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer & eLearning Developer · 2024</div>
+  <ul class="footer-links"><li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li><li><a href="work.html">Work</a></li><li><a href="contact.html">Contact</a></li></ul>
+</footer>
+<script src="main.js"></script>
+<script>
+const templates={
+  addie:{
+    objective:(t,a,b)=>`After completing this module, ${a||'learners'} will be able to ${b==='1'?'identify and describe':'b'==='3'?'apply the correct procedures for':b==='4'?'analyse and evaluate situations involving':''} ${t} in their day-to-day role.`,
+    slides:(t,dur,inter,bloom)=>{
+      const n=dur==='5'?4:dur==='10'?6:dur==='20'?8:10;
+      const base=[
+        {title:'Welcome & Objectives',narr:`Welcome to this module on ${t}. By the end of this session, you will understand what ${t} means, why it matters, and how to apply it correctly in your role. This module should take approximately ${dur} minutes.`,visual:'Title slide with course name, objective statement, and estimated duration. Clean, professional layout with brand colours.',interact:'Animated title reveal. No interaction — auto-advance or Next button.',badge:'narr'},
+        {title:`What is ${t}?`,narr:`Before we look at how ${t} applies to your work, let's establish a shared understanding of what it actually means. ${t} refers to the policies, rules, and procedures that govern how we operate — and that every employee is responsible for following.`,visual:'Key definition displayed with visual metaphor (icons, diagram, or illustrated concept). 2–3 key points revealed progressively.',interact:'Click-to-reveal: learner clicks each key point to reveal the explanation.',badge:'visual'},
+        {title:'Why It Matters',narr:`You might wonder why ${t} training is mandatory. The reality is that gaps in ${t} create real consequences — for your organisation, for your colleagues, and sometimes for you personally. Here are three scenarios where it made a difference.`,visual:'3-column layout showing consequences: regulatory (fine/audit), reputational (news headline), personal (career impact).',interact:'Tabs or accordion — click each consequence type to expand the real-world example.',badge:'interact'},
+        {title:`${t} in Practice`,narr:`Now let's look at how ${t} applies to your actual role. The following scenarios are based on real situations that employees in similar roles have faced. For each one, consider what you would do.`,visual:'Character-based scenario image. Office or workplace setting relevant to the audience.',interact:inter==='scenario'?'Branching scenario — learner makes a decision, sees consequence, gets feedback.':inter==='drag'?'Drag and drop — sort actions into "compliant" and "non-compliant" categories.':'Knowledge check — 3-question quiz with scenario-based questions.',badge:'interact'},
+        {title:'Summary & Key Takeaways',narr:`Let's recap what we've covered. ${t} is your responsibility as much as your manager's. The three things to remember are: know the rules, apply them consistently, and escalate when you're unsure.`,visual:'Summary card with 3 key points. Checklist format. Downloadable job aid link.',interact:'No interaction — review summary. Optional: downloadable summary card.',badge:'narr'},
+        {title:'Assessment',narr:'Time to test your understanding. You have 3 questions. You need to get at least 2 correct to pass. Take your time and read each scenario carefully.',visual:'Clean quiz layout. One question at a time. No timer. Immediate feedback on submit.',interact:'3-question multiple choice quiz. Scenario-based questions. Pass: proceed. Fail: review option.',badge:'interact'},
+      ];
+      return base.slice(0,Math.min(n,base.length));
+    }
+  },
+  action:{
+    objective:(t,a,b)=>`By the end of this module, ${a||'learners'} will consistently make the correct decision when faced with real ${t} situations — without needing to refer to the policy document.`,
+    slides:(t,dur,inter,bloom)=>[
+      {title:'The Real Situation',narr:`Let's start with a real scenario. You're in this situation right now: [describe the specific workplace scenario involving ${t}]. What do you do? Don't worry — there's no right answer yet. We just want you to think about it.`,visual:'Immersive scenario image. Character in realistic workplace setting. No text clutter.',interact:'Think prompt — not a quiz. Just a reflection pause. Learner clicks "I've thought about it" to continue.',badge:'interact'},
+      {title:`The ${t} Decision`,narr:`Here's the decision you need to be able to make every time this situation arises. Not the policy. Not the procedure. The decision. What is the right action — and why?`,visual:'Single key decision mapped visually. Decision tree or if/then diagram.',interact:'Click-to-reveal the correct decision pathway.',badge:'visual'},
+      {title:'Practice: Scenario 1',narr:'Now practice. Here\'s the first scenario — a straightforward situation. Make the decision.',visual:'Scenario card with character dialogue or email. Realistic workplace context.',interact:'Branching choice — 3 options. Consequence for each. Correct path continues, incorrect shows realistic consequence and explanation.',badge:'interact'},
+      {title:'Practice: Scenario 2',narr:'This one is harder. The same principle applies — but the context is more complex. Apply what you know.',visual:'More complex scenario — ambiguous context, competing pressures.',interact:'Branching scenario with 3 options. More nuanced consequences. Explains reasoning not just right/wrong.',badge:'interact'},
+      {title:'The Minimum You Need to Know',narr:`You don't need to memorise the entire ${t} policy. You need to know three things: [list the 3 minimum-necessary information points]. That's it. Everything else is in the reference guide.`,visual:'3 key facts — visual and concise. Job aid graphic that can be printed.',interact:'No interaction. Learner reads. Downloadable reference card offered.',badge:'narr'},
+    ]
+  },
+  gagne:{
+    objective:(t,a,b)=>`On completion, ${a||'learners'} will demonstrate understanding of ${t} by correctly identifying appropriate responses to at least 3 realistic workplace scenarios.`,
+    slides:(t,dur,inter,bloom)=>[
+      {title:'Gain Attention',narr:`[Open with a startling statistic, provocative question, or short video clip about ${t}]. Did you know that [relevant statistic]? By the time this module ends, you'll know exactly what to do when this situation arises.`,visual:'Impactful opening image or statistic infographic. High contrast, emotional resonance.',interact:'Video clip (if available) or animated statistic reveal. No learner interaction required.',badge:'narr'},
+      {title:'Learning Objectives',narr:`In the next ${dur} minutes, you will: understand what ${t} means in practice, recognise situations where ${t} applies, and make the correct response when they occur.`,visual:'Clean objective list — 3 bullet points maximum. Bloom\'s verb prominently displayed.',interact:'No interaction — acknowledge and continue.',badge:'narr'},
+      {title:'Recall Prior Knowledge',narr:`Before we begin, think about what you already know. Have you encountered ${t} in your previous role? What did you do? This new content builds on what you already understand about workplace responsibility.`,visual:'Reflection prompt with thought bubble visual. Connects to shared experience.',interact:'Brief poll or reflection text entry — "What do you already know about this topic?"',badge:'interact'},
+      {title:`${t} — The Content`,narr:`Here is the core information you need. ${t} requires you to [key procedural steps or conceptual information]. Break this into 3–4 manageable chunks. No more.`,visual:'Information chunked into digestible segments. Icons, short labels, progressive reveal.',interact:'Progressive reveal — learner clicks to show each chunk. Avoids overwhelming.',badge:'visual'},
+      {title:'Worked Example',narr:`Let's see how this applies in practice. Here is a real example of ${t} being applied correctly — and what happened as a result. Notice how the decision was made and why it was the right one.`,visual:'Step-by-step worked example with annotations. Show the thinking, not just the result.',interact:'Annotated walkthrough — learner clicks through the steps of the worked example.',badge:'interact'},
+      {title:'Your Turn — Practice',narr:'Now you apply it. Here is a scenario similar to the one we just walked through. Use the same approach and make your decision.',visual:'Scenario image with decision prompt.',interact:inter==='scenario'?'Branching scenario — 3 options with consequences.':'Multiple choice with immediate corrective feedback.',badge:'interact'},
+      {title:'Assessment',narr:'One final check. Answer these questions to confirm you\'ve met the learning objective.',visual:'Quiz interface. One question per screen. Pass/fail feedback.',interact:'3-question assessment. Corrective feedback on each. Score sent to LMS.',badge:'interact'},
+      {title:'Transfer to Work',narr:`The last step is the most important — applying this back at your desk. Here is a job aid that summarises everything you need to know about ${t}. Keep it. Use it. Share it.`,visual:'Downloadable job aid. Summary card. Link to policy document. Manager discussion guide.',interact:'Download button for job aid. Optional: commitment prompt ("I will apply this by...").',badge:'visual'},
+    ]
+  },
+  merrill:{
+    objective:(t,a,b)=>`${a||'Learners'} will be able to solve real ${t} problems independently, demonstrating the ability to activate prior knowledge, apply demonstrated solutions, and integrate learning into their work context.`,
+    slides:(t,dur,inter,bloom)=>[
+      {title:'The Problem',narr:`Here is a real problem that people in your role encounter: [specific, concrete ${t} problem]. You're going to work through this problem during this module — and by the end, you'll have what you need to solve it independently.`,visual:'Problem scenario card — concrete, specific, realistic. Not abstract.',interact:'No interaction — learner reads the problem. Creates cognitive need.',badge:'narr'},
+      {title:'What You Already Know',narr:`Before we go further — what experience do you already have with this? You probably know more than you think. This module builds on that foundation.`,visual:'Activation prompt — connecting new to known.',interact:'Reflection activity — learner places themselves on an experience scale or answers a prior knowledge question.',badge:'interact'},
+      {title:'See It Done Correctly',narr:'Watch how an expert handles this situation. Notice the decision points, the reasoning, and the outcome.',visual:'Annotated worked example or expert walkthrough video. Show, don\'t just tell.',interact:'Step-by-step animated example. Learner controls pace with Next buttons.',badge:'visual'},
+      {title:'Guided Practice',narr:'Your turn — with support. Here\'s a similar scenario. Work through it step by step. Hints are available if you need them.',visual:'Scenario with hint system. Scaffolded support visible but not intrusive.',interact:'Guided branching — hints available at each decision point.',badge:'interact'},
+      {title:'Independent Practice',narr:'Now without hints. Apply everything you know.',visual:'Clean scenario — no hints, no scaffolding.',interact:'Branching scenario — full consequences, no hints.',badge:'interact'},
+      {title:'Take It Back to Work',narr:`How does this connect to your actual work tomorrow? Specifically — when and where will you use this? Plan it now.`,visual:'Integration prompt — calendar, to-do, or commitment visual.',interact:'Commitment activity — learner writes or selects when they will apply this.',badge:'interact'},
+    ]
+  },
+  sam:{
+    objective:(t,a,b)=>`${a||'Learners'} will demonstrate the ability to respond correctly to ${t} scenarios through iteratively refined, performance-focused practice activities.`,
+    slides:(t,dur,inter,bloom)=>[
+      {title:'Quick Context',narr:`This module covers ${t}. It's focused — only the information you need to do your job correctly. No padding.`,visual:'Single context card. Brief and direct.',interact:'No interaction — 30 seconds max.',badge:'narr'},
+      {title:'Try It First',narr:'Before we teach you anything — here\'s a scenario. Give it your best attempt. There\'s no penalty for getting it wrong here.',interact:'Scenario attempt — unscaffolded. Shows learner\'s current knowledge baseline.',visual:'Real scenario, no guidance.',badge:'interact'},
+      {title:'The Key Information',narr:`Here is the essential information. Only what you need to do this correctly.`,visual:'Minimal content — 3 key facts maximum.',interact:'Click-to-reveal the minimum necessary information.',badge:'visual'},
+      {title:'Try Again',narr:'Same type of scenario — but now you have the information. Apply it.',interact:'Slightly different scenario. Same decision type.',visual:'Scenario with context.',badge:'interact'},
+      {title:'Prove It',narr:'Final scenario. No hints. This is your evidence that you can do this.',interact:'Assessment scenario. Pass/fail. Score to LMS.',visual:'Clean assessment scenario.',badge:'interact'},
+    ]
+  }
+};
+
+function generateStoryboard(){
+  const topic=document.getElementById('g-topic').value.trim();
+  if(!topic){document.getElementById('g-topic').focus();document.getElementById('g-topic').style.borderColor='var(--red)';setTimeout(()=>document.getElementById('g-topic').style.borderColor='',2000);return;}
+  const audience=document.getElementById('g-audience').value.trim()||'learners';
+  const model=document.getElementById('g-model').value;
+  const duration=document.getElementById('g-duration').value;
+  const bloom=document.getElementById('g-bloom').value;
+  const interaction=document.getElementById('g-interaction').value;
+  const btn=document.getElementById('gen-btn');
+  btn.classList.add('loading');btn.disabled=true;
+  setTimeout(()=>{
+    btn.classList.remove('loading');btn.disabled=false;
+    const t=templates[model];
+    const slides=t.slides(topic,duration,interaction,bloom);
+    const obj=t.objective(topic,audience,bloom);
+    document.getElementById('sb-title').innerHTML=`<em>${topic}</em>`;
+    document.getElementById('sb-info').textContent=`${model.toUpperCase()} model · ${duration} min · Bloom's Level ${bloom} · ${audience} · ${slides.length} slides`;
+    document.getElementById('sb-objective').textContent=obj;
+    const container=document.getElementById('sb-slides');
+    container.innerHTML=slides.map((s,i)=>`
+      <div class="slide-row">
+        <div class="slide-num">Slide ${String(i+1).padStart(2,'0')} of ${String(slides.length).padStart(2,'0')}</div>
+        <div class="slide-title">${s.title}</div>
+        <div class="slide-grid">
+          <div class="slide-col">
+            <div class="slide-col-head">🎙 Narration Script</div>
+            <div class="slide-col-body">${s.narr}</div>
+            <span class="slide-badge badge-narr">Audio</span>
+          </div>
+          <div class="slide-col">
+            <div class="slide-col-head">🖼 On-Screen Visuals</div>
+            <div class="slide-col-body">${s.visual}</div>
+            <span class="slide-badge badge-visual">Visual</span>
+          </div>
+          <div class="slide-col">
+            <div class="slide-col-head">⚡ Interaction Type</div>
+            <div class="slide-col-body">${s.interact}</div>
+            <span class="slide-badge badge-interact">Interaction</span>
+          </div>
+        </div>
+      </div>`).join('');
+    document.getElementById('storyboard').classList.add('show');
+    document.getElementById('storyboard').scrollIntoView({behavior:'smooth',block:'start'});
+  },1200);
+}
+</script>
+</body>
+</html>

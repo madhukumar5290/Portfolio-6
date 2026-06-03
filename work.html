@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Work & Portfolio | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.filter-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:3rem}
+.filter-btn{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:.45rem 1rem;background:transparent;transition:all .2s}
+.filter-btn:hover{color:var(--text);border-color:var(--border2)}
+.filter-btn.on{color:var(--gold);border-color:var(--gold);background:var(--gold-dim)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.project-card{background:var(--bg2);overflow:hidden;position:relative;display:flex;flex-direction:column;transition:background .3s}
+.project-card:hover{background:var(--bg3)}
+.project-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .35s;z-index:2}
+.project-card:hover::before{height:100%}
+.proj-thumb{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--surface);border-bottom:1px solid var(--border)}
+.proj-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.project-card:hover .proj-thumb img{transform:scale(1.05)}
+.proj-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(8,12,24,.88) 100%);display:flex;align-items:flex-end;padding:1rem 1.25rem;opacity:0;transition:opacity .3s}
+.project-card:hover .proj-overlay{opacity:1}
+.proj-cta{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.4rem}
+.proj-body{padding:1.6rem;flex:1;display:flex;flex-direction:column}
+.proj-num{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;color:var(--muted);margin-bottom:.3rem}
+.proj-cat{font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.45rem}
+.proj-title{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:.6rem}
+.proj-desc{font-family:var(--sans);font-size:.82rem;line-height:1.6;color:var(--text2);flex:1;margin-bottom:.8rem}
+.proj-id{background:var(--gold-dim);border:1px solid rgba(240,180,41,.18);padding:.5rem .8rem;margin-bottom:.75rem;display:flex;align-items:flex-start;gap:.5rem;flex-wrap:wrap}
+.proj-id-lbl{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);white-space:nowrap;margin-top:.1rem}
+.proj-id-val{font-family:var(--sans);font-size:.75rem;color:var(--text);line-height:1.4}
+.proj-footer{display:flex;align-items:center;justify-content:space-between;padding-top:.9rem;border-top:1px solid var(--border)}
+.proj-arrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:var(--gold);display:flex;align-items:center;gap:.35rem;transition:gap .2s}
+.project-card:hover .proj-arrow{gap:.65rem}
+
+/* CASE STUDIES */
+.case-wrap{padding:6rem var(--ph);border-bottom:1px solid var(--border)}
+.case-wrap:nth-child(even){background:var(--bg2)}
+.cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.cs-meta{position:sticky;top:calc(var(--nav-h) + 2rem)}
+.cs-num-badge{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:var(--blue);margin-bottom:.4rem}
+.cs-cat-badge{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
+.cs-title-lg{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:400;color:var(--text);line-height:1.12;margin-bottom:1.1rem}
+.cs-title-lg em{font-style:italic;color:var(--gold)}
+.cs-img{width:100%;border:1px solid var(--border);display:block;margin-top:1.5rem;aspect-ratio:16/9;object-fit:cover}
+.cs-body-section{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);padding-bottom:.45rem;border-bottom:1px solid var(--border);margin-bottom:.8rem;margin-top:2rem}
+.cs-body-section:first-child{margin-top:0}
+.cs-body-p{font-family:var(--sans);font-size:.9rem;line-height:1.75;color:var(--text2);margin-bottom:.85rem}
+.cs-hl{background:var(--surface2);border-left:3px solid var(--gold);padding:1.1rem 1.5rem;margin:1.5rem 0}
+.cs-hl p{color:var(--text);margin:0;font-style:italic;font-size:.9rem}
+.cs-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:1.5rem 0}
+.cs-m{background:var(--surface);padding:1rem 1.25rem;text-align:center}
+.cs-m-val{font-family:var(--serif);font-size:1.5rem;color:var(--gold);line-height:1;display:block;margin-bottom:.15rem}
+.cs-m-lbl{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+@media(max-width:860px){
+  .proj-grid{grid-template-columns:1fr 1fr}
+  .case-wrap{padding:4rem var(--ph)}
+  .cs-grid{grid-template-columns:1fr;gap:2.5rem}
+  .cs-meta{position:static}
+}
+@media(max-width:600px){.proj-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html" class="active">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html" class="active">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="eyebrow reveal">Work & Portfolio</div>
+  <h1 class="display reveal d1">Projects that show<br><em>how I think.</em></h1>
+  <p style="font-family:var(--sans);font-size:1.05rem;color:var(--text2);max-width:580px;margin-top:.85rem;line-height:1.7" class="reveal d2">20+ real eLearning projects across compliance, K12, healthcare, banking, game-based learning, and accessibility. Each one built to a specific ID model — described below with the rationale.</p>
+</div>
+
+<!-- CASE STUDIES -->
+<div id="aml" class="case-wrap">
+  <div class="cs-grid">
+    <div class="cs-meta reveal">
+      <div class="cs-num-badge">Case Study 01</div>
+      <div class="cs-cat-badge">Compliance · Banking · End-to-End Course</div>
+      <h2 class="cs-title-lg">Anti-Money<br>Laundering</h2>
+      <div class="tags" style="margin-bottom:1.25rem"><span class="tag tag-b">Storyline 360</span><span class="tag">Branching Scenarios</span><span class="tag tag-g">Banking</span><span class="tag">SCORM 2004</span></div>
+      <div style="background:var(--gold-dim);border:1px solid rgba(240,180,41,.2);padding:1rem 1.25rem;margin-bottom:1.5rem">
+        <div style="font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem">ID Model Applied</div>
+        <div style="font-family:var(--sans);font-size:.88rem;color:var(--text);line-height:1.55">ADDIE + Action Mapping · Bloom's Level 3 (Apply) · Kirkpatrick Level 3 evaluation design</div>
+      </div>
+      <img class="cs-img reveal d1" src="https://image.thum.io/get/width/700/crop/450/noanimate/https://madhukumar5290.github.io/Anti-MoneyLaundering/" alt="Anti-Money Laundering course" onerror="this.src='https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=700&q=80';this.onerror=null">
+      <div style="display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap">
+        <a href="https://madhukumar5290.github.io/Anti-MoneyLaundering/" target="_blank" class="btn btn-primary">Launch Demo →</a>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="cs-body-section">The Challenge</div>
+      <p class="cs-body-p">Compliance training in banking is typically dry, slide-heavy, and forgotten within days of completion. The challenge was to make AML regulations genuinely engaging — and to ensure learners could <em>apply</em> the knowledge to real-world detection scenarios, not just recall definitions. Regulatory frameworks require pass scores; they do not require learners to actually understand how money laundering works.</p>
+      <div class="cs-body-section">ID Model Decision</div>
+      <p class="cs-body-p"><strong style="color:var(--text)">Action Mapping (Cathy Moore)</strong> was applied first: I started by identifying the business goal (reduce compliance violations) and mapped the specific decisions compliance officers need to make — not the information they need to memorise. This stripped roughly 40% of the original content brief.</p>
+      <p class="cs-body-p"><strong style="color:var(--text)">Bloom's Taxonomy Level 3 (Apply)</strong> drove the assessment design. Rather than asking "What does CTF stand for?" — a Level 1 recall question — every assessment asks learners to evaluate a scenario and decide what a compliance officer should do next.</p>
+      <div class="cs-hl"><p>"The design decision was to put learners inside a suspicious transaction review, not outside it reading about one. Every branching path leads to a consequence that explains why it was right or wrong — not just a score."</p></div>
+      <div class="cs-body-section">What I Built</div>
+      <p class="cs-body-p">End-to-end: storyboard, visual design, character-based branching interactions, regulatory-grounded feedback, and SCORM 2004 packaging. The course uses a storyline arc where the learner is promoted to compliance analyst and must review three escalating cases — each more complex than the last.</p>
+      <div class="cs-metrics">
+        <div class="cs-m"><span class="cs-m-val">100%</span><span class="cs-m-lbl">End-to-end own</span></div>
+        <div class="cs-m"><span class="cs-m-val">L3</span><span class="cs-m-lbl">Bloom's Assessment</span></div>
+        <div class="cs-m"><span class="cs-m-val">SCORM</span><span class="cs-m-lbl">2004 Packaged</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="accessibility" class="case-wrap">
+  <div class="cs-grid">
+    <div class="cs-meta reveal">
+      <div class="cs-num-badge">Case Study 02</div>
+      <div class="cs-cat-badge">Accessibility · ADA/508 · Custom Development</div>
+      <h2 class="cs-title-lg">Drag & Drop with<br><em>Full Accessibility</em></h2>
+      <div class="tags" style="margin-bottom:1.25rem"><span class="tag tag-g">ADA/508</span><span class="tag tag-b">WCAG 2.1 AA</span><span class="tag tag-b">JavaScript</span><span class="tag">Storyline 360</span></div>
+      <div style="background:var(--gold-dim);border:1px solid rgba(240,180,41,.2);padding:1rem 1.25rem;margin-bottom:1.5rem">
+        <div style="font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem">ID Model Applied</div>
+        <div style="font-family:var(--sans);font-size:.88rem;color:var(--text);line-height:1.55">Universal Design for Learning (UDL) · WCAG 2.1 Success Criteria 1.3.1, 2.1.1, 2.4.3</div>
+      </div>
+      <img class="cs-img reveal d1" src="https://image.thum.io/get/width/700/crop/450/noanimate/https://madhukumar5290.github.io/DragandDropWithTabOrder/" alt="Accessible drag and drop" onerror="this.src='https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=700&q=80';this.onerror=null">
+      <div style="display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap">
+        <a href="https://madhukumar5290.github.io/DragandDropWithTabOrder/" target="_blank" class="btn btn-primary">Launch Demo →</a>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="cs-body-section">The Problem with Storyline Drag-and-Drop</div>
+      <p class="cs-body-p">Articulate Storyline's default drag-and-drop interaction is completely inaccessible to keyboard users. Tab order defaults to object creation sequence — not logical reading order. There is no keyboard activation. There is no visual focus indicator. Screen readers announce nothing useful. The entire interaction is locked out for approximately 15–20% of potential learners.</p>
+      <div class="cs-body-section">The UDL Framework Decision</div>
+      <p class="cs-body-p"><strong style="color:var(--text)">Universal Design for Learning (UDL)</strong> requires that learning experiences provide multiple means of action and expression. A drag-and-drop interaction that only works with a mouse fails this principle at the architectural level — before a single slide is published.</p>
+      <p class="cs-body-p">The solution: rebuilt the interaction with custom JavaScript to enforce logical tab order, keyboard activation via Enter and Space, visible focus indicators meeting WCAG 2.1 AA contrast requirements, and screen reader announcements via ARIA live regions. Accessibility was the architecture — not a patch applied after the fact.</p>
+      <div class="cs-hl"><p>"Most developers add alt text at the end and call it done. Real accessibility means the tab order, focus management, and keyboard architecture are designed into the first slide master — before any content is built."</p></div>
+      <div class="cs-body-section">What Was Built</div>
+      <p class="cs-body-p">A reusable Storyline 360 interaction template with full keyboard operability, tested against NVDA, JAWS, and VoiceOver. The JavaScript layer manages focus, announces state changes via ARIA, and provides identical functionality for pointer and keyboard users. This template is now a reusable asset for all ADA-required courses.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ALL PROJECTS GRID -->
+<section class="section">
+  <div class="eyebrow reveal g">All Projects</div>
+  <h2 class="display reveal d1">The full <em>portfolio.</em></h2>
+  <div class="filter-row reveal d2">
+    <button class="filter-btn on" data-f="all">All (20)</button>
+    <button class="filter-btn" data-f="course">Courses</button>
+    <button class="filter-btn" data-f="game">Games</button>
+    <button class="filter-btn" data-f="k12">K12</button>
+    <button class="filter-btn" data-f="sim">Simulation</button>
+    <button class="filter-btn" data-f="access">Accessibility</button>
+    <button class="filter-btn" data-f="local">Localisation</button>
+  </div>
+
+  <div class="proj-grid" id="proj-grid">
+
+    <!-- Each project card -->
+    <div class="project-card reveal" data-cat="course" onclick="openModal('m-aml')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/Anti-MoneyLaundering/" alt="AML" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">View details →</span></div></div>
+      <div class="proj-body"><div class="proj-num">01</div><div class="proj-cat">Compliance · Banking</div><div class="proj-title">Anti-Money Laundering</div><div class="proj-desc">End-to-end AML compliance course. Branching scenarios place the learner inside real suspicious transaction reviews with regulatory-grounded feedback.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">ADDIE + Action Mapping · Bloom's L3</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-b">Storyline</span><span class="tag">SCORM</span></div><div class="proj-arrow">Details →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d1" data-cat="access" onclick="openModal('m-dnd')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/DragandDropWithTabOrder/" alt="Drag Drop" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">View details →</span></div></div>
+      <div class="proj-body"><div class="proj-num">02</div><div class="proj-cat">Accessibility · ADA/508</div><div class="proj-title">Drag & Drop — Keyboard Accessible</div><div class="proj-desc">Custom JS interaction with full keyboard navigation, tab order management, and ARIA announcements. ADA/508 + WCAG 2.1 AA compliant from architecture level.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">UDL · WCAG 2.1 AA</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">ADA/508</span><span class="tag tag-b">JavaScript</span></div><div class="proj-arrow">Details →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d2" data-cat="course" onclick="openModal('m-swot')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/SWOTAnalysis/" alt="SWOT" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">View details →</span></div></div>
+      <div class="proj-body"><div class="proj-num">03</div><div class="proj-cat">Flash-to-HTML5 · Conversion</div><div class="proj-title">Personal SWOT Analysis</div><div class="proj-desc">Flash-to-HTML5 conversion preserving full interaction fidelity. Mobile-first responsive rebuild with identical learning flow and touch-friendly controls.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">ADDIE · Bloom's L4 (Analyse)</span></div><div class="proj-footer"><div class="tags"><span class="tag">HTML5</span><span class="tag">Storyline</span></div><div class="proj-arrow">Details →</div></div></div>
+    </div>
+
+    <div class="project-card reveal" data-cat="game" onclick="openModal('m-bees')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/HoneyBeesandBeehives/" alt="Bees" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">View details →</span></div></div>
+      <div class="proj-body"><div class="proj-num">04</div><div class="proj-cat">Game-Based Learning · Science</div><div class="proj-title">Bees and Beehives</div><div class="proj-desc">Interactive biology game using Merrill's First Principles. Starts with a real-world problem (colony collapse), activates prior knowledge, then guides discovery.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Merrill's First Principles · Game Design</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Game</span><span class="tag tag-b">Storyline</span></div><div class="proj-arrow">Details →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d1" data-cat="game" onclick="openModal('m-memory')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/MemoryFlashCardGameDesktop/" alt="Memory" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">View details →</span></div></div>
+      <div class="proj-body"><div class="proj-num">05</div><div class="proj-cat">Game-Based Learning · Memory</div><div class="proj-title">Memory Flash Cards — Desktop</div><div class="proj-desc">Spaced repetition memory card game. Reinforces knowledge retention through cognitive engagement mechanics grounded in memory science principles.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Cognitive Load Theory · Spaced Repetition</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Game</span><span class="tag">Desktop</span></div><div class="proj-arrow">Details →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d2" data-cat="game" onclick="window.open('https://madhukumar5290.github.io/NumberPuzzleGame/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/NumberPuzzleGame/" alt="Number Puzzle" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch game →</span></div></div>
+      <div class="proj-body"><div class="proj-num">06</div><div class="proj-cat">Puzzle Game · Cognitive</div><div class="proj-title">Number Puzzle Game</div><div class="proj-desc">Cognitive puzzle game combining number-sequencing challenges with knowledge reinforcement. Builds working memory capacity through structured problem-solving.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Cognitive Load Theory · Puzzle Design</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Puzzle</span><span class="tag">HTML5</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal" data-cat="course" onclick="openModal('m-wvi')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/AboutWorldVisionIndia/" alt="World Vision" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">View details →</span></div></div>
+      <div class="proj-body"><div class="proj-num">07</div><div class="proj-cat">Onboarding · Non-Profit · Course</div><div class="proj-title">About World Vision India</div><div class="proj-desc">Organisational induction course for World Vision India. Rich multimedia, values-driven storytelling, and mission alignment using Gagné's 9 Events structure.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Gagné's 9 Events · ADDIE</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-b">Storyline</span><span class="tag">Induction</span></div><div class="proj-arrow">Details →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d1" data-cat="course" onclick="openModal('m-sip')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/SolutionInnovationProgram/" alt="Innovation" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1558403194-611308249627?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">View details →</span></div></div>
+      <div class="proj-body"><div class="proj-num">08</div><div class="proj-cat">Leadership · Innovation · Course</div><div class="proj-title">Solution Innovation Program</div><div class="proj-desc">Leadership development course on solution-oriented innovation frameworks. Bloom's Level 5 (Evaluate) objectives with layered scenario application throughout.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">ADDIE · Bloom's L4–L5 · Merrill</span></div><div class="proj-footer"><div class="tags"><span class="tag">Leadership</span><span class="tag tag-b">Storyline</span></div><div class="proj-arrow">Details →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d2" data-cat="course" onclick="window.open('https://madhukumar5290.github.io/BodyOrgans/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/BodyOrgans/" alt="Body Organs" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">09</div><div class="proj-cat">Healthcare · Interactive · Anatomy</div><div class="proj-title">Human Body Organs Explorer</div><div class="proj-desc">Interactive anatomy explorer for healthcare onboarding. Clickable body systems with layered information reveal — Merrill's demonstration principle applied visually.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Merrill's First Principles · Gagné Event 5</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Healthcare</span><span class="tag tag-b">Interactive</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal" data-cat="sim" onclick="window.open('https://madhukumar5290.github.io/ConductingResearchOnACarDealershipWebsite/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/ConductingResearchOnACarDealershipWebsite/" alt="Car Dealership" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch sim →</span></div></div>
+      <div class="proj-body"><div class="proj-num">10</div><div class="proj-cat">Simulation · Retail · Browser Sim</div><div class="proj-title">Car Dealership Research Simulation</div><div class="proj-desc">Browser simulation where learners navigate a mock dealership website. Merrill's Application principle — practice in a realistic, consequence-bearing environment.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Merrill's Application · SAM prototyping</span></div><div class="proj-footer"><div class="tags"><span class="tag">Simulation</span><span class="tag">Retail</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d1" data-cat="course" onclick="window.open('https://madhukumar5290.github.io/CodeOfConduct/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/CodeOfConduct/" alt="Code of Conduct" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">11</div><div class="proj-cat">Compliance · HR · Workplace Policy</div><div class="proj-title">Code of Conduct</div><div class="proj-desc">Multi-industry Code of Conduct compliance course. Scenario-driven decisions with policy-grounded feedback. Designed for Kirkpatrick Level 3 behaviour transfer.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">ADDIE · Action Mapping · Kirkpatrick L3</span></div><div class="proj-footer"><div class="tags"><span class="tag">Compliance</span><span class="tag tag-b">Storyline</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d2" data-cat="k12" onclick="window.open('https://madhukumar5290.github.io/MeasuringVolumes/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/MeasuringVolumes/" alt="Volumes" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1509228468518-180dd4864904?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">12</div><div class="proj-cat">K12 · Mathematics · Section 508</div><div class="proj-title">Measuring Volumes — K12</div><div class="proj-desc">Section 508-compliant K12 maths module. Fully keyboard navigable, screen reader tested, with visual hierarchy designed for young learners with diverse needs.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">UDL · Gagné's 9 Events · WCAG 2.1 AA</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">K12</span><span class="tag tag-g">Section 508</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal" data-cat="k12" onclick="window.open('https://madhukumar5290.github.io/AreaOfParallelogram/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/AreaOfParallelogram/" alt="Parallelogram" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">13</div><div class="proj-cat">K12 · Geometry · Interactive</div><div class="proj-title">Area of Parallelogram — English</div><div class="proj-desc">Dynamic K12 geometry module. Learners manipulate visual shapes to derive the area formula — Merrill's Demonstration + Application principle in geometry education.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Merrill's Principles · Gagné's Events 4–6</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">K12</span><span class="tag">Geometry</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d1" data-cat="local" onclick="window.open('https://madhukumar5290.github.io/AreaOfParallelogramArabic/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/AreaOfParallelogramArabic/" alt="Arabic" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">14</div><div class="proj-cat">K12 · Arabic · RTL Localisation</div><div class="proj-title">Area of Parallelogram — Arabic RTL</div><div class="proj-desc">The same geometry module fully localised to Arabic — right-to-left layout, Arabic typography, culturally adapted visual design, and Storyline RTL configuration.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Localisation Best Practice · RTL UX Design</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-b">Arabic</span><span class="tag">RTL</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d2" data-cat="k12" onclick="window.open('https://madhukumar5290.github.io/365RhymesandStoriesOneSnowyDay/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/365RhymesandStoriesOneSnowyDay/" alt="Snowy Day" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">15</div><div class="proj-cat">K12 · Literacy · Storytelling</div><div class="proj-title">One Snowy Day — Story Module</div><div class="proj-desc">K12 reading and literacy module using narrative-driven learning design. Vocabulary, comprehension, and engagement built through immersive animated storytelling.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Narrative Learning Design · Gagné's Events 1–3</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">K12</span><span class="tag">Literacy</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal" data-cat="game" onclick="window.open('https://madhukumar5290.github.io/SnakeandLadderGame/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/SnakeandLadderGame/" alt="Snake Ladder" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1632502602749-a8e7b54b2f14?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch game →</span></div></div>
+      <div class="proj-body"><div class="proj-num">16</div><div class="proj-cat">Gamification · Knowledge Recall</div><div class="proj-title">Snake and Ladder</div><div class="proj-desc">The classic game re-engineered as a learning tool. Questions are embedded into gameplay — competitive, spaced recall in a familiar, motivating game structure.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Gamification Design · Spaced Retrieval Practice</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Gamification</span><span class="tag tag-b">Storyline</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d1" data-cat="game" onclick="window.open('https://madhukumar5290.github.io/TriviaTime/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/TriviaTime/" alt="Trivia" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1528111942-2c1ce3b8c0f9?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch game →</span></div></div>
+      <div class="proj-body"><div class="proj-num">17</div><div class="proj-cat">Quiz Game · Assessment</div><div class="proj-title">Trivia Time</div><div class="proj-desc">Fast-paced, timed trivia format adaptable to any subject. Effective for knowledge refresh, pre-training activation, and post-training retention measurement.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Bloom's L1 Recall · Retrieval Practice</span></div><div class="proj-footer"><div class="tags"><span class="tag">Quiz</span><span class="tag">Timer</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d2" data-cat="game" onclick="window.open('https://madhukumar5290.github.io/SpinWheelGame/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/SpinWheelGame/" alt="Spin Wheel" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1545959570-a94084071b5d?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">18</div><div class="proj-cat">Gamification · Facilitation Tool</div><div class="proj-title">Spin the Wheel</div><div class="proj-desc">Facilitator tool for virtual and in-person training — randomising questions, activities, or team assignments to drive energy and unpredictability in group learning.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Facilitator-Centred Design · Engagement Design</span></div><div class="proj-footer"><div class="tags"><span class="tag tag-g">Gamification</span><span class="tag">Facilitation</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal" data-cat="course" onclick="window.open('https://madhukumar5290.github.io/MoneyGame/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/MoneyGame/" alt="Money" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">19</div><div class="proj-cat">Financial Literacy · Game</div><div class="proj-title">The Money Game</div><div class="proj-desc">Financial literacy game teaching budgeting and money decisions through consequence-bearing scenario game mechanics. Real decisions, real trade-offs, real learning.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Merrill's Problem-Centred · Decision Simulation</span></div><div class="proj-footer"><div class="tags"><span class="tag">Finance</span><span class="tag tag-g">Game</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+    <div class="project-card reveal d1" data-cat="game" onclick="window.open('https://madhukumar5290.github.io/MemoryFlashCardGame/','_blank')">
+      <div class="proj-thumb"><img src="https://image.thum.io/get/width/600/crop/380/noanimate/https://madhukumar5290.github.io/MemoryFlashCardGame/" alt="Memory Mobile" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=70';this.onerror=null"><div class="proj-overlay"><span class="proj-cta">Launch demo →</span></div></div>
+      <div class="proj-body"><div class="proj-num">20</div><div class="proj-cat">Mobile · Responsive · Memory</div><div class="proj-title">Memory Flash Cards — Mobile</div><div class="proj-desc">Mobile-optimised version of the flash card game — portrait-first design, touch-friendly interactions, same spaced repetition mechanics for on-the-go learning.</div><div class="proj-id"><span class="proj-id-lbl">ID</span><span class="proj-id-val">Spaced Repetition · Mobile-First UX Design</span></div><div class="proj-footer"><div class="tags"><span class="tag">Mobile</span><span class="tag">Responsive</span></div><div class="proj-arrow">Launch →</div></div></div>
+    </div>
+
+  </div><!-- /proj-grid -->
+</section>
+
+<!-- MODALS -->
+<div class="modal-bg" id="m-aml"><div class="modal">
+  <button class="modal-x" onclick="closeModal('m-aml')">✕</button>
+  <img class="modal-img" src="https://image.thum.io/get/width/840/crop/530/noanimate/https://madhukumar5290.github.io/Anti-MoneyLaundering/" alt="AML" onerror="this.src='https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=840&q=80';this.onerror=null">
+  <div class="modal-body">
+    <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--blue);margin-bottom:.3rem">01 · Compliance · Banking</div>
+    <h3 style="font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--text);line-height:1.15;margin-bottom:1.25rem">Anti-Money Laundering</h3>
+    <div class="modal-id-box"><div class="modal-id-lbl">ID Model Applied</div><div class="modal-id-txt">ADDIE + Action Mapping (Cathy Moore) · Bloom's Taxonomy Level 3 (Apply) · Kirkpatrick Level 3 Evaluation Design</div></div>
+    <div class="modal-section">The Challenge</div>
+    <p class="modal-text">AML compliance training is typically a slide deck of regulations that learners click through to get a completion stamp. The business goal — reducing actual compliance violations — requires learners to know how to detect suspicious activity and what to do about it, not to recite definitions under exam conditions.</p>
+    <div class="modal-section">ID Decisions</div>
+    <p class="modal-text"><strong style="color:var(--text)">Action Mapping</strong> stripped the content list from 47 slides to 28 by asking: which of these pieces of information support a specific action the learner needs to take? The remaining content was restructured around decision moments, not topic categories.</p>
+    <p class="modal-text"><strong style="color:var(--text)">Bloom's Level 3 (Apply)</strong> drove assessment design. Every knowledge check asks learners to evaluate a transaction scenario and decide what a compliance officer should do — not what CTF stands for.</p>
+    <div class="modal-section">What Was Built</div>
+    <p class="modal-text">Three escalating branching scenarios. Learner is positioned as a newly promoted compliance analyst. Each scenario involves reviewing documentation, interviewing a client, and making a regulatory decision. Feedback is immediate, specific, and tied to the actual regulation being applied. SCORM 2004 packaged.</p>
+    <div class="modal-actions">
+      <a href="https://madhukumar5290.github.io/Anti-MoneyLaundering/" target="_blank" class="btn btn-primary">Launch Live Demo →</a>
+      <button onclick="closeModal('m-aml')" class="btn btn-outline">Close</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="m-dnd"><div class="modal">
+  <button class="modal-x" onclick="closeModal('m-dnd')">✕</button>
+  <img class="modal-img" src="https://image.thum.io/get/width/840/crop/530/noanimate/https://madhukumar5290.github.io/DragandDropWithTabOrder/" alt="Drag Drop" onerror="this.src='https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=840&q=80';this.onerror=null">
+  <div class="modal-body">
+    <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--blue);margin-bottom:.3rem">02 · Accessibility · ADA/508</div>
+    <h3 style="font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--text);line-height:1.15;margin-bottom:1.25rem">Drag & Drop with Full Keyboard Accessibility</h3>
+    <div class="modal-id-box"><div class="modal-id-lbl">ID/Design Framework</div><div class="modal-id-txt">Universal Design for Learning (UDL) · WCAG 2.1 Success Criteria 1.3.1, 2.1.1, 2.4.3 · Section 508</div></div>
+    <div class="modal-section">The Accessibility Problem</div>
+    <p class="modal-text">Storyline's default drag-and-drop interaction is inaccessible by design. Tab order defaults to object creation order. There is no keyboard activation. Screen readers announce "button" with no context. Approximately 15–20% of learners — those using keyboard navigation, screen readers, or assistive switches — are completely locked out.</p>
+    <div class="modal-section">UDL Framework Decision</div>
+    <p class="modal-text">Universal Design for Learning Principle 2 requires multiple means of action and expression. A mouse-only interaction violates this at the architectural level. The solution: custom JavaScript enforcing logical tab order, Enter/Space keyboard activation, ARIA live region announcements, and visible focus indicators at a 3:1 contrast ratio. Accessibility was the architecture — not a patch.</p>
+    <div class="modal-section">Technical Implementation</div>
+    <p class="modal-text">JavaScript layer manages DOM focus, state announcements via ARIA roles, keyboard event handling (Tab, Enter, Space, arrow keys for drop target selection), and success/error state communication. Tested against NVDA, JAWS, and VoiceOver. Reusable template now available for all ADA-required courses.</p>
+    <div class="modal-actions">
+      <a href="https://madhukumar5290.github.io/DragandDropWithTabOrder/" target="_blank" class="btn btn-primary">Launch Live Demo →</a>
+      <button onclick="closeModal('m-dnd')" class="btn btn-outline">Close</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="m-swot"><div class="modal">
+  <button class="modal-x" onclick="closeModal('m-swot')">✕</button>
+  <img class="modal-img" src="https://image.thum.io/get/width/840/crop/530/noanimate/https://madhukumar5290.github.io/SWOTAnalysis/" alt="SWOT" onerror="this.src='https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=840&q=80';this.onerror=null">
+  <div class="modal-body">
+    <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--blue);margin-bottom:.3rem">03 · Flash-to-HTML5 Conversion</div>
+    <h3 style="font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--text);line-height:1.15;margin-bottom:1.25rem">Personal SWOT Analysis</h3>
+    <div class="modal-id-box"><div class="modal-id-lbl">ID Model Applied</div><div class="modal-id-txt">ADDIE · Bloom's Level 4 (Analyse) · Mobile-First Responsive Design</div></div>
+    <div class="modal-section">The Conversion Challenge</div>
+    <p class="modal-text">Flash's end-of-life created a crisis across L&D libraries worldwide. The challenge in conversion is not just technical — it's preserving the original learning intent and interaction fidelity while adapting for HTML5 delivery on devices that didn't exist when the course was built.</p>
+    <div class="modal-section">What Changed and What Didn't</div>
+    <p class="modal-text">The learning objective (learners will analyse their personal strengths, weaknesses, opportunities and threats using a structured framework) and the Bloom's Level 4 cognitive demand remained identical. What changed: the delivery format, responsive layout, touch interaction design, and performance optimisation for mobile browsers.</p>
+    <div class="modal-actions">
+      <a href="https://madhukumar5290.github.io/SWOTAnalysis/" target="_blank" class="btn btn-primary">Launch Live Demo →</a>
+      <button onclick="closeModal('m-swot')" class="btn btn-outline">Close</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="m-bees"><div class="modal">
+  <button class="modal-x" onclick="closeModal('m-bees')">✕</button>
+  <img class="modal-img" src="https://image.thum.io/get/width/840/crop/530/noanimate/https://madhukumar5290.github.io/HoneyBeesandBeehives/" alt="Bees" onerror="this.src='https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=840&q=80';this.onerror=null">
+  <div class="modal-body">
+    <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--blue);margin-bottom:.3rem">04 · Game-Based Learning · Science</div>
+    <h3 style="font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--text);line-height:1.15;margin-bottom:1.25rem">Bees and Beehives — Interactive Game</h3>
+    <div class="modal-id-box"><div class="modal-id-lbl">ID Model Applied</div><div class="modal-id-txt">Merrill's First Principles of Instruction · Game-Based Learning Design · Bloom's Level 2–3</div></div>
+    <div class="modal-section">Merrill's Framework in Practice</div>
+    <p class="modal-text">Rather than opening with "here is information about bee biology," the course opens with a real-world problem: a beekeeper's colony is mysteriously failing. Learners investigate through exploration — discovering biology facts through consequence rather than exposition. This is Merrill's Problem-Centred principle in direct practice.</p>
+    <p class="modal-text">Activation (connecting to what learners already know about insects), Demonstration (showing bee behaviours through animation), Application (learners make colony management decisions), and Integration (connecting to environmental impact) are all present — not as a checklist, but as a natural game narrative arc.</p>
+    <div class="modal-actions">
+      <a href="https://madhukumar5290.github.io/HoneyBeesandBeehives/" target="_blank" class="btn btn-primary">Launch Live Demo →</a>
+      <button onclick="closeModal('m-bees')" class="btn btn-outline">Close</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="m-memory"><div class="modal">
+  <button class="modal-x" onclick="closeModal('m-memory')">✕</button>
+  <img class="modal-img" src="https://image.thum.io/get/width/840/crop/530/noanimate/https://madhukumar5290.github.io/MemoryFlashCardGameDesktop/" alt="Memory" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=840&q=80';this.onerror=null">
+  <div class="modal-body">
+    <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--blue);margin-bottom:.3rem">05 · Game-Based Learning · Cognition</div>
+    <h3 style="font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--text);line-height:1.15;margin-bottom:1.25rem">Memory Flash Cards — Desktop</h3>
+    <div class="modal-id-box"><div class="modal-id-lbl">ID Model Applied</div><div class="modal-id-txt">Cognitive Load Theory (Sweller) · Spaced Repetition (Ebbinghaus) · Retrieval Practice Effect</div></div>
+    <div class="modal-section">The Science Behind the Game</div>
+    <p class="modal-text">Memory flash cards are not just a game mechanic — they implement two of the most evidence-backed principles in learning science. The Retrieval Practice Effect demonstrates that actively recalling information from memory strengthens memory traces far more effectively than re-reading. Spaced Repetition schedules those retrieval attempts at increasing intervals to fight the Forgetting Curve.</p>
+    <p class="modal-text">The game is designed to be adaptable to any subject matter — the card content is templated and the mechanics remain constant. This makes it a reusable asset for post-training knowledge reinforcement across any topic.</p>
+    <div class="modal-actions">
+      <a href="https://madhukumar5290.github.io/MemoryFlashCardGameDesktop/" target="_blank" class="btn btn-primary">Launch Live Demo →</a>
+      <button onclick="closeModal('m-memory')" class="btn btn-outline">Close</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="m-wvi"><div class="modal">
+  <button class="modal-x" onclick="closeModal('m-wvi')">✕</button>
+  <img class="modal-img" src="https://image.thum.io/get/width/840/crop/530/noanimate/https://madhukumar5290.github.io/AboutWorldVisionIndia/" alt="World Vision" onerror="this.src='https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=840&q=80';this.onerror=null">
+  <div class="modal-body">
+    <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--blue);margin-bottom:.3rem">07 · Organisational Induction · Non-Profit</div>
+    <h3 style="font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--text);line-height:1.15;margin-bottom:1.25rem">About World Vision India</h3>
+    <div class="modal-id-box"><div class="modal-id-lbl">ID Model Applied</div><div class="modal-id-txt">Gagné's 9 Events of Instruction · ADDIE · Values-Driven Narrative Design</div></div>
+    <div class="modal-section">Gagné's Framework in Induction Design</div>
+    <p class="modal-text">Organisational induction is one of the highest-stakes training events in the employee lifecycle. First impressions of organisational culture, values and mission are formed here — and they're sticky. The design must earn attention (Event 1), connect to why the learner chose this organisation (Event 3 — prior activation), and leave them with a genuine sense of purpose (Event 9 — integration).</p>
+    <p class="modal-text">Every one of Gagné's nine events is explicitly mapped to a screen or interaction in this course — from the opening statistic about children served (gain attention) through to the reflection prompt about what the learner's role means in the context of WVI's mission (enhance retention and transfer).</p>
+    <div class="modal-actions">
+      <a href="https://madhukumar5290.github.io/AboutWorldVisionIndia/" target="_blank" class="btn btn-primary">Launch Live Demo →</a>
+      <button onclick="closeModal('m-wvi')" class="btn btn-outline">Close</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="m-sip"><div class="modal">
+  <button class="modal-x" onclick="closeModal('m-sip')">✕</button>
+  <img class="modal-img" src="https://image.thum.io/get/width/840/crop/530/noanimate/https://madhukumar5290.github.io/SolutionInnovationProgram/" alt="Innovation" onerror="this.src='https://images.unsplash.com/photo-1558403194-611308249627?w=840&q=80';this.onerror=null">
+  <div class="modal-body">
+    <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--blue);margin-bottom:.3rem">08 · Leadership Development · Innovation</div>
+    <h3 style="font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--text);line-height:1.15;margin-bottom:1.25rem">Solution Innovation Program</h3>
+    <div class="modal-id-box"><div class="modal-id-lbl">ID Model Applied</div><div class="modal-id-txt">ADDIE · Bloom's Taxonomy Levels 4–5 (Analyse & Evaluate) · Merrill's Problem-Centred</div></div>
+    <div class="modal-section">High-Level Cognitive Design</div>
+    <p class="modal-text">Innovation training fails when it teaches innovation frameworks without requiring learners to actually innovate. The design brief was ambitious: move beyond Level 2 (Understand) and Level 3 (Apply) to genuinely assess Level 4 (Analyse) and Level 5 (Evaluate) — asking learners to critique existing solutions, identify root causes, and defend a proposed innovation against structured critique.</p>
+    <p class="modal-text">Merrill's Problem-Centred principle anchors the course: each module begins with a real organisational problem (presented as a case study with actual data) rather than a framework definition. Learners encounter the problem before they receive the tools to solve it — creating the cognitive need that makes the learning relevant.</p>
+    <div class="modal-actions">
+      <a href="https://madhukumar5290.github.io/SolutionInnovationProgram/" target="_blank" class="btn btn-primary">Launch Live Demo →</a>
+      <button onclick="closeModal('m-sip')" class="btn btn-outline">Close</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="cta-band">
+  <div class="eyebrow">Seen enough?</div>
+  <div class="cta-band-title">Got a course that needs<br><em>design thinking and engineering?</em></div>
+  <a href="contact.html" class="btn-dark">Get in Touch →</a>
+</div>
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer & eLearning Developer · 2024</div>
+  <ul class="footer-links"><li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+</footer>
+
+<script src="main.js"></script>
+<script>
+// Filter
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const f=btn.dataset.f;
+    document.querySelectorAll('#proj-grid .project-card').forEach(c=>{
+      const cat=c.dataset.cat||'';
+      c.style.display=(f==='all'||cat===f)?'flex':'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

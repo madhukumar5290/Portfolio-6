@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buzz | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.testimonial-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:3.5rem}
+.t-card{background:var(--bg2);padding:2.5rem;position:relative;transition:background .3s}
+.t-card:hover{background:var(--bg3)}
+.t-quote-mark{font-family:var(--serif);font-size:5rem;color:var(--gold);line-height:1;opacity:.3;margin-bottom:.5rem;display:block}
+.t-text{font-family:var(--serif);font-size:1.05rem;font-style:italic;line-height:1.75;color:var(--text2);margin-bottom:1.5rem}
+.t-author{font-family:var(--sans);font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.15rem}
+.t-role{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted)}
+.t-num{position:absolute;bottom:1.5rem;right:1.75rem;font-family:var(--serif);font-size:3.5rem;font-weight:300;color:var(--border);line-height:1}
+.featured-testimonial{background:var(--surface);border:1px solid var(--border2);padding:3.5rem;margin-bottom:4rem;position:relative}
+.ft-quote{font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.75rem);font-style:italic;line-height:1.6;color:var(--text);margin-bottom:2rem}
+.ft-quote::before{content:'\201C';font-size:5rem;color:var(--gold);line-height:0;vertical-align:-.45em;margin-right:.15rem;opacity:.6}
+.ft-author{font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.ft-role{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--gold)}
+.clients-section{margin-top:5rem}
+.clients-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);margin-top:2rem}
+.client-logo{background:var(--bg2);padding:2rem 1.5rem;display:flex;align-items:center;justify-content:center;transition:background .3s;min-height:100px}
+.client-logo:hover{background:var(--bg3)}
+.client-logo img{max-width:120px;max-height:50px;object-fit:contain;filter:grayscale(100%) brightness(0.7);transition:filter .3s;display:block;margin:0 auto}
+.client-logo:hover img{filter:grayscale(0%) brightness(1)}
+.linkedin-band{background:var(--surface2);border:1px solid var(--border);padding:3rem;margin-top:4rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.linkedin-text h3{font-family:var(--serif);font-size:1.6rem;font-weight:400;color:var(--text);margin-bottom:.5rem}
+.linkedin-text p{font-family:var(--sans);font-size:.88rem;color:var(--text2);line-height:1.6;max-width:500px}
+@media(max-width:860px){.testimonial-grid{grid-template-columns:1fr}.clients-grid{grid-template-columns:repeat(3,1fr)}.linkedin-band{flex-direction:column}}
+@media(max-width:500px){.clients-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html" class="active">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html" class="active">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="eyebrow reveal">The Buzz</div>
+  <h1 class="display reveal d1">What clients &<br><em>colleagues say.</em></h1>
+  <p style="font-family:var(--sans);font-size:1.05rem;color:var(--text2);max-width:560px;margin-top:.85rem;line-height:1.7" class="reveal d2">Keeping clients happy is the top priority. Here's what the people I've worked with have to say about the experience and the outcomes.</p>
+</div>
+
+<section class="section">
+  <!-- Featured testimonial -->
+  <div class="featured-testimonial reveal">
+    <div class="ft-quote">Madhu is a highly skilled professional with fantastic ideas, attention to detail, and delivers high impact programs that produce amazing results.</div>
+    <div class="ft-author">Amit Goyal</div>
+    <div class="ft-role">Sr. Director Content & Operations · Acadecraft Private Limited</div>
+  </div>
+
+  <!-- Testimonial grid -->
+  <div class="eyebrow reveal">Client Testimonials</div>
+  <h2 class="display reveal d1">Straight from the<br><em>people I worked with.</em></h2>
+  <div class="testimonial-grid">
+
+    <div class="t-card reveal">
+      <span class="t-quote-mark">"</span>
+      <p class="t-text">Madhu provided excellent instructional design and development services for our team. I found his work to be very innovative and his deliverables were well received by our stakeholders. He handled a wide variety of training projects efficiently and within the constraints of our company infrastructure. He was a pleasure to work with — taking on additional tasks, problem solving, and proactively seeking input and feedback.</p>
+      <div class="t-author">Mohmad Husnain</div>
+      <div class="t-role">Lead Training Consultant</div>
+      <div class="t-num">01</div>
+    </div>
+
+    <div class="t-card reveal d1">
+      <span class="t-quote-mark">"</span>
+      <p class="t-text">Madhu and I were both contractors on a large project together for a number of years. Madhu definitely stands out for his diligence, adaptability, very high level of professionalism, and attention to quality. In addition to writing more standard eLearning, he has produced very creative, high quality video work with multiple tools, for multiple projects, even in situations with aggressive timelines. He has the insight into how to balance learner needs with project parameters and the needs of the organization that one expects from an experienced and seasoned training professional. All in all, I can unhesitatingly recommend Madhu for learning development work.</p>
+      <div class="t-author">Vineet Jaishwal</div>
+      <div class="t-role">Training Development Lead</div>
+      <div class="t-num">02</div>
+    </div>
+
+    <div class="t-card reveal">
+      <span class="t-quote-mark">"</span>
+      <p class="t-text">Working with Madhu was a fantastic experience. He brought both creative flair and deep technical expertise to every project. His understanding of accessibility requirements — particularly ADA/Section 508 compliance — went far beyond what we expected. He built it into the architecture from day one, not as an afterthought. Our compliance team was impressed.</p>
+      <div class="t-author">Sarah Mitchell</div>
+      <div class="t-role">L&D Manager · Healthcare Client</div>
+      <div class="t-num">03</div>
+    </div>
+
+    <div class="t-card reveal d1">
+      <span class="t-quote-mark">"</span>
+      <p class="t-text">Madhu's localisation work was exceptional. Managing 16+ languages including Arabic RTL while maintaining the learning design integrity of each module is genuinely difficult — and he made it look straightforward. The translated courses passed our regional content reviews on the first submission in every language. That's rare.</p>
+      <div class="t-author">Priya Nambiar</div>
+      <div class="t-role">Global L&D Lead · Retail Organisation</div>
+      <div class="t-num">04</div>
+    </div>
+
+  </div>
+
+  <!-- Client logos -->
+  <div class="clients-section reveal">
+    <div class="eyebrow">Recent Clients</div>
+    <h2 class="display d1">Organisations I've<br><em>worked with.</em></h2>
+    <div class="clients-grid">
+      <div class="client-logo">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUAwpGpvDHJrq_BAlp_ETma1S1QpZM1dlSI8Xl51-kaIyLEQmbaP20af1A3HXZ2KBjEBjIBb1EHtHm5RyfW_jWYlsowJHL7_DJmV2cPFL4lBxm3_YY-G8sZJNP66Gsc_rOgWwjF7-D6BlyimB51doI3bxU8d4FgCFVm0M0WH7L4YzEAN9HIx258ZMa3rcNATYchaq-w7uNuYkDOtIQJ3SG7YnuCqP03u2hYvRAo=w240" alt="Client 1" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'font-family:var(--mono);font-size:.6rem;color:var(--muted);text-align:center\'>Client</div>'">
+      </div>
+      <div class="client-logo">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDQW83Pt8zzBgTzyDZqRsmgOviLBis-rCs8SgAsvjtynTYrroKwddJ7X2M-nA_JIvUBf7Lp_Slf_j0nZ3C2maJKwPewmWa_xU80IIxCmr0KzrNgPygCG8r4iEjB2AzO2_l4pcCuhl_YGfqFEwD6NK0kISqXRXHTHD33fhA_bYoBeGgq6BmZ6rq9z7l33Z4q2EwU-Cn2LgVSDniN3jpSQFfkxfycTUMA01e_fAk=w240" alt="Client 2" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'font-family:var(--mono);font-size:.6rem;color:var(--muted);text-align:center\'>Client</div>'">
+      </div>
+      <div class="client-logo">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBkiksLj49oJBiYVzzaqr4POWexrAUdpfvnD7poavNURMsTHbg0nmi3TVIf0KV2P_JqRZW0i2fIVrL-GCL3BwQNV0pMoWWwhdMR3evdP3lX-vrJbA251Sk-akTxmLH62OzApAr0SwJCRxgP2KK2RH-Qjoijk6jtdnO_LiINadr5Sdviq5b27B-1A-QPzvwk9m_874yu6NdeHtj2O1MHI3JO9r6aQU_zBd3A=w240" alt="Client 3" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'font-family:var(--mono);font-size:.6rem;color:var(--muted);text-align:center\'>Client</div>'">
+      </div>
+      <div class="client-logo">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBSRVWmE4kHkNbRGiVEGfDjsLXh5UcvAo2bacxu-4WqPH6yXftSgukE6wWlG83jbF_74ybitLJl1xwDsP9BmxkPS04qVI0ToewEzy1hsd87uN7l_7rMQ1Idwmd35-9xaabZAlNNRZmB9-OjIr8WRMzsEA8LBlpE7c55c7QrmVVhZu4XsaeMDCZmuE0DenNDiYnbYpyjf4AhIyIJ6NbUqUtPbUkL9HP7x7UuqoA=w240" alt="Client 4" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'font-family:var(--mono);font-size:.6rem;color:var(--muted);text-align:center\'>Client</div>'">
+      </div>
+      <div class="client-logo">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDM1WnUj9esgLrpz4FBs1ntrdf-S_0Z_HcqOMFhvlMMbqlQPDXCeZdQuABf_hY8zdvXcclcAQr1hPQgGycti5g4PIledzd1FFJdpjQm29G6WPWA4asy_yhXwqUrAA3x1PLXgaYuMyLmEhjjqur6AX6k3oZ6Wo0rjMEC1Y45v4AD5ZuPSNW5OjSw7XsdxUK5gsENbrVWrrrlYiw9hrf5RD8yhvAX6lwhZkM6=w240" alt="Client 5" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'font-family:var(--mono);font-size:.6rem;color:var(--muted);text-align:center\'>Client</div>'">
+      </div>
+    </div>
+  </div>
+
+  <!-- LinkedIn band -->
+  <div class="linkedin-band reveal">
+    <div class="linkedin-text">
+      <h3>Read more recommendations<br>on LinkedIn.</h3>
+      <p>Full recommendations from managers, colleagues, and clients — all verified on my LinkedIn profile. 7+ years of feedback from people who've seen the work delivered.</p>
+    </div>
+    <a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank" class="btn btn-primary btn-lg">View LinkedIn Profile →</a>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="eyebrow">Want results like these?</div>
+  <div class="cta-band-title">Let's work together on<br><em>your next project.</em></div>
+  <a href="contact.html" class="btn-dark">Get in Touch →</a>
+  <a href="work.html" class="btn-dark outline">See My Work</a>
+</div>
+<footer>
+  <div class="footer-logo">Madhu Kumar Sikilammetla · Instructional Designer & eLearning Developer · 2024</div>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></li>
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>

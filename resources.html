@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Resources | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:3rem}
+.res-card{background:var(--bg2);padding:2.25rem;position:relative;transition:background .25s;overflow:hidden}
+.res-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad-gold);transform:scaleX(0);transition:transform .4s;transform-origin:left}
+.res-card:hover{background:var(--bg3)}.res-card:hover::after{transform:scaleX(1)}
+.res-cat{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue2);margin-bottom:.5rem}
+.res-icon{font-size:2rem;margin-bottom:.85rem;display:block}
+.res-title{font-family:var(--serif);font-size:1.2rem;font-weight:500;color:var(--text);margin-bottom:.55rem;line-height:1.25}
+.res-desc{font-family:var(--sans);font-size:.84rem;line-height:1.65;color:var(--text2);margin-bottom:1.25rem}
+.res-includes{list-style:none;margin-bottom:1.5rem}
+.res-includes li{font-family:var(--sans);font-size:.82rem;color:var(--text2);display:flex;align-items:flex-start;gap:.55rem;padding:.3rem 0;border-bottom:1px solid var(--border)}
+.res-includes li:last-child{border-bottom:none}
+.res-includes li::before{content:'✓';color:var(--teal);font-family:var(--mono);font-size:.65rem;flex-shrink:0;margin-top:.1rem}
+.res-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.res-format{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.download-btn{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem 1.1rem;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,200,66,.3);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
+.download-btn:hover{background:var(--gold);color:var(--bg)}
+.download-btn.free::before{content:'FREE';font-size:.46rem;background:var(--teal);color:var(--bg);padding:.1rem .35rem;border-radius:1px;margin-right:.2rem}
+.featured-res{background:linear-gradient(135deg,var(--surface) 0%,var(--bg3) 100%);border:1px solid var(--border2);padding:3rem;margin-bottom:0;position:relative;overflow:hidden}
+.featured-res::before{content:'FEATURED';position:absolute;top:1.5rem;right:1.5rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.15em;color:var(--gold);border:1px solid rgba(245,200,66,.3);padding:.2rem .55rem}
+.featured-res-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.stat-band{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:4rem}
+.stat-b{background:var(--surface);padding:1.5rem;text-align:center}
+.stat-b-n{font-family:var(--serif);font-size:2.5rem;font-weight:300;color:var(--gold);line-height:1;display:block;margin-bottom:.2rem}
+.stat-b-l{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.newsletter-box{background:var(--bg3);border:1px solid var(--border2);padding:3rem;margin-top:0;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.nl-res-title{font-family:var(--serif);font-size:1.9rem;font-weight:300;color:var(--text);line-height:1.2;margin-bottom:.75rem}
+.nl-res-title em{font-style:italic;color:var(--gold)}
+.nl-res-body{font-family:var(--sans);font-size:.87rem;line-height:1.65;color:var(--text2)}
+@media(max-width:960px){.res-grid{grid-template-columns:1fr 1fr}.featured-res-grid{grid-template-columns:1fr;gap:2rem}.newsletter-box{grid-template-columns:1fr;gap:2rem}}
+@media(max-width:600px){.res-grid{grid-template-columns:1fr}.stat-band{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html" class="active">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html" class="active">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-bg-grid"></div><div class="hero-bg-glow1"></div>
+  <div class="eyebrow reveal t">Free Resources</div>
+  <h1 class="display reveal d1">Templates, checklists &amp;<br><em>ready-to-use tools.</em></h1>
+  <p style="font-family:var(--sans);font-size:.95rem;color:var(--text2);max-width:560px;margin-top:.85rem;line-height:1.7" class="reveal d2">Everything I've built and wish I had at the start of my career — free, downloadable, and immediately usable on your next project. No email required for most.</p>
+  <div style="display:flex;gap:1.5rem;margin-top:1.75rem;flex-wrap:wrap" class="reveal d3">
+    <span style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--teal)">✓ <span class="counter" data-target="18" data-suffix="">18</span> resources</span>
+    <span style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--muted)">✓ Free to use</span>
+    <span style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--muted)">✓ No email for most</span>
+  </div>
+</div>
+
+<section class="section">
+  <!-- Featured resource -->
+  <div class="featured-res reveal">
+    <div class="featured-res-grid">
+      <div>
+        <div class="eyebrow g" style="margin-bottom:1rem">Most Downloaded</div>
+        <h2 style="font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.5rem);font-weight:400;color:var(--text);line-height:1.15;margin-bottom:.85rem">Storyline 360 Accessibility<br><em style="color:var(--gold)">Master Template Pack</em></h2>
+        <p style="font-family:var(--sans);font-size:.9rem;line-height:1.75;color:var(--text2);margin-bottom:1.5rem">A complete, WCAG 2.1 AA-compliant Storyline 360 template with pre-configured tab order convention, accessible colour palette (all combinations pass 4.5:1+), keyboard-operable interaction library, and an alt text decision guide. Build accessible courses from day one without retrofitting.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.75rem">
+          <li style="font-family:var(--sans);font-size:.85rem;color:var(--text2);display:flex;align-items:center;gap:.55rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.65rem">✓</span>Pre-set tab order on all master slides</li>
+          <li style="font-family:var(--sans);font-size:.85rem;color:var(--text2);display:flex;align-items:center;gap:.55rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.65rem">✓</span>6 accessible colour themes — all WCAG AA+</li>
+          <li style="font-family:var(--sans);font-size:.85rem;color:var(--text2);display:flex;align-items:center;gap:.55rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.65rem">✓</span>Keyboard-accessible quiz, tabs, accordion templates</li>
+          <li style="font-family:var(--sans);font-size:.85rem;color:var(--text2);display:flex;align-items:center;gap:.55rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.65rem">✓</span>Alt text decision guide (info / decorative / functional)</li>
+          <li style="font-family:var(--sans);font-size:.85rem;color:var(--text2);display:flex;align-items:center;gap:.55rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.65rem">✓</span>20-point pre-publish accessibility checklist</li>
+        </ul>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <button class="download-btn free" onclick="handleDownload('Storyline A11y Master Template')">⬇ Download Free</button>
+          <a href="accessibility-guide.html" class="btn btn-ghost btn-sm">Read the Guide →</a>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border2);padding:2rem;text-align:center">
+        <div style="font-size:4rem;margin-bottom:1.25rem">♿</div>
+        <div style="font-family:var(--serif);font-size:1.4rem;color:var(--text);margin-bottom:.4rem">Accessibility Template</div>
+        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted);margin-bottom:1.25rem">Storyline 360 · WCAG 2.1 AA</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+          <div style="background:var(--bg2);padding:.85rem;text-align:center"><div style="font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem">Format</div><div style="font-family:var(--sans);font-size:.82rem;color:var(--text)">.story + PDF</div></div>
+          <div style="background:var(--bg2);padding:.85rem;text-align:center"><div style="font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem">Price</div><div style="font-family:var(--sans);font-size:.82rem;color:var(--teal)">Free</div></div>
+          <div style="background:var(--bg2);padding:.85rem;text-align:center"><div style="font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem">Standard</div><div style="font-family:var(--sans);font-size:.82rem;color:var(--text)">WCAG 2.1 AA</div></div>
+          <div style="background:var(--bg2);padding:.85rem;text-align:center"><div style="font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem">Rating</div><div style="font-family:var(--sans);font-size:.82rem;color:var(--gold)">★★★★★</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="res-grid reveal">
+    <!-- Resource 1 -->
+    <div class="res-card">
+      <div class="res-cat">Storyboard Templates</div>
+      <span class="res-icon">📋</span>
+      <div class="res-title">Master Storyboard Template</div>
+      <div class="res-desc">A professionally structured storyboard template used on all client projects — slide structure, narration script, visual description, interaction notes, and SME review columns.</div>
+      <ul class="res-includes"><li>Slide-by-slide grid layout</li><li>Narration + on-screen text split</li><li>Visual description column</li><li>Interaction type notes</li><li>SME review status column</li></ul>
+      <div class="res-footer"><span class="res-format">Word Doc + PDF</span><button class="download-btn free" onclick="handleDownload('Master Storyboard Template')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 2 -->
+    <div class="res-card">
+      <div class="res-cat">Accessibility</div>
+      <span class="res-icon">✅</span>
+      <div class="res-title">Pre-Publish Accessibility Checklist</div>
+      <div class="res-desc">A 25-point checklist covering every WCAG 2.1 AA requirement that applies to Storyline courses — with pass/fail criteria and how-to-fix notes for each item.</div>
+      <ul class="res-includes"><li>25 WCAG 2.1 AA checkpoints</li><li>Pass/fail criteria for each</li><li>Storyline-specific fix notes</li><li>Section 508 cross-reference</li><li>Printable PDF format</li></ul>
+      <div class="res-footer"><span class="res-format">PDF</span><button class="download-btn free" onclick="handleDownload('A11y Pre-Publish Checklist')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 3 -->
+    <div class="res-card">
+      <div class="res-cat">Project Management</div>
+      <span class="res-icon">📊</span>
+      <div class="res-title">eLearning Project Tracker</div>
+      <div class="res-desc">A comprehensive Excel tracker for managing eLearning projects — status, milestones, review cycles, SME contacts, asset inventory, and sign-off tracking.</div>
+      <ul class="res-includes"><li>Project status dashboard</li><li>Milestone and deadline tracking</li><li>SME review cycle log</li><li>Asset inventory sheet</li><li>Sign-off status per deliverable</li></ul>
+      <div class="res-footer"><span class="res-format">Excel (.xlsx)</span><button class="download-btn free" onclick="handleDownload('eLearning Project Tracker')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 4 -->
+    <div class="res-card">
+      <div class="res-cat">Instructional Design</div>
+      <span class="res-icon">🗺️</span>
+      <div class="res-title">Action Mapping Template</div>
+      <div class="res-desc">Cathy Moore's Action Mapping methodology adapted into a working template — business goal canvas, action map, practice activity brief, and minimum information list.</div>
+      <ul class="res-includes"><li>Business goal canvas</li><li>Action map diagram template</li><li>Practice activity brief</li><li>Minimum information guide</li><li>Example: AML compliance project</li></ul>
+      <div class="res-footer"><span class="res-format">Word + Visio-compatible</span><button class="download-btn free" onclick="handleDownload('Action Mapping Template')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 5 -->
+    <div class="res-card">
+      <div class="res-cat">xAPI &amp; LMS</div>
+      <span class="res-icon">📡</span>
+      <div class="res-title">xAPI Statement Library</div>
+      <div class="res-desc">A reference library of 40 production-ready xAPI statement templates covering the most common L&D use cases — with actor setup, verb IRIs, object IDs, and result objects.</div>
+      <ul class="res-includes"><li>40 ready-to-use statements</li><li>ADL verb registry reference</li><li>Actor setup patterns</li><li>Result object templates</li><li>Error handling patterns</li></ul>
+      <div class="res-footer"><span class="res-format">JSON + PDF reference</span><button class="download-btn free" onclick="handleDownload('xAPI Statement Library')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 6 -->
+    <div class="res-card">
+      <div class="res-cat">ID Frameworks</div>
+      <span class="res-icon">🧭</span>
+      <div class="res-title">ID Framework Quick Reference</div>
+      <div class="res-desc">A one-page A3 reference card covering all 10 ID frameworks in the Cheat Sheet — when to use each, key phases, and the question each framework answers best.</div>
+      <ul class="res-includes"><li>ADDIE, SAM, Bloom's</li><li>Gagné, Merrill, Kirkpatrick</li><li>Action Mapping, UDL, 4C/ID, TPACK</li><li>Quick-select decision matrix</li><li>A3 printable format</li></ul>
+      <div class="res-footer"><span class="res-format">PDF (A3 printable)</span><button class="download-btn free" onclick="handleDownload('ID Framework Quick Reference')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 7 -->
+    <div class="res-card">
+      <div class="res-cat">Localisation</div>
+      <span class="res-icon">🌍</span>
+      <div class="res-title">Localisation Project Checklist</div>
+      <div class="res-desc">A 35-point checklist for managing multi-language eLearning projects — covering source file prep, translation package, audio recording, RTL setup, LMS packaging, and QA.</div>
+      <ul class="res-includes"><li>Source file preparation</li><li>Translation package guide</li><li>Arabic RTL specific checks</li><li>Audio recording briefing template</li><li>LMS packaging for 16+ languages</li></ul>
+      <div class="res-footer"><span class="res-format">PDF + Word</span><button class="download-btn free" onclick="handleDownload('Localisation Checklist')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 8 -->
+    <div class="res-card">
+      <div class="res-cat">JavaScript</div>
+      <span class="res-icon">⚡</span>
+      <div class="res-title">Storyline JS Starter Kit</div>
+      <div class="res-desc">The 10 most-used JavaScript patterns in Storyline — pre-written, tested, and ready to copy directly into Execute JavaScript triggers with commented explanations.</div>
+      <ul class="res-includes"><li>GetPlayer safe init pattern</li><li>Variable get/set utilities</li><li>xAPI statement template</li><li>Tab order manager</li><li>ARIA live region announcer</li></ul>
+      <div class="res-footer"><span class="res-format">.js file + PDF guide</span><button class="download-btn free" onclick="handleDownload('Storyline JS Starter Kit')">⬇ Download</button></div>
+    </div>
+    <!-- Resource 9 -->
+    <div class="res-card">
+      <div class="res-cat">Game Design</div>
+      <span class="res-icon">🎮</span>
+      <div class="res-title">Learning Game Design Blueprint</div>
+      <div class="res-desc">A structured blueprint for designing game-based learning — mechanic selection, feedback design, scoring logic, and the ID framework alignment guide for game mechanics.</div>
+      <ul class="res-includes"><li>Mechanic selection matrix</li><li>Feedback design guide</li><li>Scoring and progression models</li><li>Bloom's alignment for mechanics</li><li>10 game type templates</li></ul>
+      <div class="res-footer"><span class="res-format">PDF + Miro template</span><button class="download-btn free" onclick="handleDownload('Game Design Blueprint')">⬇ Download</button></div>
+    </div>
+  </div>
+
+  <!-- Stats band -->
+  <div class="stat-band reveal">
+    <div class="stat-b"><span class="stat-b-n"><span class="counter" data-target="18" data-suffix="">0</span></span><span class="stat-b-l">Free resources</span></div>
+    <div class="stat-b"><span class="stat-b-n"><span class="counter" data-target="500" data-suffix="+">0+</span></span><span class="stat-b-l">Downloads</span></div>
+    <div class="stat-b"><span class="stat-b-n"><span class="counter" data-target="7" data-suffix="+">0+</span></span><span class="stat-b-l">Categories</span></div>
+    <div class="stat-b"><span class="stat-b-n">100%</span><span class="stat-b-l">Free to use</span></div>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="newsletter-box reveal">
+    <div>
+      <div class="eyebrow">Stay Updated</div>
+      <div class="nl-res-title">New resources added<br>every month — <em>free.</em></div>
+      <p class="nl-res-body">Subscribe to get notified when new templates, checklists, and tools are added. Also includes practical articles on Storyline, accessibility, and xAPI.</p>
+    </div>
+    <div>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" id="res-email" placeholder="your@email.com"></div>
+      <button class="btn btn-primary" onclick="resSubscribe()" style="width:100%;justify-content:center">Notify Me of New Resources →</button>
+      <div id="res-ok" style="display:none;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--teal);margin-top:.85rem">✓ You're on the list!</div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="eyebrow">Need something custom?</div>
+  <div class="cta-band-title">I can build exactly what<br><em>your project needs.</em></div>
+  <a href="contact.html" class="btn-band btn-band-primary">Get in Touch →</a>
+  <a href="work.html" class="btn-band btn-band-outline">See My Work</a>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-brand">MK. Madhu Kumar Sikilammetla</div><div class="footer-desc">Instructional Designer &amp; eLearning Developer. 7+ years building accessible, multilingual learning experiences.</div></div>
+    <div class="footer-links-grid">
+      <div class="footer-col"><div class="footer-col-title">Portfolio</div><a href="work.html">Work</a><a href="about.html">About</a><a href="buzz.html">Buzz</a></div>
+      <div class="footer-col"><div class="footer-col-title">Resources</div><a href="articles.html">Articles</a><a href="resources.html">Templates</a><a href="sl-snippets.html">JS Snippets</a></div>
+      <div class="footer-col"><div class="footer-col-title">Tools</div><a href="ai-analyzer.html">AI Analyzer</a><a href="lms-demo.html">LMS Demo</a><a href="contact.html">Contact</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2024 Madhu Kumar Sikilammetla</div><div class="footer-socials"><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a><a href="mailto:madhukumar5290@gmail.com">Email</a></div></div>
+</footer>
+<div class="wcag-badge" onclick="toggleWcag()"><div class="wcag-badge-inner"><span class="wcag-label">WCAG 2.1</span><span class="wcag-status">● AA ✓</span></div></div>
+<div class="wcag-panel" id="wcag-panel"><div class="wcag-panel-title">WCAG 2.1</div><div class="wcag-row"><span class="wcag-row-label">Standard</span><span class="wcag-row-val">AA ✓</span></div><div class="wcag-row"><span class="wcag-row-label">Contrast</span><span class="wcag-row-val">7.2:1</span></div><button class="wcag-close-btn" onclick="toggleWcag()">✕ Close</button></div>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+
+<!-- DOWNLOAD MODAL -->
+<div class="modal-bg" id="dl-modal" onclick="if(event.target===this)closeModal('dl-modal')">
+  <div class="modal" style="max-width:480px">
+    <button class="modal-x" onclick="closeModal('dl-modal')">✕</button>
+    <div class="modal-body">
+      <div class="eyebrow g">Free Download</div>
+      <h2 style="font-family:var(--serif);font-size:1.4rem;color:var(--text);margin-bottom:.75rem" id="dl-title">Resource Title</h2>
+      <p style="font-family:var(--sans);font-size:.87rem;color:var(--text2);line-height:1.65;margin-bottom:1.5rem">Enter your email to receive the download link. No spam — just the resource and occasional updates on new templates.</p>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" id="dl-email" placeholder="your@email.com"></div>
+      <button class="btn btn-primary" onclick="confirmDownload()" style="width:100%;justify-content:center">Get Download Link →</button>
+      <div id="dl-ok" style="display:none;text-align:center;padding:1.5rem 0">
+        <div style="font-size:2rem;margin-bottom:.75rem">✓</div>
+        <div style="font-family:var(--sans);font-size:.9rem;color:var(--teal);margin-bottom:.5rem">Check your inbox!</div>
+        <div style="font-family:var(--sans);font-size:.82rem;color:var(--text2)">The download link has been sent to your email. While you wait — <a href="articles.html" style="color:var(--gold)">read the articles →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+function handleDownload(title){
+  document.getElementById('dl-title').textContent=title;
+  document.getElementById('dl-ok').style.display='none';
+  document.getElementById('dl-email').value='';
+  openModal('dl-modal');
+}
+function confirmDownload(){
+  const e=document.getElementById('dl-email').value.trim();
+  if(!e||!/\S+@\S+\.\S+/.test(e)){alert('Please enter a valid email.');return;}
+  document.getElementById('dl-ok').style.display='block';
+}
+function resSubscribe(){
+  const e=document.getElementById('res-email').value.trim();
+  if(!e||!/\S+@\S+\.\S+/.test(e)){alert('Please enter a valid email.');return;}
+  document.getElementById('res-ok').style.display='block';
+}
+</script>
+</body>
+</html>

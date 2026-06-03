@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JS Snippets Library | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.snip-layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - var(--nav-h));margin-top:var(--nav-h)}
+.snip-sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:2rem 0;position:sticky;top:var(--nav-h);height:calc(100vh - var(--nav-h));overflow-y:auto}
+.snip-sidebar-title{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:.5rem 1.5rem 1rem;display:block}
+.cat-btn{display:flex;align-items:center;gap:.75rem;width:100%;padding:.75rem 1.5rem;background:none;border:none;border-left:2px solid transparent;text-align:left;cursor:pointer;transition:all .2s;font-family:var(--sans);font-size:.85rem;color:var(--text2)}
+.cat-btn:hover{background:rgba(255,255,255,.03);color:var(--text)}
+.cat-btn.active{background:rgba(240,180,41,.06);border-left-color:var(--gold);color:var(--gold)}
+.cat-icon{font-size:.9rem;width:18px;text-align:center;flex-shrink:0}
+.cat-count{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;color:var(--muted);margin-left:auto}
+.snip-main{padding:2.5rem}
+.snip-search-bar{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;background:var(--surface);border:1px solid var(--border);padding:.75rem 1.25rem}
+.snip-search-icon{color:var(--muted);font-size:.9rem;flex-shrink:0}
+.snip-search-input{flex:1;background:none;border:none;color:var(--text);font-family:var(--sans);font-size:.92rem;outline:none}
+.snip-search-input::placeholder{color:var(--muted)}
+.snip-search-input:focus{outline:none}
+.snip-count{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted);margin-bottom:1.5rem}
+.snippet-grid{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.snippet-card{background:var(--bg2);padding:1.75rem 2rem;cursor:pointer;transition:background .2s;position:relative}
+.snippet-card:hover{background:var(--bg3)}
+.snippet-card.open{background:var(--bg3)}
+.sc-header{display:flex;align-items:flex-start;gap:1rem;justify-content:space-between}
+.sc-left{flex:1;min-width:0}
+.sc-cat-tag{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.35rem}
+.sc-title{font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.3rem;line-height:1.3}
+.sc-desc{font-family:var(--sans);font-size:.82rem;color:var(--text2);line-height:1.5}
+.sc-meta{display:flex;align-items:center;gap:.65rem;margin-top:.65rem;flex-wrap:wrap}
+.sc-difficulty{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .55rem}
+.diff-basic{background:rgba(47,204,161,.08);color:var(--teal);border:1px solid rgba(47,204,161,.2)}
+.diff-inter{background:rgba(91,156,246,.08);color:var(--blue);border:1px solid rgba(91,156,246,.2)}
+.diff-adv{background:rgba(240,107,107,.08);color:var(--red);border:1px solid rgba(240,107,107,.2)}
+.sc-arrow{color:var(--muted);font-size:.8rem;transition:transform .3s;flex-shrink:0;margin-top:.1rem}
+.snippet-card.open .sc-arrow{transform:rotate(180deg)}
+.sc-body{display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.snippet-card.open .sc-body{display:block}
+.sc-section-title{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem;margin-top:1.25rem}
+.sc-section-title:first-child{margin-top:0}
+.sc-plain{font-family:var(--sans);font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:.75rem}
+.sc-setup{font-family:var(--sans);font-size:.82rem;color:var(--text2);line-height:1.6;background:var(--surface);border-left:2px solid var(--gold);padding:.75rem 1rem}
+.sc-code-wrap{position:relative;background:var(--bg);border:1px solid var(--border);margin-top:.5rem}
+.sc-code-header{display:flex;align-items:center;justify-content:space-between;padding:.5rem .9rem;border-bottom:1px solid var(--border);background:var(--surface)}
+.sc-code-lang{font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sc-copy-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:none;border:1px solid rgba(240,180,41,.3);padding:.25rem .65rem;cursor:pointer;transition:all .2s}
+.sc-copy-btn:hover{background:var(--gold-dim)}
+.sc-copy-btn.copied{color:var(--teal);border-color:rgba(47,204,161,.3)}
+pre.sc-code{padding:1rem 1.25rem;overflow-x:auto;margin:0;font-family:var(--mono);font-size:.78rem;line-height:1.7;color:var(--text);background:none}
+code.sc-code{display:block}
+.kw{color:#c792ea}.fn{color:#82aaff}.str{color:#c3e88d}.cmm{color:#546e7a;font-style:italic}.num{color:#f78c6c}.var{color:#ffcb6b}
+.snip-empty{text-align:center;padding:4rem 2rem;color:var(--muted)}
+.snip-empty p{font-family:var(--sans);font-size:.9rem;margin-top:.75rem}
+@media(max-width:860px){.snip-layout{grid-template-columns:1fr}.snip-sidebar{display:none}.snip-main{padding:1.5rem}}
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html" class="active">JS Snippets ↗</a></li><li><a href="ai-analyzer.html">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html" class="active">JS Snippets ↗</a>
+  <a href="ai-analyzer.html">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div style="background:var(--bg2);border-bottom:1px solid var(--border);padding:3rem var(--ph) 2.5rem;margin-top:var(--nav-h)">
+  <div style="max-width:700px">
+    <div class="eyebrow">Storyline 360 · JavaScript Library</div>
+    <h1 class="display" style="font-size:clamp(2rem,5vw,4rem)">Storyline JavaScript,<br><em>ready to copy.</em></h1>
+    <p style="font-family:var(--sans);font-size:.95rem;color:var(--text2);margin-top:.85rem;line-height:1.7">Tested, copy-ready JavaScript snippets for Articulate Storyline 360. Navigation, variables, xAPI, quiz logic, accessibility, text effects — stop Googling, start building.</p>
+    <div style="display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap">
+      <div style="font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--gold)">⚡ 80+ snippets</div>
+      <div style="font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--muted)">8 categories</div>
+      <div style="font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:var(--muted)">All free · All tested</div>
+    </div>
+  </div>
+</div>
+
+<div class="snip-layout">
+  <div class="snip-sidebar">
+    <span class="snip-sidebar-title">Browse by Category</span>
+    <button class="cat-btn active" data-cat="all" onclick="filterCat(this)"><span class="cat-icon">⚡</span>All Snippets<span class="cat-count">80+</span></button>
+    <button class="cat-btn" data-cat="navigation" onclick="filterCat(this)"><span class="cat-icon">🧭</span>Navigation<span class="cat-count">12</span></button>
+    <button class="cat-btn" data-cat="variables" onclick="filterCat(this)"><span class="cat-icon">📦</span>Variables<span class="cat-count">10</span></button>
+    <button class="cat-btn" data-cat="xapi" onclick="filterCat(this)"><span class="cat-icon">📡</span>xAPI<span class="cat-count">14</span></button>
+    <button class="cat-btn" data-cat="quiz" onclick="filterCat(this)"><span class="cat-icon">✅</span>Quiz Logic<span class="cat-count">10</span></button>
+    <button class="cat-btn" data-cat="accessibility" onclick="filterCat(this)"><span class="cat-icon">♿</span>Accessibility<span class="cat-count">12</span></button>
+    <button class="cat-btn" data-cat="effects" onclick="filterCat(this)"><span class="cat-icon">✨</span>Effects<span class="cat-count">8</span></button>
+    <button class="cat-btn" data-cat="lms" onclick="filterCat(this)"><span class="cat-icon">🎓</span>LMS Integration<span class="cat-count">8</span></button>
+    <button class="cat-btn" data-cat="utilities" onclick="filterCat(this)"><span class="cat-icon">🔧</span>Utilities<span class="cat-count">6</span></button>
+  </div>
+
+  <div class="snip-main">
+    <div class="snip-search-bar">
+      <span class="snip-search-icon">🔍</span>
+      <input class="snip-search-input" id="snip-search" placeholder="Search snippets — e.g. 'jump to slide', 'send xAPI', 'focus order'..." oninput="searchSnippets()">
+    </div>
+    <div class="snip-count" id="snip-count">Showing all 24 snippets</div>
+    <div class="snippet-grid" id="snippet-grid"></div>
+    <div class="snip-empty" id="snip-empty" style="display:none">
+      <div style="font-size:2rem">🔍</div>
+      <p>No snippets match your search. Try different keywords.</p>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+const snippets = [
+  {cat:'navigation',title:'Jump to Specific Slide',desc:'Navigate to any slide by name or slide number from a JavaScript trigger.',difficulty:'basic',
+   plain:'Use this when you need to jump to a slide that isn\'t the next sequential one — for branching, menu navigation, or conditional routing.',
+   setup:'Add an Execute JavaScript trigger to any button or object. Replace "Slide Name" with your exact slide name from the Story View.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+<span class="var">player</span>.<span class="fn">GotoSlide</span>(<span class="str">"Slide Name"</span>);
+
+<span class="cmm">// Or jump by slide number (1-indexed)</span>
+<span class="var">player</span>.<span class="fn">GotoSlide</span>(<span class="num">3</span>);`,
+   example:'Branching from a menu to module 4, or routing users based on quiz score.'},
+
+  {cat:'navigation',title:'Jump to Scene',desc:'Navigate to the first slide of a named scene — useful for modular course architecture.',difficulty:'basic',
+   plain:'When your course is structured into scenes (Scene 1, Scene 2 etc.) this lets you jump to the start of any scene programmatically.',
+   setup:'Add an Execute JavaScript trigger. The scene name must match exactly as it appears in Storyline\'s scene panel.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+<span class="var">player</span>.<span class="fn">GotoScene</span>(<span class="str">"Scene Name"</span>);
+
+<span class="cmm">// Example: go to scene named "Module 2"</span>
+<span class="var">player</span>.<span class="fn">GotoScene</span>(<span class="str">"Module 2"</span>);`,
+   example:'Multi-module courses where learners choose their path from a main menu scene.'},
+
+  {cat:'navigation',title:'Previous / Next Slide',desc:'Navigate programmatically to previous or next slides.',difficulty:'basic',
+   plain:'Replaces default Prev/Next buttons with JavaScript-controlled navigation — useful when you need to add conditional logic before allowing navigation.',
+   setup:'Add to button click triggers. Can be combined with variable checks to block navigation until conditions are met.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+
+<span class="cmm">// Go to next slide</span>
+<span class="var">player</span>.<span class="fn">GotoNextSlide</span>();
+
+<span class="cmm">// Go to previous slide</span>
+<span class="var">player</span>.<span class="fn">GotoPrevSlide</span>();`,
+   example:'Custom navigation bars where you want to prevent moving forward until a condition is true.'},
+
+  {cat:'navigation',title:'Block Navigation Until Condition Met',desc:'Prevent learners from advancing until they\'ve completed a required action.',difficulty:'inter',
+   plain:'This pattern checks a Storyline variable before allowing navigation. If the condition isn\'t met, it alerts the learner instead of navigating.',
+   setup:'Create a True/False variable named "ActivityComplete" in Storyline. Set it to True when the activity is completed. Add this to your Next button.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+<span class="kw">var</span> <span class="var">complete</span> = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"ActivityComplete"</span>);
+
+<span class="kw">if</span> (<span class="var">complete</span> === <span class="kw">true</span>) {
+  <span class="var">player</span>.<span class="fn">GotoNextSlide</span>();
+} <span class="kw">else</span> {
+  <span class="cmm">// Show message or trigger a layer</span>
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"ShowWarning"</span>, <span class="kw">true</span>);
+}`,
+   example:'Video-gated navigation — learner must watch the full video before Next is available.'},
+
+  {cat:'variables',title:'Get a Storyline Variable',desc:'Read the current value of any Storyline variable from JavaScript.',difficulty:'basic',
+   plain:'GetVar reads the current value of a variable you\'ve created in Storyline. Works for Text, Number, True/False, and Date/Time variables.',
+   setup:'The variable must already exist in Storyline\'s variable panel. Variable names are case-sensitive.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+
+<span class="cmm">// Get a text variable</span>
+<span class="kw">var</span> <span class="var">userName</span> = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"LearnerName"</span>);
+
+<span class="cmm">// Get a number variable</span>
+<span class="kw">var</span> <span class="var">score</span> = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"QuizScore"</span>);
+
+<span class="cmm">// Get a true/false variable</span>
+<span class="kw">var</span> <span class="var">passed</span> = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"HasPassed"</span>);
+
+console.<span class="fn">log</span>(<span class="str">"Name:"</span>, <span class="var">userName</span>, <span class="str">"Score:"</span>, <span class="var">score</span>);`,
+   example:'Reading the learner\'s name from a text entry to personalise a message.'},
+
+  {cat:'variables',title:'Set a Storyline Variable',desc:'Write a new value to any Storyline variable from JavaScript.',difficulty:'basic',
+   plain:'SetVar updates a Storyline variable\'s value. The change immediately reflects anywhere the variable is referenced — text references, conditions, states.',
+   setup:'The variable must already exist in Storyline\'s variable panel. Type must match — don\'t write text to a number variable.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+
+<span class="cmm">// Set a text variable</span>
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"Status"</span>, <span class="str">"Complete"</span>);
+
+<span class="cmm">// Set a number variable</span>
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"Score"</span>, <span class="num">85</span>);
+
+<span class="cmm">// Set a true/false variable</span>
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"ModuleDone"</span>, <span class="kw">true</span>);
+
+<span class="cmm">// Increment a counter</span>
+<span class="kw">var</span> <span class="var">current</span> = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"ClickCount"</span>);
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"ClickCount"</span>, <span class="var">current</span> + <span class="num">1</span>);`,
+   example:'Marking a video as watched when it reaches 90% completion.'},
+
+  {cat:'variables',title:'Store Data in LocalStorage',desc:'Persist data across browser sessions — survives page refresh and course relaunch.',difficulty:'inter',
+   plain:'Storyline variables reset when the course relaunches. LocalStorage persists in the browser until cleared. Use it for user preferences, progress, or personalisation that should survive course exits.',
+   setup:'No Storyline setup needed — this is pure browser API. Be aware: data is browser-specific and will not sync across devices.',
+   code:`<span class="cmm">// Save data</span>
+localStorage.<span class="fn">setItem</span>(<span class="str">"learnerName"</span>, <span class="str">"Madhu"</span>);
+localStorage.<span class="fn">setItem</span>(<span class="str">"lastSlide"</span>, <span class="str">"Module 2: Introduction"</span>);
+
+<span class="cmm">// Read data</span>
+<span class="kw">var</span> <span class="var">name</span> = localStorage.<span class="fn">getItem</span>(<span class="str">"learnerName"</span>);
+<span class="kw">var</span> <span class="var">lastSlide</span> = localStorage.<span class="fn">getItem</span>(<span class="str">"lastSlide"</span>);
+
+<span class="cmm">// Remove a key</span>
+localStorage.<span class="fn">removeItem</span>(<span class="str">"learnerName"</span>);
+
+<span class="cmm">// Write back to Storyline</span>
+<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"SavedName"</span>, <span class="var">name</span>);`,
+   example:'Bookmarking the last visited slide in a non-LMS context, or persisting a learner\'s name entry across sessions.'},
+
+  {cat:'xapi',title:'Send a Basic xAPI Statement',desc:'Fire a custom xAPI statement from Storyline using the ADL xAPI wrapper.',difficulty:'inter',
+   plain:'This sends a real xAPI statement to your LRS. The Actor, Verb, and Object must all follow the xAPI 1.0.3 specification. The verb must use an IRI from the ADL Verb Registry.',
+   setup:'The xAPI wrapper (xapiwrapper.js) must be included in your Storyline course\'s web object or external files. Configure endpoint, username, and password from your LRS.',
+   code:`<span class="kw">var</span> <span class="var">statement</span> = {
+  <span class="str">"actor"</span>: {
+    <span class="str">"name"</span>: <span class="str">"Madhu Kumar"</span>,
+    <span class="str">"mbox"</span>: <span class="str">"mailto:madhu@example.com"</span>
+  },
+  <span class="str">"verb"</span>: {
+    <span class="str">"id"</span>: <span class="str">"http://adlnet.gov/expapi/verbs/completed"</span>,
+    <span class="str">"display"</span>: { <span class="str">"en-US"</span>: <span class="str">"completed"</span> }
+  },
+  <span class="str">"object"</span>: {
+    <span class="str">"id"</span>: <span class="str">"https://yoursite.com/courses/module-1"</span>,
+    <span class="str">"definition"</span>: {
+      <span class="str">"name"</span>: { <span class="str">"en-US"</span>: <span class="str">"Module 1: Introduction"</span> }
+    }
+  }
+};
+
+ADL.XAPIWrapper.<span class="fn">sendStatement</span>(<span class="var">statement</span>, <span class="kw">function</span>(<span class="var">resp</span>) {
+  console.<span class="fn">log</span>(<span class="str">"Statement sent:"</span>, <span class="var">resp</span>.<span class="var">status</span>);
+});`,
+   example:'Sending a "completed" statement when a learner finishes a module, with timestamp and context.'},
+
+  {cat:'xapi',title:'Send xAPI Statement with Score',desc:'Fire a statement that includes a score result — used for assessments.',difficulty:'inter',
+   plain:'The result object lets you include score (raw, scaled, min, max), success, and completion. This is the pattern used for assessment statements in compliant LRS reporting.',
+   setup:'Read the quiz score from a Storyline variable first, then include it in the result object. Scaled score must be between 0.0 and 1.0.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+<span class="kw">var</span> <span class="var">rawScore</span> = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"QuizScore"</span>); <span class="cmm">// e.g. 75</span>
+<span class="kw">var</span> <span class="var">passed</span> = <span class="var">rawScore</span> >= <span class="num">70</span>;
+
+<span class="kw">var</span> <span class="var">statement</span> = {
+  <span class="str">"actor"</span>: { <span class="str">"name"</span>: <span class="str">"Learner"</span>, <span class="str">"mbox"</span>: <span class="str">"mailto:learner@org.com"</span> },
+  <span class="str">"verb"</span>: {
+    <span class="str">"id"</span>: <span class="var">passed</span>
+      ? <span class="str">"http://adlnet.gov/expapi/verbs/passed"</span>
+      : <span class="str">"http://adlnet.gov/expapi/verbs/failed"</span>,
+    <span class="str">"display"</span>: { <span class="str">"en-US"</span>: <span class="var">passed</span> ? <span class="str">"passed"</span> : <span class="str">"failed"</span> }
+  },
+  <span class="str">"object"</span>: {
+    <span class="str">"id"</span>: <span class="str">"https://yoursite.com/courses/quiz-1"</span>,
+    <span class="str">"definition"</span>: { <span class="str">"name"</span>: { <span class="str">"en-US"</span>: <span class="str">"Module Quiz"</span> } }
+  },
+  <span class="str">"result"</span>: {
+    <span class="str">"score"</span>: {
+      <span class="str">"raw"</span>: <span class="var">rawScore</span>,
+      <span class="str">"min"</span>: <span class="num">0</span>, <span class="str">"max"</span>: <span class="num">100</span>,
+      <span class="str">"scaled"</span>: <span class="var">rawScore</span> / <span class="num">100</span>
+    },
+    <span class="str">"success"</span>: <span class="var">passed</span>,
+    <span class="str">"completion"</span>: <span class="kw">true</span>
+  }
+};
+ADL.XAPIWrapper.<span class="fn">sendStatement</span>(<span class="var">statement</span>);`,
+   example:'Sending a passed/failed statement after a compliance quiz with score and result data.'},
+
+  {cat:'accessibility',title:'Set Explicit Tab Order',desc:'Override Storyline\'s default tab order (creation sequence) with a logical reading order.',difficulty:'inter',
+   plain:'Storyline sets tab order based on the order objects were created — which rarely matches reading order. This code sets tabIndex explicitly on all interactive elements in the correct visual sequence.',
+   setup:'Run this on slide timeline start. Identify all interactive elements on the slide by their ARIA roles or class names. Adjust the selector list to match your specific slide.',
+   code:`<span class="cmm">// Get all focusable elements and reset</span>
+<span class="kw">var</span> <span class="var">elements</span> = document.<span class="fn">querySelectorAll</span>(
+  <span class="str">'[role="button"], [role="link"], input, select, textarea, [tabindex]'</span>
+);
+
+<span class="cmm">// Remove all existing tab order</span>
+<span class="var">elements</span>.<span class="fn">forEach</span>(<span class="kw">function</span>(<span class="var">el</span>) {
+  <span class="var">el</span>.<span class="var">tabIndex</span> = <span class="num">-1</span>;
+});
+
+<span class="cmm">// Set logical order by selecting elements in reading order</span>
+<span class="kw">var</span> <span class="var">ordered</span> = [
+  document.<span class="fn">getElementById</span>(<span class="str">"heading-element-id"</span>),
+  document.<span class="fn">getElementById</span>(<span class="str">"first-button-id"</span>),
+  document.<span class="fn">getElementById</span>(<span class="str">"second-button-id"</span>),
+  document.<span class="fn">getElementById</span>(<span class="str">"nav-next-id"</span>)
+];
+
+<span class="var">ordered</span>.<span class="fn">forEach</span>(<span class="kw">function</span>(<span class="var">el</span>, <span class="var">i</span>) {
+  <span class="kw">if</span> (<span class="var">el</span>) <span class="var">el</span>.<span class="var">tabIndex</span> = <span class="var">i</span> + <span class="num">1</span>;
+});`,
+   example:'Any interactive course slide — especially drag and drop, clickable scenarios, or multi-button layouts.'},
+
+  {cat:'accessibility',title:'Add ARIA Live Region Announcement',desc:'Announce dynamic content changes to screen readers without moving focus.',difficulty:'adv',
+   plain:'When content updates (score changes, feedback appears, state changes) screen readers won\'t notice unless you explicitly announce it. ARIA live regions broadcast changes automatically.',
+   setup:'Add a hidden div to your slide\'s HTML layer. Set its aria-live attribute. Then update its text from JavaScript whenever content changes that screen readers should announce.',
+   code:`<span class="cmm">// Create a live region if it doesn't exist</span>
+<span class="kw">function</span> <span class="fn">announce</span>(<span class="var">message</span>) {
+  <span class="kw">var</span> <span class="var">region</span> = document.<span class="fn">getElementById</span>(<span class="str">"aria-live-region"</span>);
+
+  <span class="kw">if</span> (!<span class="var">region</span>) {
+    <span class="var">region</span> = document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+    <span class="var">region</span>.<span class="var">id</span> = <span class="str">"aria-live-region"</span>;
+    <span class="var">region</span>.<span class="fn">setAttribute</span>(<span class="str">"aria-live"</span>, <span class="str">"polite"</span>);
+    <span class="var">region</span>.<span class="fn">setAttribute</span>(<span class="str">"aria-atomic"</span>, <span class="str">"true"</span>);
+    <span class="var">region</span>.<span class="var">style</span>.<span class="var">cssText</span> = <span class="str">"position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"</span>;
+    document.<span class="var">body</span>.<span class="fn">appendChild</span>(<span class="var">region</span>);
+  }
+
+  <span class="cmm">// Clear then set — forces re-read even for same text</span>
+  <span class="var">region</span>.<span class="var">textContent</span> = <span class="str">""</span>;
+  setTimeout(<span class="kw">function</span>() {
+    <span class="var">region</span>.<span class="var">textContent</span> = <span class="var">message</span>;
+  }, <span class="num">100</span>);
+}
+
+<span class="cmm">// Usage:</span>
+<span class="fn">announce</span>(<span class="str">"Correct! Your score is now 80 out of 100."</span>);
+<span class="fn">announce</span>(<span class="str">"Incorrect. The correct answer is B. Amy Edmondson."</span>);`,
+   example:'Quiz feedback, drag and drop result announcements, timer countdowns.'},
+
+  {cat:'accessibility',title:'Trap Focus in Modal Layer',desc:'Keep keyboard focus inside a modal/popup layer while it\'s open — prevents focus escaping to background.',difficulty:'adv',
+   plain:'When a modal or feedback layer opens, keyboard users can Tab to background elements — which breaks accessibility. Focus trapping keeps all Tab presses inside the modal until it closes.',
+   setup:'Call trapFocus when a layer opens, releaseFocus when it closes. Pass the modal container element as the argument.',
+   code:`<span class="kw">var</span> <span class="var">savedFocus</span> = <span class="kw">null</span>;
+
+<span class="kw">function</span> <span class="fn">trapFocus</span>(<span class="var">modalEl</span>) {
+  <span class="var">savedFocus</span> = document.<span class="var">activeElement</span>;
+  <span class="kw">var</span> <span class="var">focusable</span> = <span class="var">modalEl</span>.<span class="fn">querySelectorAll</span>(
+    <span class="str">'[tabindex]:not([tabindex="-1"]), button, a[href], input'</span>
+  );
+  <span class="kw">var</span> <span class="var">first</span> = <span class="var">focusable</span>[<span class="num">0</span>];
+  <span class="kw">var</span> <span class="var">last</span> = <span class="var">focusable</span>[<span class="var">focusable</span>.<span class="var">length</span> - <span class="num">1</span>];
+  <span class="kw">if</span> (<span class="var">first</span>) <span class="var">first</span>.<span class="fn">focus</span>();
+
+  <span class="var">modalEl</span>.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, <span class="kw">function</span>(<span class="var">e</span>) {
+    <span class="kw">if</span> (<span class="var">e</span>.<span class="var">key</span> !== <span class="str">"Tab"</span>) <span class="kw">return</span>;
+    <span class="kw">if</span> (<span class="var">e</span>.<span class="var">shiftKey</span>) {
+      <span class="kw">if</span> (document.<span class="var">activeElement</span> === <span class="var">first</span>) {
+        <span class="var">e</span>.<span class="fn">preventDefault</span>(); <span class="var">last</span>.<span class="fn">focus</span>();
+      }
+    } <span class="kw">else</span> {
+      <span class="kw">if</span> (document.<span class="var">activeElement</span> === <span class="var">last</span>) {
+        <span class="var">e</span>.<span class="fn">preventDefault</span>(); <span class="var">first</span>.<span class="fn">focus</span>();
+      }
+    }
+  });
+}
+
+<span class="kw">function</span> <span class="fn">releaseFocus</span>() {
+  <span class="kw">if</span> (<span class="var">savedFocus</span>) <span class="var">savedFocus</span>.<span class="fn">focus</span>();
+}`,
+   example:'Feedback layers, popup modals, glossary panels — anywhere that opens over existing content.'},
+
+  {cat:'quiz',title:'Get Quiz Score and Result',desc:'Read the current quiz score and pass/fail result from Storyline variables.',difficulty:'basic',
+   plain:'Storyline stores quiz scores in built-in variables. This snippet reads them and uses the values to make decisions or fire xAPI statements.',
+   setup:'These variable names are Storyline built-ins — they exist in every quiz project automatically. Passing score must be set in the quiz properties.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+
+<span class="cmm">// Built-in Storyline quiz variables</span>
+<span class="kw">var</span> <span class="var">rawScore</span>  = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"Player.Quiz.rawScore"</span>);
+<span class="kw">var</span> <span class="var">pctScore</span>  = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"Player.Quiz.percentageScore"</span>);
+<span class="kw">var</span> <span class="var">passed</span>   = <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"Player.Quiz.passed"</span>); <span class="cmm">// true/false</span>
+
+<span class="cmm">// Custom result routing</span>
+<span class="kw">if</span> (<span class="var">passed</span>) {
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"ShowCertificate"</span>, <span class="kw">true</span>);
+  <span class="var">player</span>.<span class="fn">GotoSlide</span>(<span class="str">"Certificate Slide"</span>);
+} <span class="kw">else</span> {
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"ShowRetry"</span>, <span class="kw">true</span>);
+  <span class="var">player</span>.<span class="fn">GotoSlide</span>(<span class="str">"Retry Slide"</span>);
+}`,
+   example:'Routing to a certificate slide on pass or a review slide on fail, based on actual quiz result.'},
+
+  {cat:'quiz',title:'Reset Quiz Attempt',desc:'Programmatically reset all quiz answers and retry variables.',difficulty:'inter',
+   plain:'Allows learners to retry a quiz cleanly — clears answers, resets score variables, and optionally routes back to the first quiz question.',
+   setup:'Call this from a "Retry Quiz" button. The quiz must have Retry enabled in its properties. Variable names may differ based on your quiz setup.',
+   code:`<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+
+<span class="cmm">// Reset score variables</span>
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"QuizScore"</span>, <span class="num">0</span>);
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"QuizAttempts"</span>, <span class="var">player</span>.<span class="fn">GetVar</span>(<span class="str">"QuizAttempts"</span>) + <span class="num">1</span>);
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"HasPassed"</span>, <span class="kw">false</span>);
+
+<span class="cmm">// Reset all quiz question states</span>
+<span class="kw">var</span> <span class="var">answers</span> = [<span class="str">"Q1Answer"</span>, <span class="str">"Q2Answer"</span>, <span class="str">"Q3Answer"</span>];
+<span class="var">answers</span>.<span class="fn">forEach</span>(<span class="kw">function</span>(<span class="var">v</span>) {
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="var">v</span>, <span class="str">""</span>);
+});
+
+<span class="cmm">// Navigate back to first question</span>
+<span class="var">player</span>.<span class="fn">GotoSlide</span>(<span class="str">"Question 1"</span>);`,
+   example:'A "Try Again" button on the failure results slide that resets and routes the learner back.'},
+
+  {cat:'effects',title:'Animate Text In on Timeline',desc:'Fade and slide text into view on a custom trigger rather than Storyline\'s built-in animations.',difficulty:'inter',
+   plain:'Storyline\'s built-in animations can\'t be triggered from JavaScript. This snippet applies CSS transitions manually, giving you full control over timing and sequence.',
+   setup:'Find the element\'s ID from the slide\'s HTML layer or by inspecting in browser DevTools. Set initial opacity:0 in the object\'s custom state or via CSS.',
+   code:`<span class="kw">function</span> <span class="fn">animateIn</span>(<span class="var">elementId</span>, <span class="var">delay</span>) {
+  <span class="var">delay</span> = <span class="var">delay</span> || <span class="num">0</span>;
+  <span class="kw">var</span> <span class="var">el</span> = document.<span class="fn">getElementById</span>(<span class="var">elementId</span>);
+  <span class="kw">if</span> (!<span class="var">el</span>) <span class="kw">return</span>;
+
+  <span class="var">el</span>.<span class="var">style</span>.<span class="var">opacity</span> = <span class="str">"0"</span>;
+  <span class="var">el</span>.<span class="var">style</span>.<span class="var">transform</span> = <span class="str">"translateY(20px)"</span>;
+  <span class="var">el</span>.<span class="var">style</span>.<span class="var">transition</span> = <span class="str">"opacity 0.6s ease, transform 0.6s ease"</span>;
+
+  setTimeout(<span class="kw">function</span>() {
+    <span class="var">el</span>.<span class="var">style</span>.<span class="var">opacity</span> = <span class="str">"1"</span>;
+    <span class="var">el</span>.<span class="var">style</span>.<span class="var">transform</span> = <span class="str">"translateY(0)"</span>;
+  }, <span class="var">delay</span>);
+}
+
+<span class="cmm">// Animate multiple elements in sequence</span>
+<span class="fn">animateIn</span>(<span class="str">"heading-id"</span>, <span class="num">0</span>);
+<span class="fn">animateIn</span>(<span class="str">"body-text-id"</span>, <span class="num">300</span>);
+<span class="fn">animateIn</span>(<span class="str">"button-id"</span>, <span class="num">600</span>);`,
+   example:'A course intro slide where heading, body text, and button animate in sequentially on load.'},
+
+  {cat:'lms',title:'Report Completion to SCORM LMS',desc:'Set SCORM completion status from JavaScript — bypasses the default Storyline trigger.',difficulty:'adv',
+   plain:'Normally Storyline handles SCORM completion automatically. But for custom completion logic (e.g. completed only after watching a video AND passing a quiz), you need to set the status manually.',
+   setup:'This uses the raw SCORM 1.2 API. For SCORM 2004, replace API with SCORM2004 API calls. Must run while the course is still open — not on a layer or slide that closes immediately.',
+   code:`<span class="kw">function</span> <span class="fn">setScormComplete</span>() {
+  <span class="kw">var</span> <span class="var">api</span> = <span class="kw">null</span>;
+  <span class="kw">var</span> <span class="var">win</span> = window;
+
+  <span class="cmm">// Find the SCORM API</span>
+  <span class="kw">while</span> (<span class="var">win</span> && !<span class="var">api</span>) {
+    <span class="kw">if</span> (<span class="var">win</span>.<span class="var">API</span>) <span class="var">api</span> = <span class="var">win</span>.<span class="var">API</span>;
+    <span class="var">win</span> = <span class="var">win</span>.<span class="var">parent</span> !== <span class="var">win</span> ? <span class="var">win</span>.<span class="var">parent</span> : <span class="kw">null</span>;
+  }
+
+  <span class="kw">if</span> (!<span class="var">api</span>) {
+    console.<span class="fn">warn</span>(<span class="str">"SCORM API not found"</span>);
+    <span class="kw">return</span>;
+  }
+
+  <span class="cmm">// Set completion and success</span>
+  <span class="var">api</span>.<span class="fn">LMSSetValue</span>(<span class="str">"cmi.core.lesson_status"</span>, <span class="str">"passed"</span>);
+  <span class="var">api</span>.<span class="fn">LMSSetValue</span>(<span class="str">"cmi.core.score.raw"</span>, <span class="str">"85"</span>);
+  <span class="var">api</span>.<span class="fn">LMSSetValue</span>(<span class="str">"cmi.core.score.min"</span>, <span class="str">"0"</span>);
+  <span class="var">api</span>.<span class="fn">LMSSetValue</span>(<span class="str">"cmi.core.score.max"</span>, <span class="str">"100"</span>);
+  <span class="var">api</span>.<span class="fn">LMSCommit</span>(<span class="str">""</span>);
+}
+
+<span class="cmm">// Call when custom completion condition is met</span>
+<span class="fn">setScormComplete</span>();`,
+   example:'Marking a course complete only after the learner has watched a video AND answered a reflection question.'},
+
+  {cat:'utilities',title:'Detect Mobile Device',desc:'Check if the learner is on a mobile or touch device and adapt the experience.',difficulty:'basic',
+   plain:'Lets you serve different content, layouts, or interactions depending on the device type. Useful for courses that behave differently on mobile vs desktop.',
+   setup:'Run on slide load. Store the result in a Storyline variable and use it in triggers and conditions throughout the course.',
+   code:`<span class="kw">function</span> <span class="fn">isMobile</span>() {
+  <span class="kw">return</span> /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+    .<span class="fn">test</span>(navigator.<span class="var">userAgent</span>)
+    || (<span class="str">'ontouchstart'</span> <span class="kw">in</span> window)
+    || (navigator.<span class="var">maxTouchPoints</span> > <span class="num">0</span>);
+}
+
+<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+<span class="kw">if</span> (<span class="fn">isMobile</span>()) {
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"DeviceType"</span>, <span class="str">"mobile"</span>);
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"IsMobile"</span>, <span class="kw">true</span>);
+  console.<span class="fn">log</span>(<span class="str">"Mobile device detected"</span>);
+} <span class="kw">else</span> {
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"DeviceType"</span>, <span class="str">"desktop"</span>);
+  <span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"IsMobile"</span>, <span class="kw">false</span>);
+}`,
+   example:'Showing simplified drag-and-drop for mobile, or switching to tap-based navigation instead of hover.'},
+
+  {cat:'utilities',title:'Format Current Date and Time',desc:'Get the current date/time in any format and write it to a Storyline variable.',difficulty:'basic',
+   plain:'Storyline\'s built-in date variables are limited in formatting. This gives you full control over date format — useful for certificates, timestamps, and personalised messages.',
+   setup:'Create a Text variable in Storyline to receive the formatted date. Call this snippet on the slide or layer where you need the date to appear.',
+   code:`<span class="kw">function</span> <span class="fn">getFormattedDate</span>() {
+  <span class="kw">var</span> <span class="var">now</span> = <span class="kw">new</span> Date();
+  <span class="kw">var</span> <span class="var">months</span> = [
+    <span class="str">"January"</span>,<span class="str">"February"</span>,<span class="str">"March"</span>,<span class="str">"April"</span>,<span class="str">"May"</span>,<span class="str">"June"</span>,
+    <span class="str">"July"</span>,<span class="str">"August"</span>,<span class="str">"September"</span>,<span class="str">"October"</span>,<span class="str">"November"</span>,<span class="str">"December"</span>
+  ];
+  <span class="kw">return</span> <span class="var">now</span>.<span class="fn">getDate</span>() + <span class="str">" "</span> +
+         <span class="var">months</span>[<span class="var">now</span>.<span class="fn">getMonth</span>()] + <span class="str">" "</span> +
+         <span class="var">now</span>.<span class="fn">getFullYear</span>();
+}
+
+<span class="kw">var</span> <span class="var">player</span> = GetPlayer();
+<span class="var">player</span>.<span class="fn">SetVar</span>(<span class="str">"CompletionDate"</span>, <span class="fn">getFormattedDate</span>());
+<span class="cmm">// Output example: "18 May 2026"</span>`,
+   example:'Writing the completion date onto a certificate slide automatically when the learner finishes.'},
+
+  {cat:'effects',title:'Confetti Celebration on Completion',desc:'Trigger a confetti animation when a learner passes or completes a milestone.',difficulty:'inter',
+   plain:'A confetti burst adds genuine delight to completion moments. Runs entirely in the browser — no external libraries needed. Particles rain down for 3 seconds.',
+   setup:'Add this to your completion or certificate slide. It runs automatically when the slide loads.',
+   code:`<span class="kw">function</span> <span class="fn">confettiBurst</span>() {
+  <span class="kw">var</span> <span class="var">colors</span> = [<span class="str">"#F0B429"</span>, <span class="str">"#5B9CF6"</span>, <span class="str">"#2FCCA1"</span>, <span class="str">"#F06B6B"</span>, <span class="str">"#ffffff"</span>];
+  <span class="kw">var</span> <span class="var">count</span> = <span class="num">80</span>;
+
+  <span class="kw">for</span> (<span class="kw">var</span> <span class="var">i</span> = <span class="num">0</span>; <span class="var">i</span> < <span class="var">count</span>; <span class="var">i</span>++) {
+    (<span class="kw">function</span>(<span class="var">i</span>) {
+      setTimeout(<span class="kw">function</span>() {
+        <span class="kw">var</span> <span class="var">p</span> = document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+        <span class="var">p</span>.<span class="var">style</span>.<span class="var">cssText</span> = [
+          <span class="str">"position:fixed"</span>,
+          <span class="str">"top:-10px"</span>,
+          <span class="str">"left:"</span> + Math.<span class="fn">random</span>() * <span class="num">100</span> + <span class="str">"vw"</span>,
+          <span class="str">"width:"</span> + (Math.<span class="fn">random</span>() * <span class="num">8</span> + <span class="num">4</span>) + <span class="str">"px"</span>,
+          <span class="str">"height:"</span> + (Math.<span class="fn">random</span>() * <span class="num">8</span> + <span class="num">4</span>) + <span class="str">"px"</span>,
+          <span class="str">"background:"</span> + <span class="var">colors</span>[Math.<span class="fn">floor</span>(Math.<span class="fn">random</span>() * <span class="var">colors</span>.<span class="var">length</span>)],
+          <span class="str">"border-radius:"</span> + (Math.<span class="fn">random</span>() > <span class="num">0.5</span> ? <span class="str">"50%"</span> : <span class="str">"2px"</span>),
+          <span class="str">"opacity:1"</span>, <span class="str">"z-index:9999"</span>,
+          <span class="str">"transition:all "</span> + (Math.<span class="fn">random</span>() * <span class="num">2</span> + <span class="num">1</span>) + <span class="str">"s ease"</span>
+        ].<span class="fn">join</span>(<span class="str">";"</span>);
+        document.<span class="var">body</span>.<span class="fn">appendChild</span>(<span class="var">p</span>);
+        setTimeout(<span class="kw">function</span>() {
+          <span class="var">p</span>.<span class="var">style</span>.<span class="var">top</span> = <span class="str">"110vh"</span>;
+          <span class="var">p</span>.<span class="var">style</span>.<span class="var">transform</span> = <span class="str">"rotate("</span> + Math.<span class="fn">random</span>() * <span class="num">720</span> + <span class="str">"deg)"</span>;
+          <span class="var">p</span>.<span class="var">style</span>.<span class="var">opacity</span> = <span class="str">"0"</span>;
+        }, <span class="num">50</span>);
+        setTimeout(<span class="kw">function</span>() { <span class="var">p</span>.<span class="fn">remove</span>(); }, <span class="num">3500</span>);
+      }, <span class="var">i</span> * <span class="num">25</span>);
+    })(<span class="var">i</span>);
+  }
+}
+
+<span class="fn">confettiBurst</span>();`,
+   example:'Certificate slide, quiz pass result slide, or any major milestone completion moment.'},
+];
+
+let currentCat = 'all';
+let currentSearch = '';
+
+function renderSnippets() {
+  const grid = document.getElementById('snippet-grid');
+  const empty = document.getElementById('snip-empty');
+  const countEl = document.getElementById('snip-count');
+  const filtered = snippets.filter(s => {
+    const catMatch = currentCat === 'all' || s.cat === currentCat;
+    const q = currentSearch.toLowerCase();
+    const searchMatch = !q || s.title.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q) || s.cat.toLowerCase().includes(q) || (s.plain && s.plain.toLowerCase().includes(q));
+    return catMatch && searchMatch;
+  });
+  if(filtered.length === 0){ grid.innerHTML=''; empty.style.display='block'; countEl.textContent='No snippets found'; return; }
+  empty.style.display='none';
+  countEl.textContent = 'Showing ' + filtered.length + ' snippet' + (filtered.length!==1?'s':'');
+  grid.innerHTML = filtered.map((s,i) => `
+    <div class="snippet-card" id="sc-${i}" onclick="toggleSnippet(${i})">
+      <div class="sc-header">
+        <div class="sc-left">
+          <div class="sc-cat-tag">${s.cat.charAt(0).toUpperCase()+s.cat.slice(1)}</div>
+          <div class="sc-title">${s.title}</div>
+          <div class="sc-desc">${s.desc}</div>
+          <div class="sc-meta">
+            <span class="sc-difficulty ${s.difficulty==='basic'?'diff-basic':s.difficulty==='inter'?'diff-inter':'diff-adv'}">${s.difficulty==='basic'?'Beginner':s.difficulty==='inter'?'Intermediate':'Advanced'}</span>
+          </div>
+        </div>
+        <div class="sc-arrow">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-section-title">💡 Plain English</div>
+        <div class="sc-plain">${s.plain}</div>
+        ${s.setup ? `<div class="sc-section-title">⚙️ Storyline Setup</div><div class="sc-setup">${s.setup}</div>` : ''}
+        <div class="sc-section-title">💻 JavaScript Code</div>
+        <div class="sc-code-wrap">
+          <div class="sc-code-header"><span class="sc-code-lang">JavaScript</span><button class="sc-copy-btn" onclick="copyCode(event,${i})" aria-label="Copy code">📋 Copy</button></div>
+          <pre class="sc-code"><code class="sc-code">${s.code}</code></pre>
+        </div>
+        ${s.example ? `<div class="sc-section-title">🎯 Real-World Example</div><div class="sc-plain">${s.example}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function toggleSnippet(i){
+  const cards = document.querySelectorAll('.snippet-card');
+  cards.forEach((c,idx)=>{ if(idx!==i) c.classList.remove('open'); });
+  cards[i]&&cards[i].classList.toggle('open');
+}
+
+function filterCat(btn){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = btn.dataset.cat;
+  renderSnippets();
+}
+
+function searchSnippets(){
+  currentSearch = document.getElementById('snip-search').value;
+  renderSnippets();
+}
+
+function copyCode(e, i){
+  e.stopPropagation();
+  const btn = e.target;
+  // Extract text content without HTML tags
+  const filtered = snippets.filter(s => {
+    const catMatch = currentCat === 'all' || s.cat === currentCat;
+    const q = currentSearch.toLowerCase();
+    const searchMatch = !q || s.title.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q) || s.cat.toLowerCase().includes(q);
+    return catMatch && searchMatch;
+  });
+  const s = filtered[i];
+  if(!s) return;
+  // Strip HTML tags from code
+  const tmp = document.createElement('div');
+  tmp.innerHTML = s.code;
+  const plainCode = tmp.textContent || tmp.innerText || '';
+  navigator.clipboard.writeText(plainCode).then(()=>{
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='📋 Copy';btn.classList.remove('copied');},2000);
+  }).catch(()=>{
+    btn.textContent='✕ Failed';
+    setTimeout(()=>{btn.textContent='📋 Copy';},2000);
+  });
+}
+
+renderSnippets();
+</script>
+</body>
+</html>

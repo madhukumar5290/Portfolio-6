@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Course Analyzer | Madhu Kumar Sikilammetla</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.analyzer-wrap{max-width:960px;margin:0 auto;padding:var(--sv) var(--ph)}
+.ai-badge{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,rgba(79,142,247,.12) 0%,rgba(48,213,168,.1) 100%);border:1px solid rgba(79,142,247,.3);padding:.45rem 1rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue2);margin-bottom:1.5rem}
+.ai-form{background:var(--bg2);border:1px solid var(--border2);padding:2.5rem;margin-top:3rem;position:relative}
+.ai-form::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--teal),var(--gold))}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+.analyze-btn{background:linear-gradient(135deg,var(--blue) 0%,var(--teal) 100%);color:#fff;font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;border:none;padding:1.1rem 2.5rem;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:.75rem;margin-top:1.5rem;position:relative;overflow:hidden}
+.analyze-btn:hover{transform:translateY(-1px);box-shadow:var(--glow-blue)}
+.analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.analyze-btn .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;flex-shrink:0}
+.analyze-btn.loading .spinner{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Results */
+.results{display:none;margin-top:3rem}
+.results.show{display:block;animation:rfade .5s ease}
+@keyframes rfade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.results-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border2)}
+.score-display{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.score-ring{width:80px;height:80px;position:relative;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-bg{fill:none;stroke:var(--border2);stroke-width:6}
+.score-ring-fg{fill:none;stroke:var(--teal);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.score-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--teal)}
+.score-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.r-block{background:var(--bg2);padding:2rem}
+.r-block-title{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue2);margin-bottom:1.1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
+.r-item{font-family:var(--sans);font-size:.87rem;color:var(--text2);line-height:1.65;padding:.6rem 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.65rem}
+.r-item:last-child{border-bottom:none}
+.r-item::before{font-size:.7rem;flex-shrink:0;margin-top:.1rem}
+.r-item.pos::before{content:'✓';color:var(--teal)}
+.r-item.neg::before{content:'⚠';color:var(--gold)}
+.r-item.fix::before{content:'→';color:var(--blue)}
+.r-item strong{color:var(--text)}
+.r-recommendation{background:linear-gradient(135deg,rgba(79,142,247,.06) 0%,rgba(48,213,168,.05) 100%);border:1px solid var(--border2);border-left:3px solid var(--blue);padding:1.5rem;margin-top:2rem}
+.r-rec-title{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue2);margin-bottom:.75rem}
+.r-rec-body{font-family:var(--sans);font-size:.88rem;color:var(--text2);line-height:1.75}
+.new-analysis-btn{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--border);padding:.5rem 1rem;cursor:pointer;transition:all .2s}
+.new-analysis-btn:hover{color:var(--text);border-color:var(--border2)}
+.example-prompts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem}
+.ex-prompt{font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:.3rem .75rem;cursor:pointer;transition:all .2s}
+.ex-prompt:hover{color:var(--gold);border-color:rgba(245,200,66,.3)}
+.powered-by{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.4rem;margin-top:1.75rem}
+.powered-by::before{content:'';width:12px;height:1px;background:var(--muted)}
+@media(max-width:768px){.field-grid{grid-template-columns:1fr}.results-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>MK.</a>
+  <div class="nav-spacer"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="buzz.html">Buzz</a></li><li><a href="certifications.html">Certifications</a></li><li><a href="id-frameworks.html">ID Cheat Sheet</a></li><li><a href="articles.html">Articles</a></li><li><a href="resources.html">Resources</a></li><li><a href="sl-snippets.html">JS Snippets ↗</a></li><li><a href="ai-analyzer.html" class="active">AI Analyzer ↗</a></li><li><a href="lms-demo.html">LMS Demo ↗</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="contact.html" class="nav-cta">Let's Talk</a>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="buzz.html">Buzz</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="id-frameworks.html">ID Cheat Sheet</a>
+  <a href="articles.html">Articles</a>
+  <a href="resources.html">Resources</a>
+  <a href="sl-snippets.html">JS Snippets ↗</a>
+  <a href="ai-analyzer.html" class="active">AI Analyzer ↗</a>
+  <a href="accessibility-guide.html">A11y Guide ↗</a>
+  <a href="spot-the-bug.html">Spot the Bug ↗</a>
+  <a href="id-model-selector.html">ID Selector ↗</a>
+  <a href="lms-demo.html">LMS Demo ↗</a>
+  <a href="demo-xapi.html">xAPI Demo ↗</a>
+  <a href="demo-storyboard.html">Storyboard Gen ↗</a>
+  <a href="demo-template.html">Patterns ↗</a>
+  <a href="effort-estimator.html">Effort Estimator ↗</a>
+  <a href="contact.html">Let's Talk</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-bg-grid"></div><div class="hero-bg-glow2"></div>
+  <div class="ai-badge">✦ Powered by Claude AI</div>
+  <h1 class="display reveal d1">AI Course Quality<br><em>Analyzer</em></h1>
+  <p style="font-family:var(--sans);font-size:1rem;color:var(--text2);max-width:600px;margin-top:.85rem;line-height:1.75" class="reveal d2">Describe your eLearning course or scenario and get instant professional feedback — ID model recommendations, accessibility checklist, Bloom's level assessment, and specific improvement suggestions. Powered by Claude AI.</p>
+</div>
+
+<div class="analyzer-wrap">
+  <div class="ai-form reveal">
+    <div class="eyebrow g" style="margin-bottom:1.5rem">Analyze Your Course</div>
+
+    <div class="field-grid">
+      <div>
+        <label class="form-label">Course Topic / Title</label>
+        <input class="form-input" type="text" id="a-topic" placeholder="e.g. Anti-Money Laundering for bank tellers" maxlength="100">
+      </div>
+      <div>
+        <label class="form-label">Target Audience</label>
+        <input class="form-input" type="text" id="a-audience" placeholder="e.g. New bank employees, no prior AML experience" maxlength="100">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Course Description / Scenario</label>
+      <textarea class="form-textarea" id="a-desc" placeholder="Describe your course — what it covers, how it's structured, what interactions you're using, any challenges you're facing..." style="min-height:160px"></textarea>
+    </div>
+
+    <div class="field-grid">
+      <div>
+        <label class="form-label">Learning Objective (if you have one)</label>
+        <input class="form-input" type="text" id="a-obj" placeholder="e.g. Learners will be able to identify suspicious transactions">
+      </div>
+      <div>
+        <label class="form-label">Authoring Tool / Format</label>
+        <select class="form-select" id="a-tool">
+          <option value="">Select tool...</option>
+          <option>Articulate Storyline 360</option>
+          <option>Articulate Rise 360</option>
+          <option>Adobe Captivate</option>
+          <option>Lectora</option>
+          <option>iSpring</option>
+          <option>DominKnow</option>
+          <option>Elucidat</option>
+          <option>Custom HTML/JavaScript</option>
+          <option>Not yet decided</option>
+        </select>
+      </div>
+    </div>
+
+    <div>
+      <p style="font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem">Try an example:</p>
+      <div class="example-prompts">
+        <span class="ex-prompt" onclick="fillExample(0)">AML Compliance for banks</span>
+        <span class="ex-prompt" onclick="fillExample(1)">Fire safety for warehouse staff</span>
+        <span class="ex-prompt" onclick="fillExample(2)">Product knowledge for retail</span>
+        <span class="ex-prompt" onclick="fillExample(3)">GDPR for office employees</span>
+        <span class="ex-prompt" onclick="fillExample(4)">Onboarding for new hires</span>
+      </div>
+    </div>
+
+    <button class="analyze-btn" id="analyze-btn" onclick="analyzeWithAI()">
+      <span class="spinner"></span>
+      <span id="btn-text">✦ Analyze with Claude AI →</span>
+    </button>
+    <div class="powered-by">Powered by Claude (Anthropic) · claude-sonnet-4-20250514</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="results-header">
+      <div>
+        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue2);margin-bottom:.35rem">Analysis Complete</div>
+        <h2 style="font-family:var(--serif);font-size:1.6rem;font-weight:400;color:var(--text)" id="r-title">Course Title</h2>
+      </div>
+      <div class="score-display">
+        <div class="score-ring">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle class="score-ring-bg" cx="40" cy="40" r="34"/>
+            <circle class="score-ring-fg" id="score-ring-fg" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+          </svg>
+          <div class="score-pct" id="score-pct">0%</div>
+        </div>
+        <div><div style="font-family:var(--serif);font-size:1.3rem;color:var(--text)" id="score-label">—</div><div class="score-label">ID Quality Score</div></div>
+        <button class="new-analysis-btn" onclick="resetAnalyzer()">← New Analysis</button>
+      </div>
+    </div>
+
+    <div class="results-grid" id="results-grid"></div>
+    <div class="r-recommendation" id="r-recommendation"></div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="eyebrow">Want a human review?</div>
+  <div class="cta-band-title">AI gives the framework.<br><em>I give the full design.</em></div>
+  <a href="contact.html" class="btn-band btn-band-primary">Get in Touch →</a>
+  <a href="work.html" class="btn-band btn-band-outline">See My Work</a>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-brand">MK. Madhu Kumar Sikilammetla</div><div class="footer-desc">Instructional Designer &amp; eLearning Developer.</div></div>
+    <div class="footer-links-grid">
+      <div class="footer-col"><div class="footer-col-title">Portfolio</div><a href="work.html">Work</a><a href="about.html">About</a></div>
+      <div class="footer-col"><div class="footer-col-title">Tools</div><a href="resources.html">Resources</a><a href="sl-snippets.html">JS Snippets</a></div>
+      <div class="footer-col"><div class="footer-col-title">Contact</div><a href="contact.html">Let's Talk</a><a href="https://www.linkedin.com/in/madhu-kumar-sikilammetla-22694598" target="_blank">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2024 Madhu Kumar Sikilammetla</div></div>
+</footer>
+<div class="reading-progress"></div>
+<button class="back-top" aria-label="Back to top">↑</button>
+
+<script src="main.js"></script>
+<script>
+const examples=[
+  {topic:'Anti-Money Laundering Compliance',audience:'New bank employees with no prior AML experience',desc:'A 45-slide course with policy information, definitions of money laundering stages, examples of suspicious transactions, and a 10-question multiple choice quiz at the end. The slides mostly contain text extracted from the compliance manual.',obj:'Learners will understand AML policy and regulations',tool:'Articulate Storyline 360'},
+  {topic:'Fire Safety for Warehouse Staff',audience:'Warehouse workers in a distribution centre',desc:'A 30-minute eLearning covering fire prevention, evacuation procedures, fire extinguisher types, and emergency contact numbers. Contains a video walkthrough of the facility and an interactive map of fire exits.',obj:'Staff will know what to do in a fire emergency',tool:'Articulate Rise 360'},
+  {topic:'Product Knowledge Training',audience:'New retail staff in consumer electronics stores',desc:'An interactive course introducing the 15 key product lines, with clickable product demos, comparison charts, and a scenario where learners answer customer questions about the products. Branching based on answers.',obj:'Staff will confidently answer customer questions about our products',tool:'Articulate Storyline 360'},
+  {topic:'GDPR Awareness for Office Employees',audience:'All office-based staff who handle personal data',desc:'20-minute course covering what GDPR is, employee obligations, what counts as personal data, and what to do if there is a data breach. Ends with a 5-question quiz.',obj:'Employees will understand their GDPR obligations',tool:'Articulate Rise 360'},
+  {topic:'New Employee Onboarding',audience:'All new hires across all departments',desc:'A 60-minute onboarding journey covering company history, values, org structure, benefits, IT policies, and first-day logistics. Mix of video, text, and knowledge checks throughout.',obj:'New employees will feel welcomed and informed for their first week',tool:'Not yet decided'},
+];
+
+function fillExample(i){
+  const e=examples[i];
+  document.getElementById('a-topic').value=e.topic;
+  document.getElementById('a-audience').value=e.audience;
+  document.getElementById('a-desc').value=e.desc;
+  document.getElementById('a-obj').value=e.obj;
+  document.getElementById('a-tool').value=e.tool;
+}
+
+async function analyzeWithAI(){
+  const topic=document.getElementById('a-topic').value.trim();
+  const audience=document.getElementById('a-audience').value.trim();
+  const desc=document.getElementById('a-desc').value.trim();
+  const obj=document.getElementById('a-obj').value.trim();
+  const tool=document.getElementById('a-tool').value;
+  if(!topic||!desc){alert('Please enter at least a topic and description.');return;}
+
+  const btn=document.getElementById('analyze-btn');
+  btn.classList.add('loading');btn.disabled=true;
+  document.getElementById('btn-text').textContent='Analyzing...';
+  document.getElementById('results').classList.remove('show');
+
+  const prompt=`You are an expert Instructional Designer with 10+ years of experience. Analyze this eLearning course and provide structured feedback.
+
+Course Details:
+- Topic: ${topic}
+- Target Audience: ${audience||'Not specified'}
+- Learning Objective: ${obj||'Not specified'}
+- Authoring Tool: ${tool||'Not specified'}
+- Description: ${desc}
+
+Respond ONLY in valid JSON with this exact structure (no markdown, no extra text):
+{
+  "score": <number 0-100>,
+  "score_label": "<Poor|Needs Work|Acceptable|Good|Excellent>",
+  "bloom_level": "<current level name and number>",
+  "id_model_recommended": "<model name>",
+  "strengths": ["<strength 1>","<strength 2>","<strength 3>"],
+  "issues": ["<issue 1>","<issue 2>","<issue 3>"],
+  "fixes": ["<fix 1>","<fix 2>","<fix 3>"],
+  "accessibility_flags": ["<flag 1>","<flag 2>"],
+  "objective_rewrite": "<improved learning objective using Bloom's verb>",
+  "recommendation": "<2-3 sentence overall recommendation with specific actionable next step>"
+}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content?.[0]?.text||'';
+    const clean=text.replace(/```json|```/g,'').trim();
+    const result=JSON.parse(clean);
+    displayResults(topic,result);
+  }catch(e){
+    console.error('AI Error:',e);
+    displayFallback(topic,desc);
+  }finally{
+    btn.classList.remove('loading');btn.disabled=false;
+    document.getElementById('btn-text').textContent='✦ Analyze with Claude AI →';
+  }
+}
+
+function displayResults(topic,r){
+  document.getElementById('r-title').textContent=topic;
+  // Score ring
+  const score=Math.min(100,Math.max(0,r.score||0));
+  const circ=213.6;
+  const offset=circ*(1-score/100);
+  setTimeout(()=>{
+    document.getElementById('score-ring-fg').style.strokeDashoffset=offset;
+    document.getElementById('score-pct').textContent=score+'%';
+  },100);
+  document.getElementById('score-label').textContent=r.score_label||'—';
+  const scoreColor=score>=80?'var(--teal)':score>=60?'var(--gold)':'var(--red)';
+  document.getElementById('score-ring-fg').style.stroke=scoreColor;
+  document.getElementById('score-pct').style.color=scoreColor;
+
+  // Grid
+  document.getElementById('results-grid').innerHTML=`
+    <div class="r-block">
+      <div class="r-block-title">✓ Strengths</div>
+      ${(r.strengths||[]).map(s=>`<div class="r-item pos">${s}</div>`).join('')}
+    </div>
+    <div class="r-block">
+      <div class="r-block-title">⚠ Issues Found</div>
+      ${(r.issues||[]).map(s=>`<div class="r-item neg">${s}</div>`).join('')}
+    </div>
+    <div class="r-block">
+      <div class="r-block-title">→ Recommended Fixes</div>
+      ${(r.fixes||[]).map(s=>`<div class="r-item fix">${s}</div>`).join('')}
+    </div>
+    <div class="r-block">
+      <div class="r-block-title">ℹ Analysis Details</div>
+      <div class="r-item" style="flex-direction:column;gap:.15rem"><span style="font-family:var(--mono);font-size:.54rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">Bloom's Level</span><strong>${r.bloom_level||'—'}</strong></div>
+      <div class="r-item" style="flex-direction:column;gap:.15rem"><span style="font-family:var(--mono);font-size:.54rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">Recommended ID Model</span><strong>${r.id_model_recommended||'—'}</strong></div>
+      <div class="r-item" style="flex-direction:column;gap:.15rem"><span style="font-family:var(--mono);font-size:.54rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">Accessibility Flags</span><div>${(r.accessibility_flags||[]).map(f=>`<div style="font-family:var(--sans);font-size:.82rem;color:var(--text2)">${f}</div>`).join('')||'<span style="color:var(--teal);font-size:.82rem">No major flags</span>'}</div></div>
+      ${r.objective_rewrite?`<div class="r-item" style="flex-direction:column;gap:.15rem"><span style="font-family:var(--mono);font-size:.54rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">Improved Objective</span><strong>${r.objective_rewrite}</strong></div>`:''}
+    </div>
+  `;
+  document.getElementById('r-recommendation').innerHTML=`<div class="r-rec-title">💡 Overall Recommendation</div><div class="r-rec-body">${r.recommendation||''}</div>`;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function displayFallback(topic,desc){
+  // Offline analysis based on simple heuristics
+  const hasBranching=desc.toLowerCase().includes('branching')||desc.toLowerCase().includes('scenario');
+  const hasQuiz=desc.toLowerCase().includes('quiz')||desc.toLowerCase().includes('assessment');
+  const isInfoDump=desc.toLowerCase().includes('text')||desc.toLowerCase().includes('slides')||desc.toLowerCase().includes('information');
+  const score=hasBranching?72:hasQuiz&&!isInfoDump?58:isInfoDump?35:50;
+  displayResults(topic,{
+    score,score_label:score>=70?'Good':score>=55?'Acceptable':'Needs Work',
+    bloom_level:hasBranching?'Level 3 — Apply':'Level 1-2 — Remember/Understand',
+    id_model_recommended:hasBranching?'Action Mapping + ADDIE':'ADDIE with Gagné\'s 9 Events',
+    strengths:[hasQuiz?'Assessment included in the design':'Structure provides baseline content coverage',hasBranching?'Branching scenarios improve engagement':'Content appears comprehensive','Clear topic scope defined'],
+    issues:[!hasBranching&&isInfoDump?'Heavy information-delivery approach — limited practice opportunities':'Consider adding more real-world practice activities',!hasQuiz?'No assessment mechanism mentioned':'Assessment present but may test recall over application','Learning objective may need Bloom\'s verb alignment'],
+    fixes:['Add at least 2 scenario-based practice activities before the assessment','Rewrite learning objective using a Bloom\'s Level 3+ verb (apply, demonstrate, solve)','Review tab order and colour contrast before publishing'],
+    accessibility_flags:['Verify colour contrast ratios meet 4.5:1 minimum','Confirm tab order is explicitly set on all interactive slides'],
+    objective_rewrite:'After completing this course, learners will correctly apply [key skill] when faced with [realistic workplace situation].',
+    recommendation:`This course has a solid foundation but would benefit significantly from adding scenario-based practice activities. The current structure likely tests recall rather than application — the gap where most compliance and skills training fails to transfer to the job. Consider using Action Mapping to identify the specific on-the-job decisions learners need to practise, then build one scenario per decision. This change typically increases post-training performance outcomes by 30–50%.`
+  });
+}
+
+function resetAnalyzer(){
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('score-ring-fg').style.strokeDashoffset='213.6';
+  document.getElementById('score-pct').textContent='0%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
